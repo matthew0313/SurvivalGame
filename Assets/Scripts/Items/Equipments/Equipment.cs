@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public abstract class EquipmentData : ItemData
     [Header("Equipment")]
     [SerializeField] float m_maxDurability;
     public float maxDurability => m_maxDurability;
+    public override int maxStack => 1;
 }
 public abstract class Equipment : Item
 {
@@ -20,4 +22,15 @@ public abstract class Equipment : Item
         durability = data.maxDurability;
     }
     public override bool IsStackable(Item other) => false;
+    public Action onDurabilityChange;
+    public void DurabilityReduce(float amount)
+    {
+        durability = Mathf.Max(0, durability - amount);
+        onDurabilityChange?.Invoke();
+        if(durability <= 0)
+        {
+            Debug.Log("Broke");
+            containedSlot.count = 0;
+        }
+    }
 }

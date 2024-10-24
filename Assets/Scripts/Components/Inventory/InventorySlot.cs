@@ -6,19 +6,23 @@ using UnityEngine.InputSystem;
 
 public class InventorySlot
 {
-    Item m_item = null;
-    int m_count = 0;
 
     public Action onItemChange, onCountChange;
 
     public Func<Item, bool> slotRestriction;
     public Item item { get; private set; }
+    int m_count = 0;
     public bool SetItem(Item item)
     {
         if (slotRestriction != null && slotRestriction.Invoke(item) == false) return false;
         this.item = item;
         onItemChange?.Invoke();
         return true;
+    }
+    public void ForcedSetItem(Item item)
+    {
+        this.item = item;
+        onItemChange?.Invoke();
     }
     public int count
     {
@@ -32,7 +36,7 @@ public class InventorySlot
             onCountChange?.Invoke();
             if(m_count == 0)
             {
-                item = null;
+                ForcedSetItem(null);
             }
         }
     }

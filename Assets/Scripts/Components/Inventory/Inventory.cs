@@ -18,17 +18,44 @@ public class Inventory
         {
             if (slots[i].item == null)
             {
-                slots[i].count = Mathf.Min(99, slots[i].count + count);
+                slots[i].count = Mathf.Min(item.data.maxStack, slots[i].count + count);
                 count -= slots[i].count;
             }
             else if (slots[i].item.IsStackable(item) && item.IsStackable(slots[i].item))
             {
                 int prev = slots[i].count;
-                slots[i].count = Mathf.Min(99, slots[i].count + count);
+                slots[i].count = Mathf.Min(slots[i].item.data.maxStack, slots[i].count + count);
                 count -= slots[i].count - prev;
             }
             if (count <= 0) return 0;
         }
         return count;
+    }
+    public int Search(ItemData data)
+    {
+        int tot = 0;
+        foreach(var i in slots)
+        {
+            if(i.item != null && i.item.data == data)
+            {
+                tot += i.count;
+            }
+        }
+        return tot;
+    }
+    public bool TakeOut(ItemData data, int count)
+    {
+        if (Search(data) < count) return false;
+        foreach(var i in slots)
+        {
+            if (i.item != null && i.item.data == data)
+            {
+                int prev = count;
+                count = Mathf.Max(0, count - i.count);
+                i.count -= prev - count;
+                if (count <= 0) break; 
+            }
+        }
+        return true;
     }
 }

@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MobileAim",
+                    "type": "Value",
+                    "id": "aadfaf7b-45ea-4661-9667-292ccb9e0976",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -79,6 +88,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec01e1b9-58f1-4fdc-a899-6f738e77121d",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "NormalizeVector2,StickDeadzone(min=0.2,max=1)",
+                    "groups": "",
+                    "action": "MobileAim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

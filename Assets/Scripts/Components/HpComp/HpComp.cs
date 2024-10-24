@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class HpComp : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    [SerializeField] float m_maxHp;
+    public float maxHp => m_maxHp;
+    public float hp { get; private set; }
+    private void Awake()
     {
         
     }
