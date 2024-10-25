@@ -11,7 +11,7 @@ public class ItemData : ScriptableObject
     [SerializeField] Sprite m_image;
     public Sprite image => m_image;
     public virtual Item Create() => new Item(this);
-    public virtual int maxStack => 99;
+    public virtual int maxStack => 64;
 }
 public class Item
 {
@@ -23,12 +23,18 @@ public class Item
     public virtual bool IsStackable(Item other) => data == other.data;
     public virtual Item Copy() => data.Create();
     public InventorySlot containedSlot { get; private set; } = null;
+    public Player wielder { get; private set; } = null;
     public virtual void OnWield(Player origin, InventorySlot slot)
     {
         containedSlot = slot;
+        wielder = origin;
     }
     public virtual void OnWieldUpdate(Player origin) { }
-    public virtual void OnUnwield(Player origin) { }
+    public virtual void OnUnwield(Player origin)
+    {
+        containedSlot = null;
+        wielder = null;
+    }
     public virtual float DescBarFill() => 0.0f;
     public virtual string DescBar() => "";
     public Action onDescUpdate;

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
     [Header("Apperance")]
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Animator anim;
-    Rigidbody rb;
+    Rigidbody2D rb;
 
     [Header("Inventory")]
     [SerializeField] ItemIntPair[] startContents = new ItemIntPair[36];
@@ -33,11 +33,10 @@ public class Player : MonoBehaviour
     public readonly Dictionary<ConsumableData, float> consumableCooldowns = new();
 
     //anim cache
-    readonly int moveXID = Animator.StringToHash("moveX");
-    readonly int moveYID = Animator.StringToHash("moveY");
+    readonly int moveID = Animator.StringToHash("Moving");
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         for (int i = 0; i < 36; i++)
         {
             if (startContents[i].item == null) continue;
@@ -63,9 +62,8 @@ public class Player : MonoBehaviour
     {
         if (!canMove) return;
         Vector2 move = moveInput.action.ReadValue<Vector2>();
-        rb.MovePosition(rb.position + (Vector3)move * moveSpeed * Time.deltaTime);
-        anim.SetFloat(moveXID, move.x);
-        anim.SetFloat(moveYID, move.y);
+        rb.MovePosition(rb.position + move * moveSpeed * Time.deltaTime);
+        anim.SetBool(moveID, move != Vector2.zero);
         if (move.x < 0)
         {
             model.localScale = new Vector2(-1.0f, 1.0f);
@@ -150,6 +148,23 @@ public class Player : MonoBehaviour
             }
         }
         if (equipped != null) equipped.OnWieldUpdate(this);
+    }
+    List<ConsumableData> removeQueue = new();
+    void CooldownUpdate()
+    {
+        foreach(var i in consumableCooldowns.Keys)
+        {
+            consumableCooldowns[i] -= Time.deltaTime;
+            if (consumableCooldowns[i] <= 0)
+            {
+                removeQueue.Add(i);
+            }
+        }
+        foreach(var i in removeQueue)
+        {
+            consumableCooldowns.Remove(i);
+        }
+        removeQueue.Clear();
     }
     public bool UseButtonDown()
     {

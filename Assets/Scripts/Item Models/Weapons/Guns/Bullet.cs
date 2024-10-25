@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
 {
     static Dictionary<Bullet, Pooler<Bullet>> pools = new();
     [SerializeField] ItemData m_data;
+    [SerializeField] TrailRenderer trail;
     public ItemData data => m_data;
     float damage, speed, range;
     bool isInstance = false;
@@ -18,6 +19,11 @@ public class Bullet : MonoBehaviour
         this.damage = damage;
         this.speed = speed;
         this.range = range;
+        if(trail != null)
+        {
+            trail.Clear();
+            trail.emitting = true;
+        }
     }
     public Bullet SpawnBullet(Vector3 position, Quaternion rotation)
     {
@@ -47,5 +53,6 @@ public class Bullet : MonoBehaviour
         if (despawned) return;
         despawned = true;
         pools[origin].ReleaseObject(this);
+        if (trail != null) trail.emitting = false;
     }
 }

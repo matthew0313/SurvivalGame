@@ -14,6 +14,7 @@ public class Gun : Weapon
     [SerializeField] int m_magSize;
     [SerializeField] float m_reloadTime;
     [SerializeField] Transform firePoint;
+    [SerializeField] Animator anim;
     public bool auto => m_auto;
     public float fireRate => m_fireRate;
     public float bulletSpeed => m_bulletSpeed;
@@ -53,8 +54,7 @@ public class Gun : Weapon
             {
                 if(origin.mag == 0 && wielder.inventory.Search(bullet.data) > 0)
                 {
-                    reloading = true;
-                    reloadCounter = 0.0f;
+                    StartReloading();
                 }
                 else if(auto && wielder.UseButton() || !auto && wielder.UseButtonUp())
                 {
@@ -70,8 +70,7 @@ public class Gun : Weapon
             {
                 if(Input.GetKeyDown(KeyCode.R) && origin.mag < magSize && wielder.inventory.Search(bullet.data) > 0)
                 {
-                    reloading = true;
-                    reloadCounter = 0.0f;
+                    StartReloading();
                 }
                 else if(auto && Input.GetMouseButton(0) || !auto && Input.GetMouseButtonDown(0))
                 {
@@ -85,6 +84,12 @@ public class Gun : Weapon
             }
         }
     }
+    void StartReloading()
+    {
+        if (anim != null) anim.SetTrigger("Reload");
+        reloading = true;
+        reloadCounter = 0.0f;
+    }
     void Reload(Player wielder)
     {
         int reloadAmount = Mathf.Min(magSize - origin.mag, wielder.inventory.Search(bullet.data));
@@ -94,9 +99,10 @@ public class Gun : Weapon
     }
     protected virtual void Fire(Player wielder)
     {
-        origin.DurabilityReduce(1.0f);
+        if(anim != null) anim.SetTrigger("Fire");
         Bullet bul = bullet.SpawnBullet(firePoint.position, firePoint.rotation);
         bul.Set(damage, bulletSpeed, bulletRange);
+        origin.DurabilityReduce(1.0f);
     }
     public override void OnUnwield(Player wielder)
     {
