@@ -168,5 +168,6 @@ MonoBehaviour:
   m_bulletRange: 10
   m_bullet: {fileID: 7307530276796948709, guid: 2a48b620c2b82cd4eb5be07ab7e199a6, type: 3}
   m_magSize: 12
+  m_defaultAmmoCount: 48
   m_reloadTime: 2
   firePoint: {fileID: 4673336708907637394}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,7 @@ public class GunItem : WeaponItem
     public GunItem(GunData data) : base(data)
     {
         this.data = data;
+        m_mag = (data.prefab as Gun).magSize;
     }
     int m_mag = 0;
     public int mag

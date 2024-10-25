@@ -8,6 +8,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
+    [Header("Apperance")]
+    [SerializeField] Transform model;
+
     [Header("Input")]
     [SerializeField] InputActionReference moveInput;
     [SerializeField] InputActionReference aimInput;
@@ -19,7 +22,6 @@ public class Player : MonoBehaviour
     public bool rotate = false;
 
     [Header("Components")]
-    [SerializeField] SpriteRenderer model;
     [SerializeField] Animator anim;
     Rigidbody rb;
 
@@ -30,6 +32,9 @@ public class Player : MonoBehaviour
     public readonly Inventory inventory = new Inventory(36);
     public readonly Dictionary<ConsumableData, float> consumableCooldowns = new();
 
+    //anim cache
+    readonly int moveXID = Animator.StringToHash("moveX");
+    readonly int moveYID = Animator.StringToHash("moveY");
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -59,13 +64,15 @@ public class Player : MonoBehaviour
         if (!canMove) return;
         Vector2 move = moveInput.action.ReadValue<Vector2>();
         rb.MovePosition(rb.position + (Vector3)move * moveSpeed * Time.deltaTime);
+        anim.SetFloat(moveXID, move.x);
+        anim.SetFloat(moveYID, move.y);
         if (move.x < 0)
         {
-            transform.localScale = new Vector2(-1.0f, 1.0f);
+            model.localScale = new Vector2(-1.0f, 1.0f);
         }
         else if (move.x > 0)
         {
-            transform.localScale = new Vector2(1.0f, 1.0f);
+            model.localScale = new Vector2(1.0f, 1.0f);
         }
     }
     void Rotate()
@@ -78,7 +85,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            rotator.localScale = transform.localScale;
+            rotator.localScale = model.localScale;
             if (SystemInfo.deviceType == DeviceType.Desktop)
             {
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
