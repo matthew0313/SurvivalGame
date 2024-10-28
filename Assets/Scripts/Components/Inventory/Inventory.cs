@@ -1,34 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.InputSystem;
 
-public class Inventory
+public class Inventory : MonoBehaviour
 {
-    public readonly InventorySlot[] slots;
-    public Inventory(int slotCount)
+    [SerializeField] int defaultSlotCount = 36;
+    public List<InventorySlot> slots { get; } = new();
+    public Action<ItemData> onInventoryUpdate;
+    int m_slotCount = 0;
+    public Action onSlotCountChange;
+    public int slotCount
     {
-        slots = new InventorySlot[slotCount];
-        for(int i = 0; i < slotCount; i++) slots[i] = new InventorySlot();
+        get { return m_slotCount; }
+        set
+        {
+            for(int i = m_slotCount; i < value; i++)
+            {
+                InventorySlot tmp = new InventorySlot();
+                tmp.onCountChange += () => { onInventoryUpdate?.Invoke(tmp.item.data); };
+                slots.Add(tmp);
+            }
+            m_slotCount = value;
+            onSlotCountChange?.Invoke();
+        }
+    }
+    private void Awake()
+    {
+        slotCount = defaultSlotCount;
     }
     public int Insert(Item item, int count)
     {
-        for(int i = 0; i < slots.Length; i++)
+        foreach(var i in slots)
         {
-            if (slots[i].item == null)
+            if (i.item == null) continue;
+            if(i.item.IsStackable(item) && item.IsStackable(i.item))
             {
-                slots[i].count = Mathf.Min(item.data.maxStack, slots[i].count + count);
-                count -= slots[i].count;
+                count = i.Insert(item.Copy(), count);
+                if (count <= 0) return 0;
             }
-            else if (slots[i].item.IsStackable(item) && item.IsStackable(slots[i].item))
-            {
-                int prev = slots[i].count;
-                slots[i].count = Mathf.Min(slots[i].item.data.maxStack, slots[i].count + count);
-                count -= slots[i].count - prev;
-            }
+        }
+        for(int i = 0; i < slotCount; i++)
+        {
+            count = slots[i].Insert(item.Copy(), count);
             if (count <= 0) return 0;
         }
+        onInventoryUpdate?.Invoke(item.data);
         return count;
     }
     public int Search(ItemData data)
@@ -56,6 +75,38 @@ public class Inventory
                 if (count <= 0) break; 
             }
         }
+        onInventoryUpdate?.Invoke(data);
         return true;
+    }
+    public InventorySaveData Save()
+    {
+        InventorySaveData data = new();
+        for(int i = 0; i < slotCount; i++)
+        {
+            data.slotSaves.Add(slots[i].Save());
+        }
+        return data;
+    }
+    public void Load(InventorySaveData data)
+    {
+        if(data.slotSaves.Count > slotCount)
+        {
+            int tmp = slotCount;
+            slotCount = data.slotSaves.Count;
+            slotCount = tmp;
+        }
+        for (int i = 0; i < slotCount; i++)
+        {
+            slots[i].Load(data.slotSaves[i]);
+        }
+    }
+}
+[System.Serializable]
+public class InventorySaveData
+{
+    public List<InventorySlotSaveData> slotSaves;
+    public InventorySaveData()
+    {
+        slotSaves = new();
     }
 }

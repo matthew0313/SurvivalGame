@@ -14,9 +14,16 @@ public abstract class Weapon : MonoBehaviour
     [Header("Weapon")]
     [SerializeField] float m_damage;
     public float damage => m_damage;
-    public virtual void OnWield(Player wielder) { }
+    protected Player wielder { get; private set; } = null;
+    public virtual void OnWield(Player wielder)
+    {
+        this.wielder = wielder;
+    }
     public virtual void OnWieldUpdate(Player wielder) { }
-    public virtual void OnUnwield(Player wielder) { }
+    public virtual void OnUnwield(Player wielder)
+    {
+        this.wielder = null;
+    }
     public virtual float DescBarFill() => 0.0f;
     public virtual string DescBar() => "";
 }

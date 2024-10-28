@@ -7,21 +7,16 @@ public class Gun : Weapon
 {
     new GunItem origin => base.origin as GunItem;
     [Header("Gun")]
-    [SerializeField] bool m_auto = true;
-    [SerializeField] float m_fireRate;
-    [SerializeField] float m_bulletSpeed, m_bulletRange;
+    [SerializeField] bool auto = true;
+    [SerializeField] float fireRate;
+    [SerializeField] float bulletSpeed, bulletRange;
     [SerializeField] Bullet m_bullet;
     [SerializeField] int m_magSize;
-    [SerializeField] float m_reloadTime;
+    [SerializeField] float reloadTime;
     [SerializeField] Transform firePoint;
     [SerializeField] Animator anim;
-    public bool auto => m_auto;
-    public float fireRate => m_fireRate;
-    public float bulletSpeed => m_bulletSpeed;
-    public float bulletRange => m_bulletRange;
     public Bullet bullet => m_bullet;
     public int magSize => m_magSize;
-    public float reloadTime => m_reloadTime;
     bool m_reloading = false;
     bool reloading
     {
@@ -33,6 +28,7 @@ public class Gun : Weapon
     public override void OnWield(Player wielder)
     {
         base.OnWield(wielder);
+        wielder.inventory.onInventoryUpdate += AmmoCountChangeCheck;
         wielder.rotate = true;
     }
     public override void OnWieldUpdate(Player wielder)
@@ -72,7 +68,7 @@ public class Gun : Weapon
                 {
                     StartReloading();
                 }
-                else if(auto && Input.GetMouseButton(0) || !auto && Input.GetMouseButtonDown(0))
+                else if(auto && wielder.UseButton() || !auto && wielder.UseButtonDown())
                 {
                     if (counter >= fireRate && origin.mag > 0)
                     {
@@ -106,9 +102,14 @@ public class Gun : Weapon
     }
     public override void OnUnwield(Player wielder)
     {
-        base.OnUnwield(wielder);
-        wielder.rotate = false;
         reloading = false;
+        wielder.inventory.onInventoryUpdate -= AmmoCountChangeCheck;
+        wielder.rotate = false;
+        base.OnUnwield(wielder);
+    }
+    void AmmoCountChangeCheck(ItemData item)
+    {
+        if (item == bullet.data) origin.onDescUpdate?.Invoke();
     }
     public override float DescBarFill()
     {
@@ -116,6 +117,6 @@ public class Gun : Weapon
     }
     public override string DescBar()
     {
-        return reloading ? "Reloading..." : $"{origin.mag}/{magSize}";
+        return reloading ? "Reloading..." : $"{origin.mag}/{wielder.inventory.Search(bullet.data)}";
     }
 }

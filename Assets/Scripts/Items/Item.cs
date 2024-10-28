@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "Item Data", menuName = "Scriptables/Items/Item", order = 0)]
-public class ItemData : ScriptableObject
+public abstract class ItemData : ScriptableObject
 {
     [Header("Item")]
     [SerializeField] Sprite m_image;
     public Sprite image => m_image;
-    public virtual Item Create() => new Item(this);
-    public virtual int maxStack => 64;
+    public abstract Item Create();
+    public abstract int maxStack { get; }
 }
-public class Item
+public abstract class Item
 {
     public readonly ItemData data;
     public Item(ItemData data)
@@ -38,4 +37,6 @@ public class Item
     public virtual float DescBarFill() => 0.0f;
     public virtual string DescBar() => "";
     public Action onDescUpdate;
+    public virtual void Save(DataUnit data) { }
+    public virtual void Load(DataUnit data) { }
 }

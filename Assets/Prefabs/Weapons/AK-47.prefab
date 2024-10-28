@@ -26,11 +26,11 @@ Transform:
   m_GameObject: {fileID: 3758076872666285689}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.14899999, y: 0.053, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6649049839238205234}
+  m_Father: {fileID: 4658901442221035371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1445650602005849638
 SpriteRenderer:
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 6bb328f70d92c1a4caca396089f2ab2a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9fe17629e794fe741ada78f79845acc4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,42 +109,10 @@ Transform:
   m_GameObject: {fileID: 4778584950027041662}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0, z: 0}
+  m_LocalPosition: {x: 0.95, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4658901442221035371}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6236456377839037360
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6649049839238205234}
-  m_Layer: 0
-  m_Name: Pivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6649049839238205234
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6236456377839037360}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.351, y: -0.053, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3840376831720972429}
   m_Father: {fileID: 4658901442221035371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6480468070615525310
@@ -159,7 +127,7 @@ GameObject:
   - component: {fileID: 2564787138479314635}
   - component: {fileID: 1003130724110743666}
   m_Layer: 0
-  m_Name: Pistol
+  m_Name: AK-47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,7 +146,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6649049839238205234}
+  - {fileID: 3840376831720972429}
   - {fileID: 4673336708907637394}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,14 +162,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f56c9950ba364e469d12c7528011e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 10
-  auto: 0
-  fireRate: 0.2
-  bulletSpeed: 20
+  m_damage: 7
+  auto: 1
+  fireRate: 0.1
+  bulletSpeed: 25
   bulletRange: 20
-  m_bullet: {fileID: 7307530276796948709, guid: 2a48b620c2b82cd4eb5be07ab7e199a6, type: 3}
-  m_magSize: 12
-  reloadTime: 2
+  m_bullet: {fileID: 7307530276796948709, guid: 1543d295c9daf1545821869ae29c0c0c, type: 3}
+  m_magSize: 30
+  reloadTime: 4
   firePoint: {fileID: 4673336708907637394}
   anim: {fileID: 1003130724110743666}
 --- !u!95 &1003130724110743666
@@ -214,7 +182,7 @@ Animator:
   m_GameObject: {fileID: 6480468070615525310}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1219bcf4c6db588439484e9fa34438b7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 668482180dcdcb84b9cdf4e59a96a1d8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
