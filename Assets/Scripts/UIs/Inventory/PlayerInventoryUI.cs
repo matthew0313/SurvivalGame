@@ -10,6 +10,8 @@ public class PlayerInventoryUI : MonoBehaviour
 {
     [Header("InventoryUI")]
     [SerializeField] Transform slotAnchor;
+    [SerializeField] InventorySlotUI clothing, accessory1, accessory2, backpack;
+
     [SerializeField] InventorySlotUI slotPrefab;
 
     List<InventorySlotUI> slots = new();
@@ -19,6 +21,10 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.inventory.onSlotCountChange += OnSlotCountChange;
+        clothing.Set(player.clothingSlot);
+        accessory1.Set(player.accessorySlot1);
+        accessory2.Set(player.accessorySlot2);
+        backpack.Set(player.backpackSlot);
     }
     private void Start()
     {

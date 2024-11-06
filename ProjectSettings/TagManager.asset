@@ -5,17 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - InventorySlot
+  - DroppedItem
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - DroppedItem
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Map
+  - Player
+  - ItemPicker
+  - Interaction
   - 
   - 
   - 

@@ -7,109 +7,91 @@ public class Gun : Weapon
 {
     new GunItem origin => base.origin as GunItem;
     [Header("Gun")]
-    [SerializeField] bool auto = true;
-    [SerializeField] float fireRate;
-    [SerializeField] float bulletSpeed, bulletRange;
-    [SerializeField] Bullet m_bullet;
-    [SerializeField] int m_magSize;
-    [SerializeField] float reloadTime;
-    [SerializeField] Transform firePoint;
-    [SerializeField] Animator anim;
-    public Bullet bullet => m_bullet;
+    [SerializeField] protected bool auto = true;
+    [SerializeField] protected float fireRate;
+    [SerializeField] protected float bulletSpeed, bulletRange, bulletSpread;
+    [SerializeField] protected Bullet bullet;
+    [SerializeField] protected ItemData m_bulletItem;
+    [SerializeField] protected int m_magSize;
+    [SerializeField] protected float reloadTime;
+    [SerializeField] protected Transform firePoint;
+    [SerializeField] protected Animator anim;
+    public ItemData bulletItem => m_bulletItem;
     public int magSize => m_magSize;
     bool m_reloading = false;
-    bool reloading
+    public bool reloading
     {
         get { return m_reloading; }
         set { m_reloading = value; origin.onDescUpdate?.Invoke(); }
     }
     float reloadCounter = 0.0f;
     float counter = 0.0f;
-    public override void OnWield(Player wielder)
+    public override void OnWield()
     {
-        base.OnWield(wielder);
+        base.OnWield();
         wielder.inventory.onInventoryUpdate += AmmoCountChangeCheck;
         wielder.rotate = true;
     }
-    public override void OnWieldUpdate(Player wielder)
+    public override void OnWieldUpdate()
     {
-        base.OnWieldUpdate(wielder);
+        base.OnWieldUpdate();
         if (counter < fireRate) counter += Time.deltaTime;
         if (reloading)
         {
             reloadCounter += Time.deltaTime;
             if(reloadCounter > reloadTime)
             {
-                Reload(wielder);
+                Reload();
                 reloading = false;
             }
         }
         else
         {
-            if(SystemInfo.deviceType == DeviceType.Handheld)
+            if (auto && InputManager.UseButton() || !auto && InputManager.UseButtonDown())
             {
-                if(origin.mag == 0 && wielder.inventory.Search(bullet.data) > 0)
+                if (counter >= fireRate && origin.mag > 0)
                 {
-                    StartReloading();
-                }
-                else if(auto && wielder.UseButton() || !auto && wielder.UseButtonUp())
-                {
-                    if (counter >= fireRate && origin.mag > 0)
-                    {
-                        counter = 0.0f;
-                        origin.mag--;
-                        Fire(wielder);
-                    }
+                    counter = 0.0f;
+                    origin.mag--;
+                    Fire();
                 }
             }
-            else if(SystemInfo.deviceType == DeviceType.Desktop)
+            else if ((InputManager.ReloadButtonDown() || SystemInfo.deviceType == DeviceType.Handheld && origin.mag <= 0) && origin.mag < magSize && wielder.inventory.Search(bulletItem) > 0)
             {
-                if(Input.GetKeyDown(KeyCode.R) && origin.mag < magSize && wielder.inventory.Search(bullet.data) > 0)
-                {
-                    StartReloading();
-                }
-                else if(auto && wielder.UseButton() || !auto && wielder.UseButtonDown())
-                {
-                    if (counter >= fireRate && origin.mag > 0)
-                    {
-                        counter = 0.0f;
-                        origin.mag--;
-                        Fire(wielder);
-                    }
-                }
+                if (anim != null) anim.SetTrigger("Reload");
+                reloading = true;
+                reloadCounter = 0.0f;
             }
         }
     }
-    void StartReloading()
+    void Reload()
     {
-        if (anim != null) anim.SetTrigger("Reload");
-        reloading = true;
-        reloadCounter = 0.0f;
-    }
-    void Reload(Player wielder)
-    {
-        int reloadAmount = Mathf.Min(magSize - origin.mag, wielder.inventory.Search(bullet.data));
-        wielder.inventory.TakeOut(bullet.data, reloadAmount);
+        int reloadAmount = Mathf.Min(magSize - origin.mag, wielder.inventory.Search(bulletItem));
+        wielder.inventory.TakeOut(bulletItem, reloadAmount);
         origin.mag += reloadAmount;
         Debug.Log("Reload " + reloadAmount);
     }
-    protected virtual void Fire(Player wielder)
+    void Fire()
     {
         if(anim != null) anim.SetTrigger("Fire");
-        Bullet bul = bullet.SpawnBullet(firePoint.position, firePoint.rotation);
-        bul.Set(damage, bulletSpeed, bulletRange);
+        FireBullet();
         origin.DurabilityReduce(1.0f);
     }
-    public override void OnUnwield(Player wielder)
+    protected virtual void FireBullet()
+    {
+        Bullet bul = bullet.SpawnBullet(firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-bulletSpread, bulletSpread)));
+        bul.Set(damage, bulletSpeed, bulletRange);
+    }
+    public override void OnUnwield()
     {
         reloading = false;
         wielder.inventory.onInventoryUpdate -= AmmoCountChangeCheck;
         wielder.rotate = false;
-        base.OnUnwield(wielder);
+        base.OnUnwield();
     }
     void AmmoCountChangeCheck(ItemData item)
     {
-        if (item == bullet.data) origin.onDescUpdate?.Invoke();
+        if (item == bulletItem) origin.onDescUpdate?.Invoke();
     }
     public override float DescBarFill()
     {
@@ -117,6 +99,6 @@ public class Gun : Weapon
     }
     public override string DescBar()
     {
-        return reloading ? "Reloading..." : $"{origin.mag}/{wielder.inventory.Search(bullet.data)}";
+        return reloading ? "Reloading..." : $"{origin.mag}/{wielder.inventory.Search(bulletItem)}";
     }
 }

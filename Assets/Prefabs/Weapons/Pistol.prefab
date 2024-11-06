@@ -199,7 +199,9 @@ MonoBehaviour:
   fireRate: 0.2
   bulletSpeed: 20
   bulletRange: 20
-  m_bullet: {fileID: 7307530276796948709, guid: 2a48b620c2b82cd4eb5be07ab7e199a6, type: 3}
+  bulletSpread: 2
+  bullet: {fileID: 7307530276796948709, guid: 2a48b620c2b82cd4eb5be07ab7e199a6, type: 3}
+  m_bulletItem: {fileID: 11400000, guid: b28654ff83157504baa087b33d2a4cac, type: 2}
   m_magSize: 12
   reloadTime: 2
   firePoint: {fileID: 4673336708907637394}

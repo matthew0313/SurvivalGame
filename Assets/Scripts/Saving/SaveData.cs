@@ -7,9 +7,7 @@ using System.Linq;
 [System.Serializable]
 public class SaveData
 {
-    public PlayerSaveData player;
-    public SaveData()
-    {
-        player = new();
-    }
+    public PlayerSaveData player = new();
+    public List<DroppedItemSaveData> droppedItems = new();
+    public SerializableDictionary<string, DataUnit> interactions = new();
 }

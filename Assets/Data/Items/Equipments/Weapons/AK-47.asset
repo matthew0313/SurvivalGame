@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 71a0662fa1bae3d4488aada5a97a3b82, type: 3}
   m_Name: AK-47
-  m_EditorClassIdentifier: Assembly-CSharp::GunData
+  m_EditorClassIdentifier: 
   m_image: {fileID: 21300000, guid: 9fe17629e794fe741ada78f79845acc4, type: 3}
-  m_maxDurability: 3
+  m_maxDurability: 120
   m_prefab: {fileID: 2564787138479314635, guid: a02a40787c572f14fbf3d3bf2ae01f40, type: 3}

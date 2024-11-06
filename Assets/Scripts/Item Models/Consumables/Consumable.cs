@@ -14,7 +14,8 @@ public class Consumable : MonoBehaviour
     [Header("Consumable")]
     [SerializeField] float m_cooldown;
     public float cooldown => m_cooldown;
-    public virtual void OnWield(Player wielder) { }
-    public virtual void OnWieldUpdate(Player wielder) { }
-    public virtual void OnUnwield(Player wielder) { }
+    public virtual void OnUse()
+    {
+
+    }
 }

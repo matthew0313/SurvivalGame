@@ -22,12 +22,32 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "e43dbd2e-8fa4-4d94-a3a9-f3b7ecd0299f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
+                    "name": "",
+                    "id": "00df47d7-aa84-4d24-9f20-d7b12b349384",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "PC",
-                    "id": "a05a9b6e-9a39-4e6e-adeb-58584409d63d",
+                    "id": "671ee328-eb4e-4a7f-9263-07e81cb3dcd6",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -38,7 +58,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "da892ca8-3c8e-4592-9a50-0779832d7a57",
+                    "id": "e498284a-e20f-4846-939a-4143fdd7852b",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -49,7 +69,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "96dbb933-e347-4e56-96c8-0f0037e38487",
+                    "id": "e18e2462-42be-43d0-a102-532ad0bd622c",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -60,7 +80,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "c6ac5aa4-d5ce-4056-9163-0ad85b48ef33",
+                    "id": "d7116e45-7c1f-4e83-aa89-884d69c048a1",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -71,7 +91,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "bf129c89-e489-4946-98ba-e7ee80d00190",
+                    "id": "666d46ec-56bb-476f-87ad-1929e71cc728",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -82,23 +102,23 @@
                 },
                 {
                     "name": "",
-                    "id": "00df47d7-aa84-4d24-9f20-d7b12b349384",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ec01e1b9-58f1-4fdc-a899-6f738e77121d",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "NormalizeVector2,StickDeadzone(min=0.2,max=1)",
                     "groups": "",
                     "action": "MobileAim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c09c6d97-6764-48ba-87aa-244097455712",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

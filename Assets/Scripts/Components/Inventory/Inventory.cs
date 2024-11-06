@@ -104,9 +104,5 @@ public class Inventory : MonoBehaviour
 [System.Serializable]
 public class InventorySaveData
 {
-    public List<InventorySlotSaveData> slotSaves;
-    public InventorySaveData()
-    {
-        slotSaves = new();
-    }
+    public List<InventorySlotSaveData> slotSaves = new();
 }

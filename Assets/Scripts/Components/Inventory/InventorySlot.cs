@@ -35,12 +35,27 @@ public class InventorySlot
         }
         return count;
     }
+    public bool CanSetItem(Item item)
+    {
+        if (slotRestriction != null && slotRestriction.Invoke(item) == false) return false;
+        return true;
+    }
     public bool SetItem(Item item)
     {
         if (slotRestriction != null && slotRestriction.Invoke(item) == false) return false;
         this.item = item;
         onItemChange?.Invoke();
         return true;
+    }
+    public void Swap(InventorySlot slot)
+    {
+        if (!slot.CanSetItem(item) || !CanSetItem(slot.item)) return;
+        Item tmp = item;
+        int tmp2 = count;
+        ForcedSetItem(slot.item);
+        count = slot.count;
+        slot.ForcedSetItem(tmp);
+        slot.count = tmp2;
     }
     public void ForcedSetItem(Item item)
     {
@@ -88,10 +103,6 @@ public class InventorySlot
 public class InventorySlotSaveData
 {
     public ItemData item;
-    public DataUnit data;
+    public DataUnit data = new();
     public int count;
-    public InventorySlotSaveData()
-    {
-        data = new();
-    }
 }

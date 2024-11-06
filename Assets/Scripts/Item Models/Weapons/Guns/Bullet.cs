@@ -7,9 +7,7 @@ using UnityEngine.InputSystem;
 public class Bullet : MonoBehaviour
 {
     static Dictionary<Bullet, Pooler<Bullet>> pools = new();
-    [SerializeField] ItemData m_data;
     [SerializeField] TrailRenderer trail;
-    public ItemData data => m_data;
     float damage, speed, range;
     bool isInstance = false;
     Bullet origin = null;
@@ -54,5 +52,9 @@ public class Bullet : MonoBehaviour
         despawned = true;
         pools[origin].ReleaseObject(this);
         if (trail != null) trail.emitting = false;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
     }
 }

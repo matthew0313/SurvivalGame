@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a0662fa1bae3d4488aada5a97a3b82, type: 3}
+  m_Name: Remington 480
+  m_EditorClassIdentifier: 
+  m_image: {fileID: 21300000, guid: 8d3235e95a176f94a9c260082a3e3fd0, type: 3}
+  m_maxDurability: 50
+  m_prefab: {fileID: 7078331834055009361, guid: b6cdd0e828c682e4897d308e96f10fc2, type: 3}

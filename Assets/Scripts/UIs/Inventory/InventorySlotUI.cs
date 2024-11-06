@@ -64,7 +64,7 @@ public class InventorySlotUI : MonoBehaviour
         if (checkingSlot.count > 1)
         {
             itemCount.gameObject.SetActive(true);
-            itemCount.text = $"{checkingSlot.count}";
+            itemCount.text = $"{checkingSlot.count}" + (checkingSlot.item == null ? "" : checkingSlot.item.data.unit);
         }
         else itemCount.gameObject.SetActive(false);
     }
