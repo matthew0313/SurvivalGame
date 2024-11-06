@@ -38,6 +38,7 @@ public class DroppedItem : MonoBehaviour
         }
     }
     [SerializeField] SpriteRenderer itemImage;
+    [SerializeField] Vector2 targetSize = Vector2.one;
     Rigidbody2D rb;
     private void Awake()
     {
@@ -59,6 +60,7 @@ public class DroppedItem : MonoBehaviour
         itemImage.sprite = item.data.image;
         this.item = item;
         this.count = count;
+        itemImage.transform.localScale = new Vector2(targetSize.x / item.data.image.bounds.size.x, targetSize.y / item.data.image.bounds.size.y);
     }
     public bool canPick => rb.velocity.magnitude < 0.5f;
     public void SetVelocity(Vector2 velocity)

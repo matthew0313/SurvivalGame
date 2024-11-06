@@ -204,3 +204,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemImage: {fileID: 2764011113880984820}
+  targetSize: {x: 1, y: 1}

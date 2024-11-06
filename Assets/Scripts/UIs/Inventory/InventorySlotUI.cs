@@ -14,6 +14,7 @@ public class InventorySlotUI : MonoBehaviour
     [SerializeField] Text itemCount;
     [SerializeField] GameObject durabilityBar; 
     [SerializeField] Image durabilityScaler;
+    [SerializeField] Image backImage;
     public InventorySlot checkingSlot { get; private set; } = null;
     public void Set(InventorySlot slot)
     {
@@ -43,10 +44,12 @@ public class InventorySlotUI : MonoBehaviour
         {
             itemIcon.gameObject.SetActive(true);
             itemIcon.sprite = checkingItem.data.image;
+            if(backImage != null) backImage.gameObject.SetActive(false);
         }
         else
         {
             itemIcon.gameObject.SetActive(false);
+            if(backImage != null) backImage.gameObject.SetActive(true);
         }
         if (checkingItem is Equipment)
         {

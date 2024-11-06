@@ -292,22 +292,22 @@ public class Player : MonoBehaviour, ISavable
     }
     public void Save(SaveData data)
     {
-        data.player.inventoryData = inventory.Save();
-        data.player.position = transform.position;
         data.player.equipmentData[0] = clothingSlot.Save();
         data.player.equipmentData[1] = accessorySlot1.Save();
         data.player.equipmentData[2] = accessorySlot2.Save();
         data.player.equipmentData[3] = backpackSlot.Save();
+        data.player.inventoryData = inventory.Save();
+        data.player.position = transform.position;
     }
 
     public void Load(SaveData data)
     {
-        inventory.Load(data.player.inventoryData);
-        transform.position = data.player.position;
         clothingSlot.Load(data.player.equipmentData[0]);
         accessorySlot1.Load(data.player.equipmentData[1]);
         accessorySlot2.Load(data.player.equipmentData[2]);
         backpackSlot.Load(data.player.equipmentData[3]);
+        inventory.Load(data.player.inventoryData);
+        transform.position = data.player.position;
     }
 }
 [System.Serializable]
