@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Backpack
   m_EditorClassIdentifier: 
   m_image: {fileID: 21300000, guid: 29853645085e6c446acde7a4807f9389, type: 3}
-  m_traits: 0
-  m_extraHealth: 0
-  m_extraSpeed: 0
+  m_stats:
+    m_traits: 0
+    m_extraHealth: 12312
+    m_extraSpeed: 0
   m_extraSlots: 10

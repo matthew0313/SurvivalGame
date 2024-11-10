@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JetBrains.Annotations;
+using Unity.VisualScripting;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -23,10 +27,10 @@ public class HpComp : MonoBehaviour
     }
     public float maxHp => baseHp + bonusHp;
 
-    public Action<float> onDamage, onHeal;
+    public Action<HpChangeData> onDamage, onHeal;
     public Action onHpChange, onDeath;
-    public List<Func<float, float>> damageModificators { get; } = new();
-    public List<Func<float, float>> healModificators { get; } = new();
+    public List<Func<HpChangeData, HpChangeData>> damageModificators { get; } = new();
+    public List<Func<HpChangeData, HpChangeData>> healModificators { get; } = new();
 
     private void Awake()
     {
@@ -36,12 +40,16 @@ public class HpComp : MonoBehaviour
     
     public void GetDamage(float damage)
     {
+        GetDamage(new HpChangeData() { amount = damage });
+    }
+    public void GetDamage(HpChangeData data)
+    {
         if (dead) return;
-        foreach (var i in damageModificators) damage = i.Invoke(damage);
-        hp = Mathf.Max(0, hp - damage);
-        onDamage?.Invoke(damage);
+        foreach (var i in damageModificators) data = i.Invoke(data);
+        hp = Mathf.Max(0, hp - data.amount);
+        onDamage?.Invoke(data);
         onHpChange?.Invoke();
-        if(hp <= 0)
+        if (hp <= 0)
         {
             dead = true;
             onDeath?.Invoke();
@@ -49,13 +57,33 @@ public class HpComp : MonoBehaviour
     }
     public void Heal(float amount)
     {
+        Heal(new HpChangeData() { amount = amount });
+    }
+    public void Heal(HpChangeData data)
+    {
         if (dead) return;
-        foreach (var i in healModificators) amount = i.Invoke(amount);
-        hp = Mathf.Min(maxHp, hp + amount);
-        onHeal?.Invoke(hp);
+        foreach (var i in healModificators) data = i.Invoke(data);
+        hp = Mathf.Min(maxHp, hp + data.amount);
+        onHeal?.Invoke(data);
         onHpChange?.Invoke();
     }
     public void Revive() => dead = false;
+    public HpCompSaveData Save()
+    {
+        HpCompSaveData data = new();
+        data.hp = hp;
+        return data;
+    }
+    public void Load(HpCompSaveData data)
+    {
+        hp = data.hp;
+        onHpChange?.Invoke();
+    }
+}
+[System.Serializable]
+public class HpCompSaveData
+{
+    public float hp;
 }
 #if UNITY_EDITOR
 [CustomEditor(typeof(HpComp))]

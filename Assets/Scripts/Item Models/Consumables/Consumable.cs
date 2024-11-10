@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,8 +14,10 @@ public class Consumable : MonoBehaviour
     [Header("Consumable")]
     [SerializeField] float m_cooldown;
     public float cooldown => m_cooldown;
-    public virtual void OnUse()
-    {
-
-    }
+    public Player wielder => origin.wielder;
+    public virtual void OnWield() { }
+    public virtual void OnUse() { }
+    public virtual void OnUnwield() { }
+    public virtual string DescBar() => "Ready";
+    public virtual float DescBarFill() => 0.0f;
 }

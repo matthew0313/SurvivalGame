@@ -109,7 +109,7 @@ public class UIManager : MonoBehaviour
     }
     void SelectedInteractionUpdate()
     {
-        if(SystemInfo.deviceType == DeviceType.Handheld)
+        if(DeviceManager.IsMobile())
         {
             if (player.currentInteraction != null)
             {
@@ -155,7 +155,7 @@ public class UIManager : MonoBehaviour
         {
             equippedItemDescBar.localScale = new Vector2(equipDisplaying.DescBarFill(), 1.0f);
         }
-        if(SystemInfo.deviceType == DeviceType.Desktop)
+        if(!DeviceManager.IsMobile())
         {
             if (Input.GetKeyDown(KeyCode.E)) InventoryTab();
         }
@@ -218,7 +218,7 @@ public class UIManager : MonoBehaviour
             public override void OnStateUpdate()
             {
                 base.OnStateUpdate();
-                if(SystemInfo.deviceType == DeviceType.Handheld)
+                if(DeviceManager.IsMobile())
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -239,7 +239,7 @@ public class UIManager : MonoBehaviour
                         }
                     }
                 }
-                else if(SystemInfo.deviceType == DeviceType.Desktop)
+                else
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -274,12 +274,12 @@ public class UIManager : MonoBehaviour
             public override void OnStateEnter()
             {
                 base.OnStateEnter();
-                if (SystemInfo.deviceType == DeviceType.Handheld)
+                if (DeviceManager.IsMobile())
                 {
                     Vector2 pos = Input.GetTouch(origin.grabTouchIndex).position;
                     origin.grabbingSlotUI.transform.position = pos;
                 }
-                else if (SystemInfo.deviceType == DeviceType.Desktop)
+                else
                 {
                     origin.grabbingSlotUI.transform.position = Input.mousePosition;
                 }
@@ -288,19 +288,19 @@ public class UIManager : MonoBehaviour
             {
                 base.OnStateUpdate();
                 RaycastResult tmp = new RaycastResult();
-                if(SystemInfo.deviceType == DeviceType.Handheld)
+                if(DeviceManager.IsMobile())
                 {
                     Vector2 pos = Input.GetTouch(origin.grabTouchIndex).position;
                     origin.ScanUI(pos);
                     origin.grabbingSlotUI.transform.position = pos;
                 }
-                else if(SystemInfo.deviceType == DeviceType.Desktop)
+                else
                 {
                     origin.ScanUI(Input.mousePosition);
                     origin.grabbingSlotUI.transform.position = Input.mousePosition;
                 }
                 tmp = origin.scanResults.Find((RaycastResult a) => a.gameObject.tag == "InventorySlot");
-                if (SystemInfo.deviceType == DeviceType.Handheld ? Input.GetTouch(origin.grabTouchIndex).phase == UnityEngine.TouchPhase.Ended : Input.GetMouseButtonDown(0))
+                if (DeviceManager.IsMobile() ? Input.GetTouch(origin.grabTouchIndex).phase == UnityEngine.TouchPhase.Ended : Input.GetMouseButtonDown(0))
                 {
                     if (tmp.gameObject != null)
                     {
@@ -308,7 +308,7 @@ public class UIManager : MonoBehaviour
                         grabbingSlot.count = slot.Insert(grabbingSlot.item, grabbingSlot.count);
                         if (grabbingSlot.count > 0)
                         {
-                            if(SystemInfo.deviceType == DeviceType.Handheld)
+                            if(DeviceManager.IsMobile())
                             {
                                 grabbingSlot.count = originSlot.Insert(grabbingSlot.item, grabbingSlot.count);
                                 if(grabbingSlot.count > 0)

@@ -49,14 +49,17 @@ public class Gun : Weapon
         {
             if (auto && InputManager.UseButton() || !auto && InputManager.UseButtonDown())
             {
-                if (counter >= fireRate && origin.mag > 0)
+                if (counter >= fireRate)
                 {
-                    counter = 0.0f;
-                    origin.mag--;
-                    Fire();
+                    if(origin.mag > 0)
+                    {
+                        counter = 0.0f;
+                        origin.mag--;
+                        Fire();
+                    }
                 }
             }
-            else if ((InputManager.ReloadButtonDown() || SystemInfo.deviceType == DeviceType.Handheld && origin.mag <= 0) && origin.mag < magSize && wielder.inventory.Search(bulletItem) > 0)
+            else if ((InputManager.ReloadButtonDown() || DeviceManager.IsMobile() && origin.mag <= 0) && origin.mag < magSize && wielder.inventory.Search(bulletItem) > 0)
             {
                 if (anim != null) anim.SetTrigger("Reload");
                 reloading = true;

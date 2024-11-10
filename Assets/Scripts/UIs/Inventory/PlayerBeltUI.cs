@@ -24,6 +24,11 @@ public class PlayerBeltUI : MonoBehaviour
     {
         EquipSlotChange();
     }
+    public void TrySlotChange(int slot)
+    {
+        if (UIManager.Instance.isTabOpen) return;
+        player.SwapSlot(slot);
+    }
     void EquipSlotChange()
     {
         equipIndicator.position = slots[player.equippedIndex].transform.position;

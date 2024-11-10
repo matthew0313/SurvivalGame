@@ -162,7 +162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f56c9950ba364e469d12c7528011e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 7
+  m_damage:
+    amount: 7
+    effectColorType: 1
+    effectColor: {r: 1, g: 0, b: 0, a: 1}
   auto: 1
   fireRate: 0.1
   bulletSpeed: 25

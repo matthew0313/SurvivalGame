@@ -10,9 +10,7 @@ public class ConsumableData : StackableItemData
 {
     [Header("Consumable")]
     [SerializeField] Consumable m_prefab;
-    [SerializeField] int m_maxStack;
     public Consumable prefab => m_prefab;
-    public override int maxStack => m_maxStack;
     public override Item Create() => new ConsumableItem(this);
 }
 public class ConsumableItem : StackableItem
@@ -32,14 +30,14 @@ public class ConsumableItem : StackableItem
             instance.Set(this);
         }
         else instance.gameObject.SetActive(true);
-        containedSlot.onCountChange += OnHeldCountChange;
+        instance.OnWield();
     }
     bool descUpdated = false;
-    public bool isOnCooldown => !wielder.consumableCooldowns.ContainsKey(data);
+    public bool isOnCooldown => wielder.consumableCooldowns.ContainsKey(data);
     public override void OnWieldUpdate()
     {
         base.OnWieldUpdate();
-        if (wielder.consumableCooldowns.TryGetValue(data, out _))
+        if (isOnCooldown)
         {
             descUpdated = false;
             onDescUpdate?.Invoke();
@@ -53,6 +51,7 @@ public class ConsumableItem : StackableItem
             }
             if (InputManager.UseButtonDown() && !isOnCooldown)
             {
+                Debug.Log("EAEEAEEA");
                 wielder.consumableCooldowns.Add(data, data.prefab.cooldown);
                 onDescUpdate?.Invoke();
                 instance.OnUse();
@@ -62,13 +61,16 @@ public class ConsumableItem : StackableItem
     }
     public override void OnUnwield()
     {
-        base.OnUnwield();
-        containedSlot.onCountChange -= OnHeldCountChange;
+        instance.OnUnwield();
         instance.gameObject.SetActive(false);
+        base.OnUnwield();
     }
-    void OnHeldCountChange() => onDescUpdate?.Invoke();
     public override string DescBar()
     {
-        return wielder.consumableCooldowns.TryGetValue(data, out float cooldown) ? Math.Round(cooldown, 1).ToString() : containedSlot.count.ToString();
+        return wielder.consumableCooldowns.TryGetValue(data, out float cooldown) ? Math.Round(cooldown, 1).ToString() : instance.DescBar();
+    }
+    public override float DescBarFill()
+    {
+        return wielder.consumableCooldowns.TryGetValue(data, out float cooldown) ? cooldown / data.prefab.cooldown : instance.DescBarFill();
     }
 }

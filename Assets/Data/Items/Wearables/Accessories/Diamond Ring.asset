@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Diamond Ring
   m_EditorClassIdentifier: 
   m_image: {fileID: 21300000, guid: facdbe994f48a344c82f581ff3773b1d, type: 3}
-  m_traits: -1
-  m_extraHealth: 25
-  m_extraSpeed: 10
+  m_stats:
+    m_traits: -1
+    m_extraHealth: 50
+    m_extraSpeed: 5

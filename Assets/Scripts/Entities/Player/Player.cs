@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -67,8 +68,8 @@ public class Player : MonoBehaviour, ISavable
     private void Update()
     {
         RotateCheck();
-        CooldownUpdate();
         EquipUpdate();
+        CooldownUpdate();
         InteractionUpdate();
     }
     private void FixedUpdate()
@@ -105,7 +106,7 @@ public class Player : MonoBehaviour, ISavable
         }
         else
         {
-            if (SystemInfo.deviceType == DeviceType.Handheld)
+            if (DeviceManager.IsMobile())
             {
                 if (InputManager.UseButton()) Rotate();
             }
@@ -176,7 +177,7 @@ public class Player : MonoBehaviour, ISavable
     }
     void EquipUpdate()
     {
-        if(SystemInfo.deviceType == DeviceType.Desktop)
+        if(!DeviceManager.IsMobile())
         {
             for(int i = 0; i < 6; i++)
             {
@@ -192,22 +193,15 @@ public class Player : MonoBehaviour, ISavable
             equipped.OnWieldUpdate();
         }
     }
-    List<ConsumableData> removeQueue = new();
+    List<ConsumableData> updateQueue = new();
     void CooldownUpdate()
     {
-        foreach(var i in consumableCooldowns.Keys)
+        updateQueue = consumableCooldowns.Keys.ToList();
+        foreach(var i in updateQueue)
         {
             consumableCooldowns[i] -= Time.deltaTime;
-            if (consumableCooldowns[i] <= 0)
-            {
-                removeQueue.Add(i);
-            }
+            if (consumableCooldowns[i] <= 0) consumableCooldowns.Remove(i);
         }
-        foreach(var i in removeQueue)
-        {
-            consumableCooldowns.Remove(i);
-        }
-        removeQueue.Clear();
     }
     public void AddItem_DropRest(Vector2 dir, Item item, int count)
     {
@@ -297,6 +291,7 @@ public class Player : MonoBehaviour, ISavable
         data.player.equipmentData[2] = accessorySlot2.Save();
         data.player.equipmentData[3] = backpackSlot.Save();
         data.player.inventoryData = inventory.Save();
+        data.player.hpData = hp.Save();
         data.player.position = transform.position;
     }
 
@@ -307,6 +302,7 @@ public class Player : MonoBehaviour, ISavable
         accessorySlot2.Load(data.player.equipmentData[2]);
         backpackSlot.Load(data.player.equipmentData[3]);
         inventory.Load(data.player.inventoryData);
+        hp.Load(data.player.hpData);
         transform.position = data.player.position;
     }
 }
@@ -314,6 +310,7 @@ public class Player : MonoBehaviour, ISavable
 public class PlayerSaveData
 {
     public InventorySaveData inventoryData = new();
+    public HpCompSaveData hpData = new();
     public InventorySlotSaveData[] equipmentData = new InventorySlotSaveData[4];
     public Vector2 position;
 }

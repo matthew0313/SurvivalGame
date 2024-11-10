@@ -57,4 +57,10 @@ MonoBehaviour:
       m_chance: 100
       m_minCount: 1
       m_maxCount: 1
+  - m_chance: 100
+    m_elements:
+    - m_item: {fileID: 11400000, guid: badfdb00f9083864ea8df4d3d0d998a9, type: 2}
+      m_chance: 100
+      m_minCount: 4
+      m_maxCount: 6
   lootGroupSelection: 1

@@ -6,7 +6,7 @@ public class MobileOnlyObject : MonoBehaviour
 {
     private void Awake()
     {
-        if (SystemInfo.deviceType != DeviceType.Handheld) gameObject.SetActive(false);
+        if (!DeviceManager.IsMobile()) gameObject.SetActive(false);
         else gameObject.SetActive(true);
     }
 }

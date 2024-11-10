@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,7 +26,7 @@ public abstract class Interaction : MonoBehaviour
     }
     public virtual void OnSelect()
     {
-        Debug.Log("EAWEAWE");
+
     }
     public virtual void OnDeselect()
     {
