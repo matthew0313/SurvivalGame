@@ -17,7 +17,7 @@ public class SaveDataManager : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        handler = new LocalSaveFileHandler(Path.Combine(Application.persistentDataPath, saveFileName), fileExtension);
+        handler = new LocalSaveFileHandler(Path.Combine(".", saveFileName), fileExtension);
     }
     private void Start()
     {

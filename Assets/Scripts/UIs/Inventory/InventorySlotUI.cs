@@ -53,7 +53,6 @@ public class InventorySlotUI : MonoBehaviour
         }
         if (checkingItem is Equipment)
         {
-            durabilityBar.SetActive(true);
             (checkingItem as Equipment).onDurabilityChange += DurabilityBarUpdate;
             DurabilityBarUpdate();
         }
@@ -73,9 +72,17 @@ public class InventorySlotUI : MonoBehaviour
     }
     void DurabilityBarUpdate()
     {
-        float scale = (checkingItem as Equipment).durability / (checkingItem as Equipment).maxDurability;
-        durabilityScaler.transform.localScale = new Vector2(scale, 1.0f);
-        durabilityScaler.color = new Color(1.0f - scale, scale, 0);
+        if ((checkingItem as Equipment).durability == (checkingItem as Equipment).maxDurability)
+        {
+            durabilityBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            durabilityBar.gameObject.SetActive(true);
+            float scale = (checkingItem as Equipment).durability / (checkingItem as Equipment).maxDurability;
+            durabilityScaler.transform.localScale = new Vector2(scale, 1.0f);
+            durabilityScaler.color = new Color(1.0f - scale, scale, 0);
+        }
     }
     public void Highlight()
     {

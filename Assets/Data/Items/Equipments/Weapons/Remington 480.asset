@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Remington 480
   m_EditorClassIdentifier: 
   m_image: {fileID: 21300000, guid: 8d3235e95a176f94a9c260082a3e3fd0, type: 3}
-  m_maxDurability: 50
+  m_durability:
+    m_mode: 0
+    m_value: 24
   m_prefab: {fileID: 7078331834055009361, guid: b6cdd0e828c682e4897d308e96f10fc2, type: 3}

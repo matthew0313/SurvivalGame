@@ -8,6 +8,7 @@ public class Gun : Weapon
     new GunItem origin => base.origin as GunItem;
     [Header("Gun")]
     [SerializeField] protected bool auto = true;
+    [SerializeField] HpChangeData damage;
     [SerializeField] protected float fireRate;
     [SerializeField] protected float bulletSpeed, bulletRange, bulletSpread;
     [SerializeField] protected Bullet bullet;
@@ -72,7 +73,6 @@ public class Gun : Weapon
         int reloadAmount = Mathf.Min(magSize - origin.mag, wielder.inventory.Search(bulletItem));
         wielder.inventory.TakeOut(bulletItem, reloadAmount);
         origin.mag += reloadAmount;
-        Debug.Log("Reload " + reloadAmount);
     }
     void Fire()
     {

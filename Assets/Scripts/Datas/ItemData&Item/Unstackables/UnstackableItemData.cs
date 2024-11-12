@@ -17,4 +17,5 @@ public class UnstackableItem : Item
     {
         this.data = data;
     }
+    public override bool IsStackable(Item other) => false;
 }

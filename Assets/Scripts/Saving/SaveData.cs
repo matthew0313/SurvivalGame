@@ -9,5 +9,5 @@ public class SaveData
 {
     public PlayerSaveData player = new();
     public List<DroppedItemSaveData> droppedItems = new();
-    public SerializableDictionary<string, DataUnit> interactions = new();
+    public SerializableDictionary<string, DataUnit> mapObjects = new();
 }

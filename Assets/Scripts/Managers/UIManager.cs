@@ -27,12 +27,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text mobileInteractText;
     [SerializeField] Image mobileInteractImage;
 
+    [Header("Cooldowns")]
+    [SerializeField] ConsumableCooldownUI cooldownUIPrefab;
+    [SerializeField] Transform cooldownUIAnchor;
+    Pooler<ConsumableCooldownUI> cooldownUIpool;
+
     [Header("Item Grab")]
     [SerializeField] InventorySlotUI grabbingSlotUI;
 
     [Header("Tabs")]
-    [SerializeField] PlayerInventoryUI m_inventoryUI;
-    public PlayerInventoryUI inventoryUI => m_inventoryUI;
+    [SerializeField] PlayerInventoryUI inventoryUI;
     Player player;
     TopLayer topLayer;
     GameObject m_openTab = null;
@@ -85,6 +89,7 @@ public class UIManager : MonoBehaviour
         topLayer = new TopLayer(this);
         topLayer.OnStateEnter();
         grabbingSlotUI.Set(grabbingSlot);
+        cooldownUIpool = new Pooler<ConsumableCooldownUI>(cooldownUIPrefab);
     }
     Item equipDisplaying = null;
     void EquippedItemChange()
@@ -149,6 +154,8 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+    Dictionary<ConsumableData, ConsumableCooldownUI> cooldownUIs = new();
+    List<ConsumableData> displayingCooldowns = new(), displayingCooldownsRemoveQueue = new();
     private void Update()
     {
         if(equipDisplaying != null)
@@ -158,6 +165,32 @@ public class UIManager : MonoBehaviour
         if(!DeviceManager.IsMobile())
         {
             if (Input.GetKeyDown(KeyCode.E)) InventoryTab();
+        }
+        foreach(var i in displayingCooldowns)
+        {
+            if (!player.consumableCooldowns.ContainsKey(i))
+            {
+                cooldownUIs[i].gameObject.SetActive(false);
+                displayingCooldownsRemoveQueue.Add(i);
+            }
+        }
+        foreach (var i in displayingCooldownsRemoveQueue) displayingCooldowns.Remove(i);
+        displayingCooldowns.Clear();
+        foreach(var i in player.consumableCooldowns)
+        {
+            if (!displayingCooldowns.Contains(i.Key))
+            {
+                if (!cooldownUIs.ContainsKey(i.Key))
+                {
+                    ConsumableCooldownUI tmp = Instantiate(cooldownUIPrefab, cooldownUIAnchor);
+                    tmp.icon.sprite = i.Key.image;
+                    cooldownUIs.Add(i.Key, tmp);
+                }
+                else cooldownUIs[i.Key].gameObject.SetActive(true);
+                displayingCooldowns.Add(i.Key);
+            }
+            cooldownUIs[i.Key].scaler.localScale = new Vector2(i.Value / i.Key.prefab.cooldown, 1.0f);
+            cooldownUIs[i.Key].text.text = Math.Round(i.Value, 1).ToString() + "s";
         }
         topLayer.OnStateUpdate();
     }

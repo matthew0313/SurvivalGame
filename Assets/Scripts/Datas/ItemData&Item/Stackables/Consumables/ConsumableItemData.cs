@@ -67,7 +67,7 @@ public class ConsumableItem : StackableItem
     }
     public override string DescBar()
     {
-        return wielder.consumableCooldowns.TryGetValue(data, out float cooldown) ? Math.Round(cooldown, 1).ToString() : instance.DescBar();
+        return wielder.consumableCooldowns.TryGetValue(data, out float cooldown) ? Math.Round(cooldown, 1).ToString() + "s" : instance.DescBar();
     }
     public override float DescBarFill()
     {

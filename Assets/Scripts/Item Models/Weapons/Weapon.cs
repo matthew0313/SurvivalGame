@@ -11,9 +11,6 @@ public abstract class Weapon : MonoBehaviour
     {
         this.origin = origin;
     }
-    [Header("Weapon")]
-    [SerializeField] HpChangeData m_damage;
-    public HpChangeData damage => m_damage;
     protected Player wielder => origin.wielder;
     public virtual void OnWield() { }
     public virtual void OnWieldUpdate() { }
