@@ -3,29 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class State<T>
+public abstract class State<T, ValT> where ValT : FSMVals
 {
     protected readonly T origin;
-    protected readonly Layer<T> parentLayer;
-    protected virtual TopLayer<T> root => parentLayer.root;
-    public State(T origin, Layer<T> parent)
+    protected readonly Layer<T, ValT> parentLayer;
+    protected virtual TopLayer<T, ValT> root => parentLayer.root;
+    protected virtual ValT values => root.values;
+    public State(T origin, Layer<T, ValT> parent)
     {
         this.origin = origin;
         this.parentLayer = parent;
     }
-    public virtual void Enter(List<string> stateRoute)
-    {
-        if(stateRoute.Count > 0)
-        {
-            Debug.LogWarning("Excessive state route found.");
-        }
-        AlertStateChange();
-    }
     public virtual void OnStateEnter()
     {
-
+        root.AlertStateChange();
     }
-    public virtual void OnStateReEnter()
+    public virtual void RefreshState()
     {
 
     }
@@ -41,7 +34,6 @@ public abstract class State<T>
     {
 
     }
-    public virtual void AlertStateChange() => parentLayer.AlertStateChange();
     public virtual string GetFSMPath()
     {
         return parentLayer.GetStateName(this);

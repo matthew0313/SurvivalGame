@@ -4,7 +4,7 @@
             "slotSaves": [
                 {
                     "item": {
-                        "instanceID": 0
+                        "instanceID": 26232
                     },
                     "data": {
                         "m_integers": {
@@ -20,48 +20,18 @@
                             "content": []
                         }
                     },
-                    "count": 0
+                    "count": 83
                 },
                 {
                     "item": {
-                        "instanceID": 25854
+                        "instanceID": 26054
                     },
                     "data": {
                         "m_integers": {
                             "content": [
                                 {
                                     "key": "Mag",
-                                    "value": 30
-                                }
-                            ]
-                        },
-                        "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 60.0
-                                }
-                            ]
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26042
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 0
+                                    "value": 7
                                 }
                             ]
                         },
@@ -84,337 +54,7 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26556
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 6
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 25862
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 6
-                                }
-                            ]
-                        },
-                        "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 24.0
-                                }
-                            ]
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26462
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26184
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26522
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26220
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 86
-                },
-                {
-                    "item": {
-                        "instanceID": 26072
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 24
-                },
-                {
-                    "item": {
-                        "instanceID": 26184
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26184
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26042
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 12
-                                }
-                            ]
-                        },
-                        "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 100.0
-                                }
-                            ]
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26462
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 25854
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 90.0
-                                }
-                            ]
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 25854
+                        "instanceID": 25864
                     },
                     "data": {
                         "m_integers": {
@@ -444,37 +84,7 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26042
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 12
-                                }
-                            ]
-                        },
-                        "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 100.0
-                                }
-                            ]
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 26462
+                        "instanceID": 26084
                     },
                     "data": {
                         "m_integers": {
@@ -490,71 +100,11 @@
                             "content": []
                         }
                     },
-                    "count": 1
+                    "count": 21
                 },
                 {
                     "item": {
-                        "instanceID": 26522
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 25862
+                        "instanceID": 25872
                     },
                     "data": {
                         "m_integers": {
@@ -584,14 +134,234 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26042
+                        "instanceID": 26570
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 9
+                },
+                {
+                    "item": {
+                        "instanceID": 26536
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 26196
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 26476
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 25864
                     },
                     "data": {
                         "m_integers": {
                             "content": [
                                 {
                                     "key": "Mag",
-                                    "value": 0
+                                    "value": 30
+                                }
+                            ]
+                        },
+                        "m_floats": {
+                            "content": [
+                                {
+                                    "key": "Durability",
+                                    "value": 120.0
+                                }
+                            ]
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 26304
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 16
+                },
+                {
+                    "item": {
+                        "instanceID": 25872
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": [
+                                {
+                                    "key": "Mag",
+                                    "value": 6
+                                }
+                            ]
+                        },
+                        "m_floats": {
+                            "content": [
+                                {
+                                    "key": "Durability",
+                                    "value": 24.0
+                                }
+                            ]
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 26536
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 26196
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 26054
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": [
+                                {
+                                    "key": "Mag",
+                                    "value": 12
                                 }
                             ]
                         },
@@ -611,17 +381,217 @@
                         }
                     },
                     "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
                 }
             ]
         },
         "hpData": {
-            "hp": 200.0,
+            "hp": 100.0,
             "debuffs": []
         },
         "equipmentData": [
             {
                 "item": {
-                    "instanceID": 26184
+                    "instanceID": 0
                 },
                 "data": {
                     "m_integers": {
@@ -637,11 +607,11 @@
                         "content": []
                     }
                 },
-                "count": 1
+                "count": 0
             },
             {
                 "item": {
-                    "instanceID": 26522
+                    "instanceID": 0
                 },
                 "data": {
                     "m_integers": {
@@ -657,11 +627,11 @@
                         "content": []
                     }
                 },
-                "count": 1
+                "count": 0
             },
             {
                 "item": {
-                    "instanceID": 26522
+                    "instanceID": 0
                 },
                 "data": {
                     "m_integers": {
@@ -677,11 +647,11 @@
                         "content": []
                     }
                 },
-                "count": 1
+                "count": 0
             },
             {
                 "item": {
-                    "instanceID": 26462
+                    "instanceID": 26476
                 },
                 "data": {
                     "m_integers": {
@@ -701,18 +671,11 @@
             }
         ],
         "consumableCooldowns": {
-            "content": [
-                {
-                    "key": {
-                        "instanceID": 26556
-                    },
-                    "value": 3.483689785003662
-                }
-            ]
+            "content": []
         },
         "position": {
-            "x": -1.0442957878112794,
-            "y": 0.31191331148147585
+            "x": -0.20904478430747987,
+            "y": -0.5048013925552368
         }
     },
     "droppedItems": [],
@@ -728,7 +691,7 @@
                         "content": [
                             {
                                 "key": "cooldownLeft",
-                                "value": 0.0
+                                "value": 53.149681091308597
                             }
                         ]
                     },
@@ -756,7 +719,7 @@
                         "content": [
                             {
                                 "key": "hp",
-                                "value": "{\"hp\":50.0,\"debuffs\":[]}"
+                                "value": "{\"hp\":100.0,\"debuffs\":[]}"
                             }
                         ]
                     }

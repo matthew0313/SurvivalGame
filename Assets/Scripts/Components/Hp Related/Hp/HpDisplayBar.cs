@@ -28,7 +28,7 @@ public class HpDisplayBar : MonoBehaviour
     {
         targetScale = barFill;
         counter = delayTime;
-        if (targetScale > currentScale)
+        if (targetScale >= currentScale)
         {
             backScaler.transform.localScale = new Vector2(targetScale, 1.0f);
             scaler.transform.localScale = new Vector2(currentScale, 1.0f);
