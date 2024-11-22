@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour
     public float speed = 2f; // 이동 속도
     public float attackCooldown = 1f; // 공격 쿨다운 시간
 
-    private Transform player;=
+    private Transform player;
     private float lastAttackTime = 0;
 
     void Update()
