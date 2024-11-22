@@ -3,22 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Layer<T> : State<T>
+public abstract class Layer<T, ValT> : State<T, ValT> where ValT : FSMVals
 {
-    protected Dictionary<string, State<T>> states = new();
-    protected Dictionary<State<T>, string> stateNames = new();
-    protected State<T> currentState = null;
-    protected State<T> defaultState = null;
-    public Layer(T origin, Layer<T> parent) : base(origin, parent)
+    protected Dictionary<string, State<T, ValT>> states = new();
+    protected Dictionary<State<T, ValT>, string> stateNames = new();
+    protected State<T, ValT> currentState = null;
+    protected State<T, ValT> defaultState = null;
+    public Layer(T origin, Layer<T, ValT> parent) : base(origin, parent)
     {
 
     }
-    protected void AddState(string name, State<T> state)
+    protected void AddState(string name, State<T, ValT> state)
     {
         states[name] = state;
         stateNames[state] = name;
     }
-    public string GetStateName(State<T> state)
+    public string GetStateName(State<T, ValT> state)
     {
         if (!stateNames.ContainsKey(state))
         {
@@ -27,49 +27,21 @@ public abstract class Layer<T> : State<T>
         }
         else return stateNames[state];
     }
-    public void ChangeState(params string[] route)
+    public void ChangeState(string stateName)
     {
-        List<string> stateRoute = new List<string>(route);
-        Enter(stateRoute);
+        if (!states.ContainsKey(stateName))
+        {
+            Debug.Log("Tried to access state that does not exist");
+            return;
+        }
+        currentState.OnStateExit();
+        currentState = states[stateName];
+        currentState.OnStateEnter();
     }
-    public override void Enter(List<string> stateRoute)
+    public override void OnStateEnter()
     {
-        State<T> nextState;
-        if(stateRoute.Count == 0)
-        {
-            nextState = GetDefaultState();
-        }
-        else
-        {
-            if (!states.ContainsKey(stateRoute[0]))
-            {
-                Debug.LogError("Attempted to switch to a state that does not exist, switching to default state");
-                nextState = GetDefaultState();
-            }
-            else
-            {
-                nextState = states[stateRoute[0]];
-            }
-            stateRoute.RemoveAt(0);
-        }
-        if(currentState != null && currentState != nextState)
-        {
-            currentState.OnStateExit();
-        }
-        if(currentState != nextState)
-        {
-            currentState = nextState;
-            currentState.OnStateEnter();
-        }
-        else if(currentState == nextState)
-        {
-            currentState.OnStateReEnter();
-        }
-        currentState.Enter(stateRoute);
-    }
-    protected virtual State<T> GetDefaultState()
-    {
-        return defaultState;
+        currentState = defaultState;
+        currentState.OnStateEnter();
     }
     public override void OnStateExit()
     {
