@@ -16,6 +16,7 @@ public class Bullet : MonoBehaviour
     bool isInstance = false;
 
     Rigidbody2D rb;
+    
     public void Set(HpChangeData damage, float speed, float range, int pierce = 1)
     {
         counter = 0.0f;
@@ -28,6 +29,11 @@ public class Bullet : MonoBehaviour
             trail.Clear();
             trail.emitting = true;
         }
+    }
+    Debuff debuff;
+    public void SetDebuff(Debuff debuff)
+    {
+        this.debuff = debuff;
     }
     public Bullet SpawnBullet(Vector3 position, Quaternion rotation)
     {
@@ -80,6 +86,7 @@ public class Bullet : MonoBehaviour
         if (tmp != null)
         {
             tmp.GetDamage(damage);
+            if (debuff != null) tmp.AddDebuff(debuff);
             if (--pierce <= 0) Despawn();
         }
         else Despawn();

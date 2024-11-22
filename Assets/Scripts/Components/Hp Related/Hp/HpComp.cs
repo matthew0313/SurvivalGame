@@ -61,6 +61,7 @@ public class HpComp : MonoBehaviour
     readonly List<Debuff> addQueue = new(), removeQueue = new();
     public void AddDebuff(Debuff debuff)
     {
+        if ((debuff.type & immunities) > 0) return;
         addQueue.Add(debuff);
     }
     public void RemoveDebuff(Debuff debuff)

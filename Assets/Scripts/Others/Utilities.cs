@@ -31,3 +31,9 @@ public static class Utilities
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 }
+[System.Serializable]
+public struct Sound
+{
+    public AudioClip clip;
+    [Range(0, 1)] public float volume;
+}
