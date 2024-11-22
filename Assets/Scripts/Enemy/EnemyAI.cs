@@ -12,6 +12,10 @@ public class EnemyAI : MonoBehaviour
     private Transform player;
     private float lastAttackTime = 0;
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     void Update()
     {
         // 플레이어와의 거리 계산

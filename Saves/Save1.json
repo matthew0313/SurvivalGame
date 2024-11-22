@@ -4,19 +4,14 @@
             "slotSaves": [
                 {
                     "item": {
-                        "instanceID": 25868
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
                             "content": []
                         },
                         "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 46.0
-                                }
-                            ]
+                            "content": []
                         },
                         "m_bools": {
                             "content": []
@@ -29,19 +24,14 @@
                 },
                 {
                     "item": {
-                        "instanceID": 25876
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
                             "content": []
                         },
                         "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 18.0
-                                }
-                            ]
+                            "content": []
                         },
                         "m_bools": {
                             "content": []
@@ -54,24 +44,14 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26060
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 3
-                                }
-                            ]
+                            "content": []
                         },
                         "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 100.0
-                                }
-                            ]
+                            "content": []
                         },
                         "m_bools": {
                             "content": []
@@ -84,7 +64,7 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26578
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
@@ -104,7 +84,7 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26312
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
@@ -164,7 +144,7 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26238
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
@@ -304,7 +284,7 @@
                 },
                 {
                     "item": {
-                        "instanceID": 26544
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
@@ -321,206 +301,6 @@
                         }
                     },
                     "count": 1
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 26090
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 7
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
-                },
-                {
-                    "item": {
-                        "instanceID": 0
-                    },
-                    "data": {
-                        "m_integers": {
-                            "content": []
-                        },
-                        "m_floats": {
-                            "content": []
-                        },
-                        "m_bools": {
-                            "content": []
-                        },
-                        "m_strings": {
-                            "content": []
-                        }
-                    },
-                    "count": 0
                 },
                 {
                     "item": {
@@ -551,7 +331,7 @@
         "equipmentData": [
             {
                 "item": {
-                    "instanceID": 26202
+                    "instanceID": 0
                 },
                 "data": {
                     "m_integers": {
@@ -611,7 +391,7 @@
             },
             {
                 "item": {
-                    "instanceID": 26484
+                    "instanceID": 0
                 },
                 "data": {
                     "m_integers": {
@@ -631,18 +411,11 @@
             }
         ],
         "consumableCooldowns": {
-            "content": [
-                {
-                    "key": {
-                        "instanceID": 26578
-                    },
-                    "value": 27.81051254272461
-                }
-            ]
+            "content": []
         },
         "position": {
-            "x": 1.4026744365692139,
-            "y": -0.38607537746429446
+            "x": 0.8662787675857544,
+            "y": -0.3739429712295532
         }
     },
     "droppedItems": [],

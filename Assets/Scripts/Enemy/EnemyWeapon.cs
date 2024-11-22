@@ -24,7 +24,7 @@ public class EnemyWeapon : MonoBehaviour
             AimWeapon();
         }
 
-        if (Input.GetButtonDown("Fire1") && Time.time - lastFireTime >= fireCooldown)
+        if (Time.time - lastFireTime >= fireCooldown)
         {
             Fire();
         }
