@@ -17,6 +17,7 @@ public class Gun : Weapon
     [SerializeField] protected float reloadTime;
     [SerializeField] protected Transform firePoint;
     [SerializeField] protected Animator anim;
+    [SerializeField] protected AudioSource audio;
     public ItemData bulletItem => m_bulletItem;
     public int magSize => m_magSize;
     bool m_reloading = false;
@@ -77,6 +78,7 @@ public class Gun : Weapon
     void Fire()
     {
         if(anim != null) anim.SetTrigger("Fire");
+        if (audio != null) audio.Play();
         FireBullet();
         origin.DurabilityReduce(1.0f);
     }
