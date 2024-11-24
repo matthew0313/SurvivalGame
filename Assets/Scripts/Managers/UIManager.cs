@@ -230,6 +230,23 @@ public class UIManager : MonoBehaviour
     int grabTouchIndex = 0;
     InventorySlot grabbingSlot = new InventorySlot();
     InventorySlot originSlot;
+    IEnumerator movingCamera = null;
+    void MoveCamera(Vector2 targetPos, Action onMoveFinish = null)
+    {
+        if (movingCamera != null) StopCoroutine(movingCamera);
+        movingCamera = MovingCamera(targetPos, onMoveFinish);
+        StartCoroutine(movingCamera);
+    }
+    const float cameraMoveSpeed = 10.0f;
+    IEnumerator MovingCamera(Vector2 targetPos, Action onMoveFinish)
+    {
+        while(Vector2.Distance((Vector2)Camera.main.transform.position, targetPos) > 0.1f)
+        {
+            Camera.main.transform.Translate(Vector2.ClampMagnitude((targetPos - (Vector2)Camera.main.transform.position) * cameraMoveSpeed * Time.deltaTime, Vector2.Distance((Vector2)Camera.main.transform.position, targetPos)));
+            yield return null;
+        }
+        onMoveFinish?.Invoke();
+    }
     class UIVals : FSMVals
     {
         public int cutsceneElementIndex;
@@ -471,6 +488,7 @@ public class UIManager : MonoBehaviour
         public override void OnStateEnter()
         {
             origin.anim.SetBool(origin.InCutsceneID, true);
+            Camera.main.transform.SetParent(null);
             values.cutsceneElementIndex = 0;
             if (origin.currentCutscene.elements[0].type == CutsceneElementType.Talk)
             {
@@ -482,7 +500,7 @@ public class UIManager : MonoBehaviour
         {
             base.RefreshState();
             values.cutsceneElementIndex++;
-            if(values.cutsceneElementIndex >= origin.currentCutscene.elements.Count)
+            if (values.cutsceneElementIndex >= origin.currentCutscene.elements.Count)
             {
                 parentLayer.ChangeState("Default");
             }
@@ -492,12 +510,18 @@ public class UIManager : MonoBehaviour
                 {
                     ChangeState("Talk");
                 }
+                else if(origin.currentCutscene.elements[values.cutsceneElementIndex].type == CutsceneElementType.CameraMove)
+                {
+                    ChangeState("CameraMove");
+                }
             }
         }
         public override void OnStateExit()
         {
             base.OnStateExit();
             origin.anim.SetBool(origin.InCutsceneID, false);
+            Camera.main.transform.SetParent(origin.player.transform);
+            Camera.main.transform.localPosition = new Vector3(0, 0, -10);
             origin.currentCutscene = null;
         }
         class Talk : State<UIManager, UIVals>
@@ -519,10 +543,10 @@ public class UIManager : MonoBehaviour
                 origin.talkTalkerImage.gameObject.SetActive(false);
                 origin.anim.SetBool(origin.TalkingID, true);
                 while (origin.anim.GetBool(origin.TalkOpenID) == false) yield return null;
-                foreach(var i in content.elements)
+                foreach (var i in content.elements)
                 {
                     origin.talkContent.text = "";
-                    if(i.talkerImage != null)
+                    if (i.talkerImage != null)
                     {
                         origin.talkTalkerImage.gameObject.SetActive(true);
                         origin.talkTalkerImage.sprite = i.talkerImage;
@@ -532,7 +556,7 @@ public class UIManager : MonoBehaviour
                         origin.talkTalkerImage.gameObject.SetActive(false);
                     }
                     origin.talkTalker.text = i.talker;
-                    if(i.talkerBackColorType == CutsceneTalkTalkerBackColorType.Default)
+                    if (i.talkerBackColorType == CutsceneTalkTalkerBackColorType.Default)
                     {
                         origin.talkTalkerBackImage.color = origin.talkTalkerBackDefaultColor;
                     }
@@ -542,7 +566,7 @@ public class UIManager : MonoBehaviour
                     }
                     talkProgress = TalkProgress(i);
                     origin.StartCoroutine(talkProgress);
-                    while(talkProgress != null)
+                    while (talkProgress != null)
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
@@ -560,13 +584,24 @@ public class UIManager : MonoBehaviour
             }
             IEnumerator TalkProgress(CutsceneTalkElement content)
             {
-                for(int i = 0; i < content.dialogue.Length; i++)
+                for (int i = 0; i < content.dialogue.Length; i++)
                 {
                     origin.talkContent.text += content.dialogue[i];
                     if (content.dialogue[i] == '.' || content.dialogue[i] == ',' || content.dialogue[i] == '?' || content.dialogue[i] == '!') yield return new WaitForSeconds(origin.talkPauseTime);
                     else yield return new WaitForSeconds(origin.talkRate);
                 }
                 talkProgress = null;
+            }
+        }
+        class CameraMove : State<UIManager, UIVals>
+        {
+            public CameraMove(UIManager origin, Layer<UIManager, UIVals> parent) : base(origin, parent)
+            {
+
+            }
+            public override void OnStateEnter()
+            {
+                base.OnStateEnter();
             }
         }
     }
@@ -580,21 +615,30 @@ public class Cutscene
 [System.Serializable]
 public enum CutsceneElementType
 {
-    Talk
+    Talk,
+    CameraMove
 }
 [System.Serializable]
 public struct CutsceneElement
 {
     [SerializeField] CutsceneElementType m_type;
     [SerializeField] CutsceneTalk m_talk;
+    [SerializeField] CameraMove m_cameraMove;
     public CutsceneElementType type => m_type;
     public CutsceneTalk talk => m_talk;
+    public CameraMove cameraMove => m_cameraMove;
 }
 [System.Serializable]
 public struct CutsceneTalk
 {
     [SerializeField] List<CutsceneTalkElement> m_elements;
     public List<CutsceneTalkElement> elements => m_elements;
+}
+[System.Serializable]
+public struct CameraMove
+{
+    [SerializeField] Vector2 m_position;
+    public Vector2 position => m_position;
 }
 [System.Serializable]
 public enum CutsceneTalkTalkerBackColorType
@@ -610,6 +654,7 @@ public struct CutsceneTalkElement
     [SerializeField] CutsceneTalkTalkerBackColorType m_talkerBackColorType;
     [SerializeField] Color m_talkerBackColor;
     [TextArea][SerializeField] string m_dialogue;
+    [SerializeField] CameraMove[] cameraMoves;
     public string talker => m_talker;
     public Sprite talkerImage => m_talkerImage;
     public CutsceneTalkTalkerBackColorType talkerBackColorType => m_talkerBackColorType;
