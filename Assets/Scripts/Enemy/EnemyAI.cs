@@ -1,63 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float followRange = 10f; // 따라가는 범위
-    public float attackRange = 1.5f; // 공격 범위
-    public float speed = 2f; // 이동 속도
-    public float attackCooldown = 1f; // 공격 쿨다운 시간
+    public Weapon equippedWeapon;  // NPC가 장착한 무기
+    public float moveSpeed = 3f;  // 이동 속도
+    public float attackRange = 1.5f;  // 공격 범위
+    public float detectionRange = 5f;  // 플레이어 탐지 범위
 
     private Transform player;
-    private float lastAttackTime = 0;
+    private float lastAttackTime = 0f;  // 마지막 공격 시간
+    private Animator animator;
 
-    private void Start()
+    void Start()
     {
+        animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
+
     void Update()
     {
         // 플레이어와의 거리 계산
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= followRange && distanceToPlayer > attackRange)
+        if (distanceToPlayer < detectionRange)
         {
-            // 플레이어를 따라감
-            FollowPlayer();
-        }
-        else if (distanceToPlayer <= attackRange)
-        {
-            // 플레이어 공격
-            AttackPlayer();
+            // 플레이어 추적
+            MoveTowardsPlayer();
+
+            if (distanceToPlayer < attackRange && Time.time > lastAttackTime + equippedWeapon.attackSpeed)
+            {
+                // 공격 범위에 들어왔을 때 공격
+                AttackPlayer();
+            }
         }
     }
 
-    void FollowPlayer()
+    void MoveTowardsPlayer()
     {
-        // 플레이어 방향으로 이동
-        Vector2 direction = (player.position - transform.position).normalized;
-        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+        // 플레이어를 향해 이동
+        Vector3 direction = (player.position - transform.position).normalized;
+        transform.position += direction * moveSpeed * Time.deltaTime;
+
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", true);
+        }
     }
 
     void AttackPlayer()
     {
-        // 공격 로직 (쿨다운 포함)
-        if (Time.time - lastAttackTime > attackCooldown)
+        // 무기로 공격
+        lastAttackTime = Time.time;
+        equippedWeapon.Attack(player);  // 무기로 공격
+
+        if (animator != null)
         {
-            Debug.Log("적이 공격합니다!");
-            lastAttackTime = Time.time;
-            // 공격 구현 (예: 플레이어 체력 감소)
+            animator.SetTrigger("Attack");
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // 에디터에서 추적 및 공격 범위를 시각화
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, followRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
