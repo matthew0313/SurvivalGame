@@ -11,4 +11,5 @@ public class SaveData
     public List<DroppedItemSaveData> droppedItems = new();
     public SerializableDictionary<string, DataUnit> mapObjects = new();
     public SerializableDictionary<string, EnemySpawnSaveData> spawnPoints = new();
+    public SerializableDictionary<string, DataUnit> fieldEnemies = new();
 }

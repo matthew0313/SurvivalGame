@@ -45,6 +45,7 @@ public class Player : MonoBehaviour, ISavable
 
     public readonly List<Interaction> interactions = new();
     public bool canInteract = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -57,6 +58,17 @@ public class Player : MonoBehaviour, ISavable
         accessorySlot1.onItemChange += Accessory1Change;
         accessorySlot2.onItemChange += Accessory2Change;
         backpackSlot.onItemChange += BackpackChange;
+        TimelineCutsceneManager.onCutsceneEnter += OnCutsceneEnter;
+        TimelineCutsceneManager.onCutsceneExit += OnCutsceneExit;
+    }
+    public void OnCutsceneEnter()
+    {
+        currentInteraction = null;
+        onInteractionChange?.Invoke();
+    }
+    public void OnCutsceneExit()
+    {
+
     }
     private void Start()
     {
@@ -65,6 +77,7 @@ public class Player : MonoBehaviour, ISavable
     }
     private void Update()
     {
+        if (TimelineCutsceneManager.inCutscene) return;
         RotateCheck();
         EquipUpdate();
         CooldownUpdate();
@@ -99,14 +112,13 @@ public class Player : MonoBehaviour, ISavable
         {
             if (DeviceManager.IsMobile())
             {
-                if (InputManager.UseButton()) Rotate();
+                if (InputManager.UseButton()) Rotate(InputManager.AimInput(rotator.position));
             }
-            else Rotate();
+            else Rotate(InputManager.AimInput(rotator.position));
         }
     }
-    void Rotate()
+    void Rotate(Vector2 rot)
     {
-        Vector2 rot = InputManager.AimInput(rotator.position);
         float deg = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
         rotator.rotation = Quaternion.Euler(0, 0, deg);
         if (rot.x > 0)

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(HpComp), typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour, ISavable
@@ -11,14 +13,15 @@ public class Enemy : MonoBehaviour, ISavable
     [SerializeField] float detectionLowerRate = 2.0f;
     [SerializeField] float maxDetection = 10.0f;
     [SerializeField] float detectionRequired = 1.0f;
-    [SerializeField] float minDist = 2.0f, maxDist = 5.0f;
+    [SerializeField] float minDist = 2.0f, maxDist = 5.0f, reloadingMinDist = 5.0f, reloadingMaxDist = 10.0f;
+    [SerializeField] float reloadStartingTime = 2.0f;
 
     [Header("Speed")]
     [SerializeField] float wanderSpeed;
-    [SerializeField] float chaseSpeed;
+    [SerializeField] float chaseSpeed, chaseBackstepSpeed;
 
     [Header("Equipment")]
-    [SerializeField] Transform rotator;
+    [SerializeField] Transform rotator, equipAnchor;
     [SerializeField] EnemyWeapon weapon;
 
     [Header("Components")]
@@ -28,7 +31,11 @@ public class Enemy : MonoBehaviour, ISavable
     [Header("Drops")]
     [SerializeField] LootTable loot;
 
-    Enemy prefabOrigin;
+    [Header("Field Enemy")]
+    [SerializeField] SaveID id;
+    public UnityEvent onDeath;
+
+    public Enemy prefabOrigin { get; private set; }
     bool instantiated = false;
 
     Vector2 originPos;
@@ -38,6 +45,12 @@ public class Enemy : MonoBehaviour, ISavable
     bool rotate = false;
 
     public float detection { get; private set; } = 0;
+    readonly int rotXID = Animator.StringToHash("rotX"), rotYID = Animator.StringToHash("rotY");
+    void OnValidate()
+    {
+        if (!gameObject.scene.IsValid()) id.value = null;
+        else if (string.IsNullOrEmpty(id.value)) id.SetNew();
+    }
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,17 +66,6 @@ public class Enemy : MonoBehaviour, ISavable
         tmp.instantiated = true;
         return tmp;
     }
-    public EnemySaveData Save()
-    {
-        EnemySaveData data = new();
-        data.prefab = prefabOrigin;
-        data.position = transform.position;
-        return data;
-    }
-    public void Load(EnemySaveData data)
-    {
-        transform.position = data.position;
-    }
     bool ScanPlayer()
     {
         float dist = Vector2.Distance(player.transform.position, transform.position);
@@ -77,6 +79,7 @@ public class Enemy : MonoBehaviour, ISavable
         }
         return false;
     }
+    bool dead = false;
     void OnDeath()
     {
         foreach (var i in loot.GenerateLoot())
@@ -84,14 +87,20 @@ public class Enemy : MonoBehaviour, ISavable
             DroppedItem tmp = DroppedItem.Create(transform.position);
             tmp.SetVelocity(Utilities.RandomAngle(0, 360.0f) * 3.0f);
         }
+        onDeath?.Invoke();
         if (instantiated)
         {
             Destroy(gameObject);
         }
+        else
+        {
+            dead = true;
+            anim.SetBool("Dead", true);
+        }
     }
     private void Update()
     {
-        weapon.WieldUpdate();
+        if (TimelineCutsceneManager.inCutscene) return;
         ChangeDetection();
     }
     void ChangeDetection()
@@ -105,7 +114,54 @@ public class Enemy : MonoBehaviour, ISavable
             detection = Mathf.Max(0.0f, detection - detectionLowerRate * Time.deltaTime);
         }
     }
-    readonly int rotXID = Animator.StringToHash("rotX"), rotYID = Animator.StringToHash("rotY");
+    void Rotate(Vector2 rot)
+    {
+        float deg = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
+        rotator.rotation = Quaternion.Euler(0, 0, deg);
+        if (rot.x > 0)
+        {
+            equipAnchor.localScale = new Vector2(1.0f, 1.0f);
+        }
+        else if (rot.x < 0)
+        {
+            equipAnchor.localScale = new Vector2(1.0f, -1.0f);
+        }
+        anim.SetFloat(rotXID, rot.x); anim.SetFloat(rotYID, rot.y);
+    }
+    void Move(Vector2 move, float moveSpeed)
+    {
+        rb.MovePosition(rb.position + move * moveSpeed * Time.deltaTime);
+        if (move != Vector2.zero)
+        {
+            if (!rotate)
+            {
+                anim.SetFloat(rotXID, move.x); anim.SetFloat(rotYID, move.y);
+            }
+        }
+    }
+    public DataUnit Save()
+    {
+        DataUnit data = new();
+        data.floats["posX"] = transform.position.x;
+        data.floats["posY"] = transform.position.y;
+        data.strings["HpComp"] = JsonUtility.ToJson(hp.Save());
+        return data;
+    }
+    public void Load(DataUnit data)
+    {
+        transform.position = new Vector2(data.floats["posX"], data.floats["posY"]);
+        hp.Load(JsonUtility.FromJson<HpCompSaveData>(data.strings["HpComp"]));
+    }
+    public void Save(SaveData data)
+    {
+        if (instantiated) return;
+        data.fieldEnemies[id.value] = Save();
+    }
+    public void Load(SaveData data)
+    {
+        if (instantiated) return;
+        Load(data.fieldEnemies[id.value]);
+    }
     protected class EnemyFSMVals : FSMVals
     {
 
@@ -116,6 +172,11 @@ public class Enemy : MonoBehaviour, ISavable
         {
 
         }
+        public override void OnStateUpdate()
+        {
+            base.OnStateUpdate();
+            origin.weapon.WieldUpdate();
+        }
         class Wandering : Layer<Enemy, EnemyFSMVals>
         {
             public Wandering(Enemy origin, Layer<Enemy, EnemyFSMVals> parent) : base(origin, parent)
@@ -123,6 +184,11 @@ public class Enemy : MonoBehaviour, ISavable
                 defaultState = new Waiting(origin, this);
                 AddState("Waiting", defaultState);
                 AddState("Moving", new Moving(origin, this));
+            }
+            public override void OnStateEnter()
+            {
+                base.OnStateEnter();
+                if (origin.weapon.reloading == false) origin.weapon.Reload();
             }
             public override void OnStateUpdate()
             {
@@ -184,16 +250,54 @@ public class Enemy : MonoBehaviour, ISavable
         {
             public Chasing(Enemy origin, Layer<Enemy, EnemyFSMVals> parent) : base(origin, parent)
             {
+
             }
             public override void OnStateEnter()
             {
                 base.OnStateEnter();
                 origin.rotate = true;
             }
+            float unscannedCounter = 0.0f;
             public override void OnStateUpdate()
             {
                 base.OnStateUpdate();
-
+                if(origin.detection < origin.detectionRequired)
+                {
+                    parentLayer.ChangeState("Wandering");
+                    return;
+                }
+                if (origin.weapon.reloading)
+                {
+                    Move(origin.reloadingMinDist, origin.reloadingMaxDist);
+                }
+                else
+                {
+                    Move(origin.minDist, origin.maxDist);
+                    if (origin.ScanPlayer() && Vector2.Distance(origin.transform.position, origin.player.transform.position) <= origin.weapon.range)
+                    {
+                        unscannedCounter = 0.0f;
+                        origin.weapon.AttemptFire();
+                        if (origin.weapon.mag == 0) origin.weapon.Reload();
+                    }
+                    else
+                    {
+                        unscannedCounter += Time.deltaTime;
+                        if (unscannedCounter > origin.reloadStartingTime) origin.weapon.Reload();
+                    }
+                }
+            }
+            void Move(float minDist, float maxDist)
+            {
+                Vector2 move = (origin.player.transform.position - origin.transform.position).normalized;
+                float dist = Vector2.Distance(origin.transform.position, origin.player.transform.position);
+                if(dist < minDist)
+                {
+                    origin.Move(move * -1, origin.chaseBackstepSpeed);
+                }
+                else if(dist > maxDist)
+                {
+                    origin.Move(move, origin.chaseSpeed);
+                }
             }
             public override void OnStateExit()
             {
@@ -263,6 +367,5 @@ public class Enemy : MonoBehaviour, ISavable
 public class EnemySaveData
 {
     public Enemy prefab;
-    public Vector2 position;
     public DataUnit data = new();
 }

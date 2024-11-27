@@ -58,6 +58,7 @@ public class EnemySpawnPoint : MonoBehaviour, ISavable
         Enemy spawned = spawning.Instantiate();
         spawned.transform.position = pos;
         this.spawned.Add(spawned);
+        spawned.onDeath.AddListener(() => this.spawned.Remove(spawned));
     }
     public void FullySpawn()
     {
@@ -70,7 +71,9 @@ public class EnemySpawnPoint : MonoBehaviour, ISavable
             foreach(var i in tmp.enemies)
             {
                 Enemy spawned = i.prefab.Instantiate();
-                spawned.Load(i);
+                this.spawned.Add(spawned);
+                spawned.onDeath.AddListener(() => this.spawned.Remove(spawned));
+                spawned.Load(i.data);
             }
             counter = tmp.counter;
         }
@@ -81,7 +84,10 @@ public class EnemySpawnPoint : MonoBehaviour, ISavable
         EnemySpawnSaveData tmp = new();
         foreach(var i in spawned)
         {
-            tmp.enemies.Add(i.Save());
+            EnemySaveData tmp2 = new();
+            tmp2.prefab = i.prefabOrigin;
+            tmp2.data = i.Save();
+            tmp.enemies.Add(tmp2);
         }
         tmp.counter = counter;
         data.spawnPoints[id.value] = tmp;

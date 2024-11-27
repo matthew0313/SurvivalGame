@@ -9,17 +9,29 @@ public class Pooler<T> where T : Component
     List<T> pool = new();
     Action<T> onTakeout, onRelease;
     readonly int maxSize, defaultSize;
-    T prefab;
+    Func<T> creator;
     public Pooler(T prefab, int maxSize = 100, int defaultSize = 0, Action<T> onTakeout = null, Action<T> onRelease = null)
     {
-        this.prefab = prefab;
+        creator = () => MonoBehaviour.Instantiate(prefab);
         this.maxSize = maxSize;
         this.defaultSize = defaultSize;
         this.onTakeout = onTakeout;
         this.onRelease = onRelease;
         for (int i = 0; i < defaultSize; i++) 
         {
-            Release(MonoBehaviour.Instantiate(prefab));
+            Release(creator.Invoke());
+        }
+    }
+    public Pooler(Func<T> creator, int maxSize = 100, int defaultSize = 0, Action<T> onTakeout = null, Action<T> onRelease = null)
+    {
+        this.creator = creator;
+        this.maxSize = maxSize;
+        this.defaultSize = defaultSize;
+        this.onTakeout = onTakeout;
+        this.onRelease = onRelease;
+        for (int i = 0; i < defaultSize; i++)
+        {
+            Release(creator.Invoke());
         }
     }
     public T GetObject()
@@ -64,7 +76,7 @@ public class Pooler<T> where T : Component
     T Get()
     {
         pool.RemoveAll((T obj) => obj == null);
-        if(pool.Count == 0) Release(MonoBehaviour.Instantiate(prefab));
+        if(pool.Count == 0) Release(creator.Invoke());
         T result = pool[0];
         pool.RemoveAt(0);
         return result;
