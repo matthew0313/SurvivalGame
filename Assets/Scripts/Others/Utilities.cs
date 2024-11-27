@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,8 +28,30 @@ public static class Utilities
 {
     public static Vector2 RandomAngle(float start, float end)
     {
-        float angle = Random.Range(start, end);
+        float angle = UnityEngine.Random.Range(start, end);
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+    }
+    public static void DebugCircle(Vector2 center, float radius, Color color, float duration)
+    {
+        for(int i = 0; i < 360; i++)
+        {
+            Debug.DrawLine(center + new Vector2(Mathf.Cos(i), Mathf.Sin(i)) * radius, center + new Vector2(Mathf.Cos(i+1), Mathf.Sin(i+1)) * radius, color, duration);
+        }
+    }
+    public static IEnumerator MoveTo(this Transform target, Vector2 position, float speed, Action onArrival = null)
+    {
+        while(true)
+        {
+            Vector2 move = (position - (Vector2)target.position).normalized * Time.deltaTime * speed;
+            if (move.magnitude >= Vector2.Distance(position, target.position))
+            {
+                target.position = position;
+                break;
+            }
+            else target.Translate(move);
+            yield return null;
+        }
+        onArrival?.Invoke();
     }
 }
 [System.Serializable]

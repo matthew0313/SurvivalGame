@@ -8,8 +8,24 @@ public class Bleeding : Debuff
 {
     float damagePerSecond;
     public override DebuffType type => DebuffType.Bleeding;
-    public override Sprite debuffIcon => Resources.Load<Sprite>("Debuffs/Icons/Bleeding");
-    protected override DebuffEffectPrefab effectPrefab => Resources.Load<DebuffEffectPrefab>("Debuffs/Effects/Bleeding");
+    static Sprite bleedingDebuffIcon;
+    public override Sprite debuffIcon
+    {
+        get
+        {
+            if (bleedingDebuffIcon == null) bleedingDebuffIcon = Resources.Load<Sprite>("Debuffs/Icons/Bleeding");
+            return bleedingDebuffIcon;
+        }
+    }
+    static DebuffEffectPrefab bleedingEffectPrefab;
+    protected override DebuffEffectPrefab effectPrefab
+    {
+        get
+        {
+            if(bleedingEffectPrefab == null) bleedingEffectPrefab = Resources.Load<DebuffEffectPrefab>("Debuffs/Effects/Bleeding");
+            return bleedingEffectPrefab;
+        }
+    }
     public Bleeding() : base() { }
     public Bleeding(float duration, float damagePerSecond) : base(duration)
     {

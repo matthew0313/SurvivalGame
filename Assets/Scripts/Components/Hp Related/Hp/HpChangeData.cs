@@ -12,6 +12,7 @@ public struct HpChangeData
     public float amount;
     public DamageEffectColorType effectColorType;
     public Color effectColor;
+    public Vector2 knockback;
 }
 [System.Serializable]
 public enum DamageEffectColorType

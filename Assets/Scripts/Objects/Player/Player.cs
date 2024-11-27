@@ -45,8 +45,6 @@ public class Player : MonoBehaviour, ISavable
 
     public readonly List<Interaction> interactions = new();
     public bool canInteract = true;
-    //anim cache
-    readonly int moveID = Animator.StringToHash("Moving");
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -74,25 +72,20 @@ public class Player : MonoBehaviour, ISavable
     }
     private void FixedUpdate()
     {
-        Move();
+        Move(moveInput.action.ReadValue<Vector2>());
     }
     Vector2 lastMovedDirection = Vector2.right;
-    void Move()
+    readonly int rotXID = Animator.StringToHash("rotX"), rotYID = Animator.StringToHash("rotY");
+    void Move(Vector2 move)
     {
         if (!canMove) return;
-        Vector2 move = moveInput.action.ReadValue<Vector2>();
         rb.MovePosition(rb.position + move * moveSpeed * Time.deltaTime);
-        anim.SetBool(moveID, move != Vector2.zero);
-        if (move != Vector2.zero) lastMovedDirection = move.normalized;
-        if (!rotate)
+        if (move != Vector2.zero)
         {
-            if (move.x < 0)
+            lastMovedDirection = move.normalized;
+            if (!rotate)
             {
-                model.localScale = new Vector2(-1.0f, 1.0f);
-            }
-            else if (move.x > 0)
-            {
-                model.localScale = new Vector2(1.0f, 1.0f);
+                anim.SetFloat(rotXID, move.x); anim.SetFloat(rotYID, move.y);
             }
         }
     }
@@ -101,8 +94,6 @@ public class Player : MonoBehaviour, ISavable
         if (!rotate)
         {
             rotator.rotation = Quaternion.identity;
-            equipAnchor.localScale = Vector2.one;
-            rotator.localScale = Vector2.one;
         }
         else
         {
@@ -116,18 +107,17 @@ public class Player : MonoBehaviour, ISavable
     void Rotate()
     {
         Vector2 rot = InputManager.AimInput(rotator.position);
-        rotator.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg);
+        float deg = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
+        rotator.rotation = Quaternion.Euler(0, 0, deg);
         if (rot.x > 0)
         {
             equipAnchor.localScale = new Vector2(1.0f, 1.0f);
-            model.localScale = new Vector2(1.0f, 1.0f);
         }
         else if (rot.x < 0)
         {
             equipAnchor.localScale = new Vector2(1.0f, -1.0f);
-            model.localScale = new Vector2(-1.0f, 1.0f);
         }
-        rotator.localScale = model.localScale;
+        anim.SetFloat(rotXID, rot.x); anim.SetFloat(rotYID, rot.y);
     }
     public Action onEquippedItemChange;
     public int equippedIndex { get; private set; } = 0;

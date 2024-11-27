@@ -15,6 +15,7 @@ public class Gun : Weapon
     [SerializeField] protected ItemData m_bulletItem;
     [SerializeField] protected int m_magSize;
     [SerializeField] protected float reloadTime;
+    [SerializeField] protected float gunWeight = 0.0f;
     [SerializeField] protected Transform firePoint;
     [SerializeField] protected Animator anim;
     [SerializeField] protected Sound fireSound;
@@ -32,6 +33,7 @@ public class Gun : Weapon
     public override void OnWield()
     {
         base.OnWield();
+        wielder.bonusMoveSpeed -= gunWeight;
         wielder.inventory.onInventoryUpdate += AmmoCountChangeCheck;
         wielder.rotate = true;
     }
@@ -91,6 +93,7 @@ public class Gun : Weapon
     }
     public override void OnUnwield()
     {
+        wielder.bonusMoveSpeed += gunWeight;
         reloading = false;
         wielder.inventory.onInventoryUpdate -= AmmoCountChangeCheck;
         wielder.rotate = false;

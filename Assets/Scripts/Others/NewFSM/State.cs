@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class State<T, ValT> where ValT : FSMVals
 {
     protected readonly T origin;
-    protected readonly Layer<T, ValT> parentLayer;
+    public readonly Layer<T, ValT> parentLayer;
     protected virtual TopLayer<T, ValT> root => parentLayer.root;
     protected virtual ValT values => root.values;
     public State(T origin, Layer<T, ValT> parent)

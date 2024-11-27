@@ -1,20 +1,49 @@
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class EnemyWeapon : MonoBehaviour
 {
-    public string weaponName;  // ¹«±â ÀÌ¸§
-    public int attackPower;  // °ø°Ý·Â
-    public float attackSpeed;  // °ø°Ý ¼Óµµ
+    [SerializeField] HpChangeData damage;
+    [SerializeField] protected float fireRate, bulletSpeed, bulletRange, spread;
+    [SerializeField] protected int magSize;
+    [SerializeField] Bullet bullet;
+    [SerializeField] Transform firePos;
+    /*
+    public string weaponName;  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+    public int attackPower;  // ï¿½ï¿½ï¿½Ý·ï¿½
+    public float attackSpeed;  // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
 
-    // ¹«±â °ø°Ý ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void Attack(Transform target)
     {
-        // ¿©±â¼­´Â ¿¹½Ã·Î °ø°Ý·ÂÀ» Ãâ·ÂÇÕ´Ï´Ù. ½ÇÁ¦·Î´Â ÇÃ·¹ÀÌ¾îÀÇ Ã¼·Â µîÀ» °¨¼Ò½ÃÅ°´Â ·ÎÁ÷ÀÌ ÇÊ¿äÇÕ´Ï´Ù.
-        Debug.Log(weaponName + "·Î °ø°Ý! °ø°Ý·Â: " + attackPower);
-        // ¿¹½Ã: ÇÃ·¹ÀÌ¾îÀÇ Ã¼·Â °¨¼Ò
+        // ï¿½ï¿½ï¿½â¼­ï¿½ï¿½ ï¿½ï¿½ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Õ´Ï´ï¿½.
+        Debug.Log(weaponName + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½Ý·ï¿½: " + attackPower);
+        // ï¿½ï¿½ï¿½ï¿½: ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (target.GetComponent<PlayerHealth>() != null)
         {
             target.GetComponent<PlayerHealth>().TakeDamage(attackPower);
         }
+    }
+    */
+    float counter = 0.0f;
+    int mag;
+    private void Awake()
+    {
+        mag = magSize;
+    }
+    public virtual void AttemptFire()
+    {
+        if(counter >= fireRate)
+        {
+            counter = 0.0f;
+            Fire();
+        }
+    }
+    protected virtual void Fire()
+    {
+        bullet.SpawnBullet(firePos.position, firePos.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-spread, spread))).Set(damage, bulletSpeed, bulletRange);
+    }
+    public virtual void WieldUpdate()
+    {
+        if(counter < fireRate) counter += Time.deltaTime;
     }
 }

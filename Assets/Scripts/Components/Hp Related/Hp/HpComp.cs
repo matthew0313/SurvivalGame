@@ -12,9 +12,16 @@ using UnityEditor;
 public class HpComp : MonoBehaviour
 {
     [Header("HpComp")]
+    [SerializeField] Alliance m_alliance;
     [SerializeField] float baseHp;
     [SerializeField] DebuffType m_immunities;
+
+    [Header("Knockback")]
+    [SerializeField] bool knockbackImmune = false;
+    public Action<Vector2> onKnockbackReceive;
+
     float m_bonusHp = 0;
+    public Alliance alliance => m_alliance;
     public float hp { get; private set; }
     public float bonusHp
     {
@@ -49,6 +56,7 @@ public class HpComp : MonoBehaviour
         if (dead) return;
         foreach (var i in damageModificators) data = i.Invoke(data);
         hp = Mathf.Max(0, hp - data.amount);
+        if (data.knockback.magnitude > 0.0f) onKnockbackReceive?.Invoke(data.knockback);
         onDamage?.Invoke(data);
         onHpChange?.Invoke();
         if (hp <= 0)
@@ -58,11 +66,12 @@ public class HpComp : MonoBehaviour
         }
     }
     public readonly List<Debuff> debuffs = new();
-    readonly List<Debuff> addQueue = new(), removeQueue = new();
+    readonly List<Debuff> removeQueue = new();
     public void AddDebuff(Debuff debuff)
     {
         if ((debuff.type & immunities) > 0) return;
-        addQueue.Add(debuff);
+        debuffs.Add(debuff);
+        debuff.OnDebuffAdd();
     }
     public void RemoveDebuff(Debuff debuff)
     {
@@ -70,15 +79,6 @@ public class HpComp : MonoBehaviour
     }
     private void Update()
     {
-        if(addQueue.Count > 0)
-        {
-            foreach (var i in addQueue)
-            {
-                debuffs.Add(i);
-                i.OnDebuffAdd();
-            }
-            addQueue.Clear();
-        }
         foreach (var i in debuffs) i.OnDebuffUpdate();
         if(removeQueue.Count > 0)
         {
@@ -134,6 +134,13 @@ public class HpCompSaveData
 {
     public float hp;
     public List<DebuffSaveData> debuffs = new();
+}
+[System.Serializable]
+[Flags]
+public enum Alliance
+{
+    Player = 1<<0,
+    Enemy = 1<<1
 }
 #if UNITY_EDITOR
 [CustomEditor(typeof(HpComp))]

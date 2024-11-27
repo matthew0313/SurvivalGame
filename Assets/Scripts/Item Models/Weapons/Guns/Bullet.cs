@@ -30,11 +30,8 @@ public class Bullet : MonoBehaviour
             trail.emitting = true;
         }
     }
-    Debuff debuff;
-    public void SetDebuff(Debuff debuff)
-    {
-        this.debuff = debuff;
-    }
+    public Debuff debuff;
+    public Alliance alliance;
     public Bullet SpawnBullet(Vector3 position, Quaternion rotation)
     {
         if (isInstance) return null;
@@ -82,9 +79,9 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        HpComp tmp = collision.GetComponent<HpComp>();
-        if (tmp != null)
+        if (collision.TryGetComponent(out HpComp tmp))
         {
+            if ((tmp.alliance & alliance) != 0) return;
             tmp.GetDamage(damage);
             if (debuff != null) tmp.AddDebuff(debuff);
             if (--pierce <= 0) Despawn();
