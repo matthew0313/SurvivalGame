@@ -65,10 +65,11 @@ public class Player : MonoBehaviour, ISavable
     {
         currentInteraction = null;
         onInteractionChange?.Invoke();
+        equipAnchor.gameObject.SetActive(false);
     }
     public void OnCutsceneExit()
     {
-
+        equipAnchor.gameObject.SetActive(true);
     }
     private void Start()
     {
@@ -85,6 +86,7 @@ public class Player : MonoBehaviour, ISavable
     }
     private void FixedUpdate()
     {
+        if (TimelineCutsceneManager.inCutscene) return;
         Move(moveInput.action.ReadValue<Vector2>());
     }
     Vector2 lastMovedDirection = Vector2.right;

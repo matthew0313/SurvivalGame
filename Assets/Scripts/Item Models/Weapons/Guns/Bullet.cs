@@ -88,4 +88,8 @@ public class Bullet : MonoBehaviour
         }
         else Despawn();
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Despawn();
+    }
 }

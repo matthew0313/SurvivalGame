@@ -197,17 +197,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   auto: 0
   damage:
-    amount: 50
+    amount: 8
     effectColorType: 0
     effectColor: {r: 0, g: 0, b: 0, a: 0}
+    knockback: {x: 0, y: 0}
   fireRate: 0.2
   bulletSpeed: 20
   bulletRange: 20
   bulletSpread: 2
   bullet: {fileID: 7307530276796948709, guid: 2a48b620c2b82cd4eb5be07ab7e199a6, type: 3}
-  m_bulletItem: {fileID: 11400000, guid: b28654ff83157504baa087b33d2a4cac, type: 2}
+  m_bulletItem: {fileID: 0}
   m_magSize: 12
   reloadTime: 2
+  gunWeight: 0
   firePoint: {fileID: 4673336708907637394}
   anim: {fileID: 1003130724110743666}
   fireSound:

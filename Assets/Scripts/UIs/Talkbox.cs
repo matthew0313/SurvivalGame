@@ -38,13 +38,14 @@ public class Talkbox : MonoBehaviour
         tmp.volume = talkSound.volume;
         tmp.Play();
     }
-    public void Dialogue(string dialogue, float talkSpeed, float pauseTime, Action onDialogueFinish)
+    public void Dialogue(string dialogue, float talkSpeed, float pauseTime, float endTime, Action onDialogueFinish)
     {
+        gameObject.SetActive(true);
         this.onDialogueFinish = onDialogueFinish;
-        dialoguing = Dialoguing(dialogue, talkSpeed, pauseTime);
+        dialoguing = Dialoguing(dialogue, talkSpeed, pauseTime, endTime);
         StartCoroutine(dialoguing);
     }
-    IEnumerator Dialoguing(string dialogue, float talkSpeed, float pauseTime)
+    IEnumerator Dialoguing(string dialogue, float talkSpeed, float pauseTime, float endTime)
     {
         text.text = "";
         for(int i = 0; i < dialogue.Length; i++)
@@ -53,6 +54,8 @@ public class Talkbox : MonoBehaviour
             TalkSound();
             yield return new WaitForSeconds((dialogue[i] == '.' || dialogue[i] == ',' || dialogue[i] == '!' || dialogue[i] == '?') ? pauseTime : talkSpeed);
         }
+        yield return new WaitForSeconds(endTime);
+        gameObject.SetActive(false);
         onDialogueFinish?.Invoke();
         dialoguing = null;
     }

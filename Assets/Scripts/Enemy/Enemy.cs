@@ -46,11 +46,6 @@ public class Enemy : MonoBehaviour, ISavable
 
     public float detection { get; private set; } = 0;
     readonly int rotXID = Animator.StringToHash("rotX"), rotYID = Animator.StringToHash("rotY");
-    void OnValidate()
-    {
-        if (!gameObject.scene.IsValid()) id.value = null;
-        else if (string.IsNullOrEmpty(id.value)) id.SetNew();
-    }
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

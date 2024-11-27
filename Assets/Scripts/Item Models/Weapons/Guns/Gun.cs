@@ -44,7 +44,7 @@ public class Gun : Weapon
         if (reloading)
         {
             reloadCounter += Time.deltaTime;
-            if(reloadCounter > reloadTime)
+            if (reloadCounter > reloadTime)
             {
                 Reload();
                 reloading = false;
@@ -56,7 +56,7 @@ public class Gun : Weapon
             {
                 if (counter >= fireRate)
                 {
-                    if(origin.mag > 0)
+                    if (origin.mag > 0)
                     {
                         counter = 0.0f;
                         origin.mag--;
@@ -64,7 +64,7 @@ public class Gun : Weapon
                     }
                 }
             }
-            else if ((InputManager.ReloadButtonDown() || DeviceManager.IsMobile() && origin.mag <= 0) && origin.mag < magSize && wielder.inventory.Search(bulletItem) > 0)
+            else if ((InputManager.ReloadButtonDown() || DeviceManager.IsMobile() && origin.mag <= 0) && origin.mag < magSize && (bulletItem == null ||  wielder.inventory.Search(bulletItem) > 0))
             {
                 if (anim != null) anim.SetTrigger("Reload");
                 if (reloadSound != null) reloadSound.Play();
@@ -75,9 +75,13 @@ public class Gun : Weapon
     }
     void Reload()
     {
-        int reloadAmount = Mathf.Min(magSize - origin.mag, wielder.inventory.Search(bulletItem));
-        wielder.inventory.TakeOut(bulletItem, reloadAmount);
-        origin.mag += reloadAmount;
+        if (bulletItem != null)
+        {
+            int reloadAmount = Mathf.Min(magSize - origin.mag, wielder.inventory.Search(bulletItem));
+            wielder.inventory.TakeOut(bulletItem, reloadAmount);
+            origin.mag += reloadAmount;
+        }
+        else origin.mag = magSize;
     }
     void Fire()
     {
@@ -101,14 +105,16 @@ public class Gun : Weapon
     }
     void AmmoCountChangeCheck(ItemData item)
     {
+        if (bulletItem == null) return;
         if (item == bulletItem) origin.onDescUpdate?.Invoke();
     }
     public override float DescBarFill()
     {
         return reloading ? 1.0f - reloadCounter / reloadTime : 0.0f;
     }
+    string bulletCountString => bulletItem == null ? "Inf" : wielder.inventory.Search(bulletItem).ToString();
     public override string DescBar()
     {
-        return reloading ? "Reloading..." : $"{origin.mag}/{wielder.inventory.Search(bulletItem)}";
+        return reloading ? "Reloading..." : $"{origin.mag}/{bulletCountString}";
     }
 }

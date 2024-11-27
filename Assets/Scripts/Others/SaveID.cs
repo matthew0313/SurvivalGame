@@ -39,9 +39,9 @@ public class SaveIDEditor : PropertyDrawer
         Rect buttonRect = position;
         buttonRect.x += position.width - buttonWidth;
         buttonRect.width = buttonWidth;
-        if (GUI.Button(buttonRect, "Copy to clipboard"))
+        if (GUI.Button(buttonRect, "Reset"))
         {
-            EditorGUIUtility.systemCopyBuffer = idProperty.stringValue;
+            property.FindPropertyRelative("value").stringValue = Guid.NewGuid().ToString();
         }
 
         EditorGUI.EndProperty();

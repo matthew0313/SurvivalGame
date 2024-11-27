@@ -15,12 +15,6 @@ public class Chest : Interaction, ISavable
     public override bool canInteract => !isOnCooldown;
     public override string interactText => "Open Chest";
     readonly int openID = Animator.StringToHash("Open");
-
-    private void OnValidate()
-    {
-        if (!gameObject.scene.IsValid()) id.value = null;
-        else if (string.IsNullOrEmpty(id.value)) id.SetNew();
-    }
     public override void OnInteract()
     {
         base.OnInteract();
@@ -59,6 +53,10 @@ public class Chest : Interaction, ISavable
     {
         DataUnit tmp = data.mapObjects[id.value];
         cooldownLeft = tmp.floats["cooldownLeft"];
-        if (cooldownLeft > 0) isOnCooldown = true;
+        if (cooldownLeft > 0)
+        {
+            isOnCooldown = true;
+            chestAnim.SetBool(openID, true);
+        }
     }
 }

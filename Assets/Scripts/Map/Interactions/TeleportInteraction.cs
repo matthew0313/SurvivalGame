@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class TeleportInteraction : Interaction
 {
     [SerializeField] string m_interactText = "Enter";
     [SerializeField] Vector2 teleportDestination;
+    public UnityEvent onTeleport = new UnityEvent();
     Player player;
     public override string interactText => m_interactText;
     public override bool removeUponInteract => true;
@@ -18,6 +21,12 @@ public class TeleportInteraction : Interaction
     public override void OnInteract()
     {
         base.OnInteract();
-        player.Teleport(teleportDestination);
+        UIManager.Instance.BlackOut(Teleport);
     }
+    void Teleport()
+    {
+        player.Teleport(teleportDestination);
+        onTeleport?.Invoke();
+    }
+
 }

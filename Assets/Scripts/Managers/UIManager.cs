@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using JetBrains.Annotations;
+using DG.Tweening;
 
 
 #if UNITY_EDITOR
@@ -56,6 +55,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Color talkTalkerBackDefaultColor;
     [SerializeField] Text talkTalker, talkContent;
     [SerializeField] float talkRate, talkPauseTime;
+
+    [Header("Others")]
+    [SerializeField] RectTransform blackBack;
     Cutscene currentCutscene;
 
     Player player;
@@ -110,9 +112,21 @@ public class UIManager : MonoBehaviour
         topLayer = new TopLayer(this);
         topLayer.OnStateEnter();
         grabbingSlotUI.Set(grabbingSlot);
+        TimelineCutsceneManager.onCutsceneEnter += OnCutsceneEnter;
+        TimelineCutsceneManager.onCutsceneExit += OnCutsceneExit;
         cooldownUIpool = new Pooler<ConsumableCooldownUI>(cooldownUIPrefab);
     }
     Item equipDisplaying = null;
+    void OnCutsceneEnter()
+    {
+        defaultUI.gameObject.SetActive(false);
+        cutsceneUI.gameObject.SetActive(true);
+    }
+    void OnCutsceneExit()
+    {
+        defaultUI.gameObject.SetActive(true);
+        cutsceneUI.gameObject.SetActive(false);
+    }
     void EquippedItemChange()
     {
         if (equipDisplaying != null) equipDisplaying.onDescUpdate -= EquippedItemDescUpdate;
@@ -227,9 +241,21 @@ public class UIManager : MonoBehaviour
         dt.position = position;
         EventSystem.current.RaycastAll(dt, scanResults);
     }
+    bool blackingOut = false;
     public void BlackOut(Action onFullBlack)
     {
-
+        if (blackingOut) return;
+        blackingOut = true;
+        blackBack.pivot = new Vector2(1.0f, 0.5f);
+        blackBack.DOScaleX(1.0f, 0.5f).SetEase(Ease.InCirc).OnComplete(() =>
+        {
+            onFullBlack?.Invoke();
+            blackBack.pivot = new Vector2(0.0f, 0.5f);
+            blackBack.DOScaleX(0.0f, 0.5f).SetEase(Ease.InCirc).OnComplete(() =>
+            {
+                blackingOut = false;
+            });
+        });
     }
     int grabTouchIndex = 0;
     InventorySlot grabbingSlot = new InventorySlot();

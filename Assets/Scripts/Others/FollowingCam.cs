@@ -29,6 +29,10 @@ public class FollowingCam : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         target.onTeleport += Teleport;
     }
+    private void Start()
+    {
+        Teleport(target.transform.position);
+    }
     void FixedUpdate()
     {
         if (TimelineCutsceneManager.inCutscene) return;
