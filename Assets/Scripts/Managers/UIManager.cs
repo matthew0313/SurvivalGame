@@ -227,6 +227,10 @@ public class UIManager : MonoBehaviour
         dt.position = position;
         EventSystem.current.RaycastAll(dt, scanResults);
     }
+    public void BlackOut(Action onFullBlack)
+    {
+
+    }
     int grabTouchIndex = 0;
     InventorySlot grabbingSlot = new InventorySlot();
     InventorySlot originSlot;

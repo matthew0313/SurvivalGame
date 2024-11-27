@@ -286,6 +286,12 @@ public class Player : MonoBehaviour, ISavable
         if (!interactions.Contains(interaction)) return;
         interactions.Remove(interaction);
     }
+    public Action<Vector2> onTeleport;
+    public void Teleport(Vector2 position)
+    {
+        transform.position = position;
+        onTeleport?.Invoke(position);
+    }
     public void Save(SaveData data)
     {
         data.player.equipmentData[0] = clothingSlot.Save();

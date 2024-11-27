@@ -19,8 +19,8 @@ TagManager:
   - Interaction
   - Hitables
   - Projectile
-  - 
-  - 
+  - Camera
+  - MapEdge
   - 
   - 
   - 
