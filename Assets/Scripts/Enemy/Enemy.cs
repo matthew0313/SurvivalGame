@@ -84,6 +84,7 @@ public class Enemy : MonoBehaviour, ISavable
         foreach (var i in loot.GenerateLoot())
         {
             DroppedItem tmp = DroppedItem.Create(transform.position);
+            tmp.Set(i.item, i.count);
             tmp.SetVelocity(Utilities.RandomAngle(0, 360.0f) * 3.0f);
         }
         onDeath?.Invoke();
@@ -93,9 +94,14 @@ public class Enemy : MonoBehaviour, ISavable
         }
         else
         {
-            dead = true;
-            anim.SetBool("Dead", true);
+            SetDeadState();
         }
+    }
+    void SetDeadState()
+    {
+        dead = true;
+        anim.SetBool("Dead", true);
+        equipAnchor.gameObject.SetActive(false);
     }
     private void Update()
     {

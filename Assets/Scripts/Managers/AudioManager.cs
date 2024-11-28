@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
             source = new GameObject().AddComponent<AudioSource>();
             sources.Add(source);
         }
-        source.volume = sound.volume;
+        source.volume = sound.volume * Settings.masterVolume;
         source.clip = sound.clip;
         source.transform.position = position;
         source.Play();

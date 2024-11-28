@@ -1,32 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class TabOpener : MonoBehaviour
 {
-    [Header("TabOpener")]
     [SerializeField] GameObject defaultTab;
-    [SerializeField] GameObject m_openTab;
-    public GameObject openTab
+    GameObject openTab;
+    private void OnEnable()
     {
-        get { return m_openTab; }
-        set
-        {
-            if(m_openTab != defaultTab)
-            {
-                m_openTab.SetActive(false);
-            }
-            if(value == null || m_openTab == value)
-            {
-                m_openTab = defaultTab;
-            }
-            else
-            {
-                m_openTab = value;
-                m_openTab.SetActive(true);
-            }
-        }
+        if(openTab != null) openTab.SetActive(false);
+        openTab = defaultTab;
+        openTab.SetActive(true);
     }
-    public bool isTabOpen => m_openTab != null;
+    public void OpenTab(GameObject tab)
+    {
+        if (openTab == tab) return;
+        openTab.SetActive(false);
+        openTab = tab;
+        openTab.SetActive(true);
+    }
 }

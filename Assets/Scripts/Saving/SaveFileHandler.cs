@@ -6,7 +6,7 @@ using System.Linq;
 
 public abstract class SaveFileHandler
 {
-    public abstract void Save(SaveData data, string fileName);
-    public abstract SaveData Load(string fileName);
+    public abstract void Save<T>(T data, string fileName) where T : class;
+    public abstract T Load<T>(string fileName) where T : class;
     public abstract void Delete(string fileName);
 }

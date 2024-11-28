@@ -56,6 +56,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text talkTalker, talkContent;
     [SerializeField] float talkRate, talkPauseTime;
 
+    [Header("Pause")]
+    [SerializeField] RectTransform pauseMenu;
+    [SerializeField] Image pauseImage;
+    [SerializeField] Sprite pausedSprite, notPausedSprite;
+
     [Header("Others")]
     [SerializeField] RectTransform blackBack;
     Cutscene currentCutscene;
@@ -114,6 +119,7 @@ public class UIManager : MonoBehaviour
         grabbingSlotUI.Set(grabbingSlot);
         TimelineCutsceneManager.onCutsceneEnter += OnCutsceneEnter;
         TimelineCutsceneManager.onCutsceneExit += OnCutsceneExit;
+        GameManager.Instance.onPauseToggle += OnPauseToggle;
         cooldownUIpool = new Pooler<ConsumableCooldownUI>(cooldownUIPrefab);
     }
     Item equipDisplaying = null;
@@ -197,10 +203,7 @@ public class UIManager : MonoBehaviour
         {
             equippedItemDescBar.localScale = new Vector2(equipDisplaying.DescBarFill(), 1.0f);
         }
-        if(!DeviceManager.IsMobile())
-        {
-            if (Input.GetKeyDown(KeyCode.E)) InventoryTab();
-        }
+
         foreach(var i in displayingCooldowns)
         {
             if (!player.consumableCooldowns.ContainsKey(i))
@@ -228,6 +231,29 @@ public class UIManager : MonoBehaviour
             cooldownUIs[i.Key].text.text = Math.Round(i.Value, 1).ToString() + "s";
         }
         topLayer.OnStateUpdate();
+    }
+    public void OnPauseToggle()
+    {
+        if (GameManager.Instance.paused)
+        {
+            pauseImage.sprite = pausedSprite;
+            GameManager.Instance.canTogglePause = false;
+            pauseMenu.gameObject.SetActive(true);
+            pauseMenu.DOAnchorPosY(0.0f, 0.5f).SetEase(Ease.OutBounce).SetUpdate(true).OnComplete(() =>
+            {
+                GameManager.Instance.canTogglePause = true;
+            });
+        }
+        else
+        {
+            pauseImage.sprite = notPausedSprite;
+            GameManager.Instance.canTogglePause = false;
+            pauseMenu.DOAnchorPosY(1100.0f, 0.5f).SetEase(Ease.InCirc).SetUpdate(true).OnComplete(() =>
+            {
+                GameManager.Instance.canTogglePause = true;
+                pauseMenu.gameObject.SetActive(false);
+            });
+        }
     }
     public void InventoryTab()
     {

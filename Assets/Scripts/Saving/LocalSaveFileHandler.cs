@@ -14,7 +14,7 @@ public class LocalSaveFileHandler : SaveFileHandler
         this.savePath = savePath;
         this.fileExtension = fileExtension; 
     }
-    public override void Save(SaveData data, string fileName)
+    public override void Save<T>(T data, string fileName) where T : class
     {
         string path = Path.Combine(savePath, fileName + fileExtension);
         try
@@ -34,10 +34,10 @@ public class LocalSaveFileHandler : SaveFileHandler
             Debug.LogError("Save Path:" + path + "\n" + e);
         }
     }
-    public override SaveData Load(string fileName)
+    public override T Load<T>(string fileName) where T : class
     {
         string path = Path.Combine(savePath, fileName + fileExtension);
-        SaveData loadedData = null;
+        T loadedData = null;
         if (File.Exists(path))
         {
             try
@@ -50,7 +50,7 @@ public class LocalSaveFileHandler : SaveFileHandler
                         dataToLoad = reader.ReadToEnd();
                     }
                 }
-                loadedData = JsonUtility.FromJson<SaveData>(dataToLoad);
+                loadedData = JsonUtility.FromJson<T>(dataToLoad);
             }
             catch (Exception e)
             {
