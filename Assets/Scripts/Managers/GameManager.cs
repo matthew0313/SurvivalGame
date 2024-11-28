@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour, ISavable
     public static bool isInGame => Instance != null;
     public void ReturnToTitle()
     {
-        GlobalManager.Instance.SaveGame("AutoSave");
+        GlobalManager.Instance.Save("AutoSave");
         Time.timeScale = 1.0f;
         GlobalManager.Instance.LoadScene("Title");
     }
-    public bool canTogglePause = true;
+    [NonSerialized] public bool canTogglePause = true;
     public bool paused { get; private set; } = false;
     public float timePlayed { get; private set; } = 0;
     public Action onPauseToggle;
@@ -23,13 +23,19 @@ public class GameManager : MonoBehaviour, ISavable
         if (!canTogglePause) return;
         if (paused)
         {
+            paused = false;
             Time.timeScale = 1.0f;
         }
         else
         {
+            paused = true;
             Time.timeScale = 0.0f;
         }
         onPauseToggle?.Invoke();
+    }
+    void Start()
+    {
+        GlobalManager.Instance.LoadIngame();
     }
     private void Update()
     {

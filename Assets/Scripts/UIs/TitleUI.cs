@@ -12,6 +12,7 @@ public class TitleUI : MonoBehaviour
     [SerializeField] Text introText;
     [SerializeField] RectTransform newButton, loadButton, settingsButton;
     [SerializeField] AudioSource titleMusic;
+    [SerializeField] SaveFilesTab saveFiles;
     static bool introWatched = false;
     private void Awake()
     {
@@ -34,8 +35,10 @@ public class TitleUI : MonoBehaviour
         {
             introBack.gameObject.SetActive(false);
             introText.gameObject.SetActive(false);
+            titleMusic.Play();
             AfterIntro();
         }
+        saveFiles.InstantiateButtons();
         Settings.onMasterVolumeChange += OnMasterVolumeChange;
     }
     void AfterIntro()
@@ -51,5 +54,9 @@ public class TitleUI : MonoBehaviour
     private void OnDestroy()
     {
         Settings.onMasterVolumeChange -= OnMasterVolumeChange;
+    }
+    public void NewGame()
+    {
+        GlobalManager.Instance.NewGame();
     }
 }

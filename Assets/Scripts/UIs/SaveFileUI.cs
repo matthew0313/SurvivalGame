@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class SaveFileUI : MonoBehaviour
         this.fileName = fileName;
         fileNameText.text = fileName;
         SaveData data = GlobalManager.Instance.GetSaveData(fileName);
+        if (!GameManager.isInGame) saveButton.gameObject.SetActive(false);
         if (data == null)
         {
             fileDescText.text = "저장 데이터 없음";
@@ -21,12 +23,16 @@ public class SaveFileUI : MonoBehaviour
         }
         else
         {
-            fileDescText.text = $"플레이 타임: {Mathf.RoundToInt(data.timePlayed) / 3600}:{Mathf.RoundToInt(data.timePlayed) % 3600 / 60}:{Mathf.RoundToInt(data.timePlayed) % 60}\n마지막 저장: {LastSaveDesc(data.lastSaved)}";
+            fileDescText.text = $"플레이 타임: {Utilities.TimeCode(Mathf.RoundToInt(data.timePlayed))}\n마지막 저장: {LastSaveDesc(data.lastSaved)}";
         }
     }
-    void Save()
+    public void Load()
     {
-        if (GameManager.isInGame) GlobalManager.Instance.SaveGame(fileName);
+        GlobalManager.Instance.LoadGame(fileName);
+    }
+    public void Save()
+    {
+        GlobalManager.Instance.Save(fileName);
     }
     string LastSaveDesc(long lastSaveTick)
     {

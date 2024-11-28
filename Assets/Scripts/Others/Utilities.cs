@@ -53,6 +53,13 @@ public static class Utilities
         }
         onArrival?.Invoke();
     }
+    public static string TimeCode(int seconds)
+    {
+        int hours = seconds / 3600;
+        int minutes = seconds % 3600 / 60;
+        seconds = seconds % 60;
+        return $"{(hours < 10 ? '0' : null)}{hours}:{(minutes < 10 ? '0' : null)}{minutes}:{(seconds < 10 ? '0' : null)}{seconds}";
+    }
 }
 [System.Serializable]
 public struct Sound

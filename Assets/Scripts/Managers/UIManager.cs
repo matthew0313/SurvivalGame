@@ -61,6 +61,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image pauseImage;
     [SerializeField] Sprite pausedSprite, notPausedSprite;
 
+    [Header("Settings")]
+    [SerializeField] Slider volumeSlider;
+    [SerializeField] Slider brightnessSlider;
+
     [Header("Others")]
     [SerializeField] RectTransform blackBack;
     Cutscene currentCutscene;
@@ -121,6 +125,10 @@ public class UIManager : MonoBehaviour
         TimelineCutsceneManager.onCutsceneExit += OnCutsceneExit;
         GameManager.Instance.onPauseToggle += OnPauseToggle;
         cooldownUIpool = new Pooler<ConsumableCooldownUI>(cooldownUIPrefab);
+        volumeSlider.value = Settings.masterVolume;
+        volumeSlider.onValueChanged.AddListener((float value) => { Settings.masterVolume = value; });
+        brightnessSlider.value = Settings.brightness;
+        brightnessSlider.onValueChanged.AddListener((float value) => { Settings.brightness = value; });
     }
     Item equipDisplaying = null;
     void OnCutsceneEnter()
