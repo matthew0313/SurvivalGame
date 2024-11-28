@@ -33,7 +33,11 @@ public class Enemy : MonoBehaviour, ISavable
 
     [Header("Field Enemy")]
     [SerializeField] SaveID id;
-    public UnityEvent onDeath;
+
+    [Header("Debug")]
+    [SerializeField] float m_detection = 0;
+    [SerializeField] string FSMPath;
+    public Action onDeath;
 
     public Enemy prefabOrigin { get; private set; }
     bool instantiated = false;
@@ -43,8 +47,8 @@ public class Enemy : MonoBehaviour, ISavable
     HpComp hp;
 
     bool rotate = false;
-
-    public float detection { get; private set; } = 0;
+    TopLayer topLayer;
+    public float detection { get => m_detection; private set => m_detection = value; }
     readonly int rotXID = Animator.StringToHash("rotX"), rotYID = Animator.StringToHash("rotY");
     private void Awake()
     {
@@ -53,6 +57,9 @@ public class Enemy : MonoBehaviour, ISavable
         hp = GetComponent<HpComp>();
         hp.onDeath += OnDeath;
         if (!instantiated) originPos = transform.position;
+        topLayer = new TopLayer(this, new EnemyFSMVals());
+        topLayer.onFSMChange += () => FSMPath = topLayer.GetFSMPath();
+        topLayer.OnStateEnter();
     }
     public Enemy Instantiate()
     {
@@ -63,17 +70,14 @@ public class Enemy : MonoBehaviour, ISavable
     }
     bool ScanPlayer()
     {
-        float dist = Vector2.Distance(player.transform.position, transform.position);
-        if (dist <= detectRange)
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.transform.position - transform.position).normalized, Vector2.Distance(transform.position, player.transform.position), LayerMask.GetMask("Map"));
+        if (!hit)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.transform.position - transform.position), Mathf.Infinity, LayerMask.GetMask("Map"));
-            if (!hit)
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }
+    float PlayerDist() => Vector2.Distance(transform.position, player.transform.position);
     bool dead = false;
     void OnDeath()
     {
@@ -95,12 +99,18 @@ public class Enemy : MonoBehaviour, ISavable
     }
     private void Update()
     {
-        if (TimelineCutsceneManager.inCutscene) return;
+        if (TimelineCutsceneManager.inCutscene || dead) return;
         ChangeDetection();
+        topLayer.OnStateUpdate();
+    }
+    void FixedUpdate()
+    {
+        if (dead) return;
+        topLayer.OnStateFixedUpdate();
     }
     void ChangeDetection()
     {
-        if (ScanPlayer())
+        if (ScanPlayer() && PlayerDist() <= detectRange)
         {
             detection = Mathf.Min(maxDetection, detection + Mathf.Lerp(detectionRateMin, detectionRateMax, 1.0f - Vector2.Distance(transform.position, player.transform.position) / detectRange) * Time.deltaTime);
         }
@@ -123,14 +133,15 @@ public class Enemy : MonoBehaviour, ISavable
         }
         anim.SetFloat(rotXID, rot.x); anim.SetFloat(rotYID, rot.y);
     }
-    void Move(Vector2 move, float moveSpeed)
+    void Move(Vector2 move)
     {
-        rb.MovePosition(rb.position + move * moveSpeed * Time.deltaTime);
-        if (move != Vector2.zero)
+        rb.MovePosition(rb.position + move);
+        Vector2 dir = move.normalized;
+        if (dir != Vector2.zero)
         {
             if (!rotate)
             {
-                anim.SetFloat(rotXID, move.x); anim.SetFloat(rotYID, move.y);
+                anim.SetFloat(rotXID, dir.x); anim.SetFloat(rotYID, dir.y);
             }
         }
     }
@@ -165,7 +176,9 @@ public class Enemy : MonoBehaviour, ISavable
     {
         public TopLayer(Enemy origin, EnemyFSMVals values) : base(origin, values)
         {
-
+            defaultState = new Wandering(origin, this);
+            AddState("Wandering", defaultState);
+            AddState("Chasing", new Chasing(origin, this));
         }
         public override void OnStateUpdate()
         {
@@ -233,7 +246,15 @@ public class Enemy : MonoBehaviour, ISavable
                 {
                     base.OnStateFixedUpdate();
                     Vector2 rot = (targetPos - (Vector2)origin.transform.position).normalized;
-                    origin.anim.SetFloat(origin.rotXID, rot.x); origin.anim.SetFloat(origin.rotYID, rot.y);
+                    if(Physics2D.Raycast(origin.transform.position, rot, 1.0f, LayerMask.GetMask("Map", "MapEdge")) || Vector2.Distance(origin.transform.position, targetPos) < 0.1f)
+                    {
+                        parentLayer.ChangeState("Waiting");
+                        return;
+                    }
+                    else
+                    {
+                        origin.Move(Vector2.ClampMagnitude(rot * origin.wanderSpeed * Time.fixedDeltaTime, Vector2.Distance(origin.transform.position, targetPos)));
+                    }
                 }
                 public override void OnStateExit()
                 {
@@ -251,24 +272,25 @@ public class Enemy : MonoBehaviour, ISavable
             {
                 base.OnStateEnter();
                 origin.rotate = true;
+                origin.equipAnchor.gameObject.SetActive(true);
             }
             float unscannedCounter = 0.0f;
             public override void OnStateUpdate()
             {
                 base.OnStateUpdate();
-                if(origin.detection < origin.detectionRequired)
+                origin.Rotate((origin.player.transform.position - origin.transform.position).normalized);
+                if (origin.detection < origin.detectionRequired)
                 {
                     parentLayer.ChangeState("Wandering");
                     return;
                 }
                 if (origin.weapon.reloading)
                 {
-                    Move(origin.reloadingMinDist, origin.reloadingMaxDist);
+
                 }
                 else
                 {
-                    Move(origin.minDist, origin.maxDist);
-                    if (origin.ScanPlayer() && Vector2.Distance(origin.transform.position, origin.player.transform.position) <= origin.weapon.range)
+                    if (origin.ScanPlayer() && origin.PlayerDist() <= origin.weapon.range)
                     {
                         unscannedCounter = 0.0f;
                         origin.weapon.AttemptFire();
@@ -281,23 +303,36 @@ public class Enemy : MonoBehaviour, ISavable
                     }
                 }
             }
+            public override void OnStateFixedUpdate()
+            {
+                base.OnStateFixedUpdate();
+                if (origin.weapon.reloading)
+                {
+                    Move(origin.reloadingMinDist, origin.reloadingMaxDist);
+                }
+                else
+                {
+                    Move(origin.minDist, origin.maxDist);
+                }
+            }
             void Move(float minDist, float maxDist)
             {
                 Vector2 move = (origin.player.transform.position - origin.transform.position).normalized;
                 float dist = Vector2.Distance(origin.transform.position, origin.player.transform.position);
                 if(dist < minDist)
                 {
-                    origin.Move(move * -1, origin.chaseBackstepSpeed);
+                    origin.Move(move * -1 * origin.chaseBackstepSpeed * Time.fixedDeltaTime);
                 }
                 else if(dist > maxDist)
                 {
-                    origin.Move(move, origin.chaseSpeed);
+                    origin.Move(move * origin.chaseSpeed * Time.fixedDeltaTime);
                 }
             }
             public override void OnStateExit()
             {
                 base.OnStateExit();
                 origin.rotate = false;
+                origin.equipAnchor.gameObject.SetActive(false);
             }
         }
     }
