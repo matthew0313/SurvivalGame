@@ -11,7 +11,7 @@ using DG.Tweening;
 using UnityEditor;
 #endif
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
 {
     public static UIManager Instance { get; private set; }
     public UIManager()
@@ -60,6 +60,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] RectTransform pauseMenu;
     [SerializeField] Image pauseImage;
     [SerializeField] Sprite pausedSprite, notPausedSprite;
+    [SerializeField] SaveFilesTab saveFiles;
 
     [Header("Settings")]
     [SerializeField] Slider volumeSlider;
@@ -121,22 +122,42 @@ public class UIManager : MonoBehaviour
         topLayer = new TopLayer(this);
         topLayer.OnStateEnter();
         grabbingSlotUI.Set(grabbingSlot);
-        TimelineCutsceneManager.onCutsceneEnter += OnCutsceneEnter;
-        TimelineCutsceneManager.onCutsceneExit += OnCutsceneExit;
-        GameManager.Instance.onPauseToggle += OnPauseToggle;
         cooldownUIpool = new Pooler<ConsumableCooldownUI>(cooldownUIPrefab);
-        volumeSlider.value = Settings.masterVolume;
+        Settings.onMasterVolumeChange += OnVolumeChange;
+        Settings.onBrightnessChange += OnBrightnessChange;
+        OnVolumeChange(); OnBrightnessChange();
         volumeSlider.onValueChanged.AddListener((float value) => { Settings.masterVolume = value; });
-        brightnessSlider.value = Settings.brightness;
         brightnessSlider.onValueChanged.AddListener((float value) => { Settings.brightness = value; });
+        saveFiles.InstantiateButtons();
+    }
+    private void Start()
+    {
+        Debug.Log(GameManager.Instance);
+        GameManager.Instance.onPauseToggle += OnPauseToggle;
+    }
+    private void OnDestroy()
+    {
+        Settings.onMasterVolumeChange -= OnVolumeChange;
+        Settings.onBrightnessChange -= OnBrightnessChange;
     }
     Item equipDisplaying = null;
-    void OnCutsceneEnter()
+    void OnVolumeChange()
     {
+        volumeSlider.value = Settings.masterVolume;
+    }
+    void OnBrightnessChange()
+    {
+        brightnessSlider.value = Settings.brightness;
+    }
+    public void OnCutsceneEnter()
+    {
+        Debug.Log(gameObject);
+        Debug.Log(defaultUI);
+        Debug.Log(cutsceneUI);
         defaultUI.gameObject.SetActive(false);
         cutsceneUI.gameObject.SetActive(true);
     }
-    void OnCutsceneExit()
+    public void OnCutsceneExit()
     {
         defaultUI.gameObject.SetActive(true);
         cutsceneUI.gameObject.SetActive(false);

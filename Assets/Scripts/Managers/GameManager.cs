@@ -6,7 +6,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour, ISavable
 {
     public static GameManager Instance { get; private set; }
-    public GameManager() => Instance = this;
+    public GameManager()
+    {
+        Instance = this;
+    }
     public static bool isInGame => Instance != null;
     public void ReturnToTitle()
     {
@@ -18,9 +21,15 @@ public class GameManager : MonoBehaviour, ISavable
     public bool paused { get; private set; } = false;
     public float timePlayed { get; private set; } = 0;
     public Action onPauseToggle;
+    Player player;
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Time.timeScale = 1.0f;
+    }
     public void Pause()
     {
-        if (!canTogglePause) return;
+        if (!canTogglePause || player.dead) return;
         if (paused)
         {
             paused = false;
@@ -33,10 +42,6 @@ public class GameManager : MonoBehaviour, ISavable
         }
         onPauseToggle?.Invoke();
     }
-    void Start()
-    {
-        GlobalManager.Instance.LoadIngame();
-    }
     private void Update()
     {
         timePlayed += Time.deltaTime;
@@ -46,11 +51,7 @@ public class GameManager : MonoBehaviour, ISavable
             if (Input.GetKeyDown(KeyCode.Escape)) Pause();
         }
     }
-    private void OnDestroy()
-    {
-        Instance = null;
-    }
-
+    public bool CanSave() => player.dead == false;
     public void Save(SaveData data)
     {
         data.lastSaved = DateTime.Now.Ticks;
@@ -60,5 +61,11 @@ public class GameManager : MonoBehaviour, ISavable
     public void Load(SaveData data)
     {
         timePlayed = data.timePlayed;
+    }
+    public void SaveSettings() => GlobalManager.Instance.SaveSettings();
+    public void LoadSettings() => GlobalManager.Instance.LoadSettings();
+    public void GameOver()
+    {
+        GlobalManager.Instance.LoadScene("GameOver");
     }
 }

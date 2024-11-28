@@ -30,6 +30,7 @@ public class GlobalManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         handler = new LocalSaveFileHandler(Path.Combine(".", saveFileName), fileExtension);
         Settings.onBrightnessChange += () => brightnessImage.color = new Color(0, 0, 0, (1.0f - Settings.brightness) / 2.0f);
+        SceneManager.sceneLoaded += OnSceneLoad;
     }
     private void Start()
     {
@@ -62,9 +63,9 @@ public class GlobalManager : MonoBehaviour
             foreach (var i in GetSavables()) i.Load(data);
         }
     }
-    public void LoadIngame()
+    void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
-        if (newGame) return;
+        if (GameManager.isInGame == false || newGame) return;
         Load(loadingFile);
     }
     public void LoadGame(string fileName)
@@ -88,19 +89,19 @@ public class GlobalManager : MonoBehaviour
         if (loadingScene) return;
         loadingScene = true;
         sceneLoadBlack.pivot = new Vector2(1.0f, 0.5f);
-        sceneLoadBlack.DOScaleX(1.0f, 0.5f).SetEase(Ease.InCirc).OnComplete(() =>
+        sceneLoadBlack.DOScaleX(1.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc).OnComplete(() =>
         {
             sceneLoadingText.gameObject.SetActive(true);
             SceneManager.LoadScene(sceneName);
             sceneLoadingText.gameObject.SetActive(false);
             sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
-            sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetEase(Ease.InCirc);
+            sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc);
             loadingScene = false;
         });
     }
     private void OnApplicationQuit()
     {
-        if(GameManager.isInGame) Save("AutoSave");
+        if(GameManager.isInGame && GameManager.Instance.CanSave()) Save("AutoSave");
     }
     IEnumerable<ISavable> GetSavables() => FindObjectsOfType<MonoBehaviour>().OfType<ISavable>();
 }

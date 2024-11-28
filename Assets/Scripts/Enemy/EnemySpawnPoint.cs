@@ -59,6 +59,7 @@ public class EnemySpawnPoint : MonoBehaviour, ISavable
         spawned.transform.position = pos;
         this.spawned.Add(spawned);
         spawned.onDeath += () => this.spawned.Remove(spawned);
+        spawned.SetOrigin(this);
     }
     public void FullySpawn()
     {
@@ -74,6 +75,7 @@ public class EnemySpawnPoint : MonoBehaviour, ISavable
                 this.spawned.Add(spawned);
                 spawned.onDeath += () => this.spawned.Remove(spawned);
                 spawned.Load(i.data);
+                spawned.SetOrigin(this);
             }
             counter = tmp.counter;
         }

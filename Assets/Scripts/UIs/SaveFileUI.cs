@@ -24,6 +24,7 @@ public class SaveFileUI : MonoBehaviour
         else
         {
             fileDescText.text = $"플레이 타임: {Utilities.TimeCode(Mathf.RoundToInt(data.timePlayed))}\n마지막 저장: {LastSaveDesc(data.lastSaved)}";
+            loadButton.gameObject.SetActive(true);
         }
     }
     public void Load()
@@ -33,6 +34,7 @@ public class SaveFileUI : MonoBehaviour
     public void Save()
     {
         GlobalManager.Instance.Save(fileName);
+        Set(fileName);
     }
     string LastSaveDesc(long lastSaveTick)
     {

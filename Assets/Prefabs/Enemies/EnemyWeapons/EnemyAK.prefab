@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 6357443889433922404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -126,6 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7858657812495472014}
   - component: {fileID: 5256099560536271288}
+  - component: {fileID: 6598667697158661239}
   m_Layer: 0
   m_Name: EnemyAK
   m_TagString: Untagged
@@ -162,19 +163,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f87edf26327f6a46b71637eeee7078e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 6598667697158661239}
   damage:
     amount: 5
     effectColorType: 0
     effectColor: {r: 0, g: 0, b: 0, a: 0}
     knockback: {x: 0, y: 0}
   fireRate: 0.1
-  bulletSpeed: 6
+  bulletSpeed: 10
   m_range: 12
   spread: 3
   magSize: 30
   reloadTime: 4
-  bullet: {fileID: 7307530276796948709, guid: 2a48b620c2b82cd4eb5be07ab7e199a6, type: 3}
+  bullet: {fileID: 7307530276796948709, guid: 1543d295c9daf1545821869ae29c0c0c, type: 3}
   firePos: {fileID: 4456714773257619756}
+  fireSound:
+    clip: {fileID: 8300000, guid: 5b12dbf61007e4b42a1362090b69d83e, type: 3}
+    volume: 1
+  reloadSound:
+    clip: {fileID: 8300000, guid: c68c586847c87544484ac05dd84ee699, type: 3}
+    volume: 1
+--- !u!95 &6598667697158661239
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467601851541914534}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 668482180dcdcb84b9cdf4e59a96a1d8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8210533651675234508
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,8 +228,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8210533651675234508}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

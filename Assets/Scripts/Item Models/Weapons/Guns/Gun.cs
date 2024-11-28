@@ -19,7 +19,7 @@ public class Gun : Weapon
     [SerializeField] protected Transform firePoint;
     [SerializeField] protected Animator anim;
     [SerializeField] protected Sound fireSound;
-    [SerializeField] protected AudioSource reloadSound;
+    [SerializeField] protected Sound reloadSound;
     public ItemData bulletItem => m_bulletItem;
     public int magSize => m_magSize;
     bool m_reloading = false;
@@ -67,7 +67,7 @@ public class Gun : Weapon
             else if ((InputManager.ReloadButtonDown() || DeviceManager.IsMobile() && origin.mag <= 0) && origin.mag < magSize && (bulletItem == null ||  wielder.inventory.Search(bulletItem) > 0))
             {
                 if (anim != null) anim.SetTrigger("Reload");
-                if (reloadSound != null) reloadSound.Play();
+                if (reloadSound.clip != null) AudioManager.Instance.PlaySound(reloadSound, transform);
                 reloading = true;
                 reloadCounter = 0.0f;
             }

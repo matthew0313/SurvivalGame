@@ -4,32 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using System.Linq;
 
 public class TimelineCutsceneManager : MonoBehaviour
 {
-    static TimelineCutsceneManager Instance;
+    public static TimelineCutsceneManager Instance { get; private set; }
     public TimelineCutsceneManager()
     {
-        if (Instance != null) Destroy(this);
-        else Instance = this;
+        Instance = this;
     }
 
     [SerializeField] PlayableDirector director;
     bool m_inCutscene = false;
     public static bool inCutscene => (Instance == null) ? false : Instance.m_inCutscene;
-    public static Action onCutsceneEnter, onCutsceneExit;
 
     private void Awake()
     {
         director.played += (tmp) =>
         {
             m_inCutscene = true;
-            onCutsceneEnter?.Invoke();
+            foreach (var i in FindObjectsOfType<MonoBehaviour>().OfType<ICutsceneTriggerReceiver>()) i.OnCutsceneEnter();
         };
         director.stopped += (tmp) =>
         {
             m_inCutscene = false;
-            onCutsceneExit?.Invoke();
+            foreach (var i in FindObjectsOfType<MonoBehaviour>().OfType<ICutsceneTriggerReceiver>()) i.OnCutsceneExit();
         };
     }
     public static void PlayCutscene(TimelineAsset cutscene)
@@ -38,4 +37,9 @@ public class TimelineCutsceneManager : MonoBehaviour
         Instance.director.playableAsset = cutscene;
         Instance.director.Play();
     }
+}
+public interface ICutsceneTriggerReceiver
+{
+    public void OnCutsceneEnter();
+    public void OnCutsceneExit();
 }

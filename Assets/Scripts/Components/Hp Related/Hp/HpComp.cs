@@ -45,7 +45,7 @@ public class HpComp : MonoBehaviour
     {
         hp = maxHp;
     }
-    bool dead = false;
+    public bool dead { get; private set; } = false;
     
     public void GetDamage(float damage)
     {
@@ -127,6 +127,7 @@ public class HpComp : MonoBehaviour
             }
         }
         onHpChange?.Invoke();
+        if (hp == 0) dead = true;
     }
 }
 [System.Serializable]

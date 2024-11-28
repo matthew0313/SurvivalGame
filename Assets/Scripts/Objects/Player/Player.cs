@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Inventory), typeof(HpComp))]
-public class Player : MonoBehaviour, ISavable
+public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
 {
     [SerializeField] Transform model;
 
@@ -58,8 +58,16 @@ public class Player : MonoBehaviour, ISavable
         accessorySlot1.onItemChange += Accessory1Change;
         accessorySlot2.onItemChange += Accessory2Change;
         backpackSlot.onItemChange += BackpackChange;
-        TimelineCutsceneManager.onCutsceneEnter += OnCutsceneEnter;
-        TimelineCutsceneManager.onCutsceneExit += OnCutsceneExit;
+        hp.onDeath += OnDeath;
+    }
+    public bool dead { get; private set; } = false;
+    public Action onDeath;
+    void OnDeath()
+    {
+        dead = true;
+        anim.SetBool("Dead", true);
+        onDeath?.Invoke();
+        AudioManager.Instance.FadeoutMusic(() => { GameManager.Instance.GameOver(); });
     }
     public void OnCutsceneEnter()
     {
@@ -78,7 +86,7 @@ public class Player : MonoBehaviour, ISavable
     }
     private void Update()
     {
-        if (TimelineCutsceneManager.inCutscene) return;
+        if (TimelineCutsceneManager.inCutscene || dead) return;
         RotateCheck();
         EquipUpdate();
         CooldownUpdate();
@@ -86,7 +94,7 @@ public class Player : MonoBehaviour, ISavable
     }
     private void FixedUpdate()
     {
-        if (TimelineCutsceneManager.inCutscene) return;
+        if (TimelineCutsceneManager.inCutscene || dead) return;
         Move(moveInput.action.ReadValue<Vector2>());
     }
     Vector2 lastMovedDirection = Vector2.right;

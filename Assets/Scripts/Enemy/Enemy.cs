@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour, ISavable
     [SerializeField] float detectionRequired = 1.0f;
     [SerializeField] float minDist = 2.0f, maxDist = 5.0f, reloadingMinDist = 5.0f, reloadingMaxDist = 10.0f;
     [SerializeField] float reloadStartingTime = 2.0f;
+    [SerializeField] float maxWanderMovingTime = 3.0f;
 
     [Header("Speed")]
     [SerializeField] float wanderSpeed;
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour, ISavable
 
     [Header("Equipment")]
     [SerializeField] Transform rotator, equipAnchor;
-    [SerializeField] EnemyWeapon weapon;
+    [SerializeField] EnemyGun weapon;
 
     [Header("Components")]
     [SerializeField] Animator anim;
@@ -57,10 +58,12 @@ public class Enemy : MonoBehaviour, ISavable
         hp = GetComponent<HpComp>();
         hp.onDeath += OnDeath;
         if (!instantiated) originPos = transform.position;
+        weapon.ResetMag();
         topLayer = new TopLayer(this, new EnemyFSMVals());
         topLayer.onFSMChange += () => FSMPath = topLayer.GetFSMPath();
         topLayer.OnStateEnter();
     }
+    public void SetOrigin(EnemySpawnPoint origin) => originPos = origin.transform.position;
     public Enemy Instantiate()
     {
         Enemy tmp = Instantiate(this);
@@ -163,6 +166,7 @@ public class Enemy : MonoBehaviour, ISavable
     {
         transform.position = new Vector2(data.floats["posX"], data.floats["posY"]);
         hp.Load(JsonUtility.FromJson<HpCompSaveData>(data.strings["HpComp"]));
+        if (hp.dead) SetDeadState();
     }
     public void Save(SaveData data)
     {
@@ -202,7 +206,7 @@ public class Enemy : MonoBehaviour, ISavable
             public override void OnStateEnter()
             {
                 base.OnStateEnter();
-                if (origin.weapon.reloading == false) origin.weapon.Reload();
+                if (origin.weapon.reloading == false && origin.weapon.CanReload()) origin.weapon.Reload();
             }
             public override void OnStateUpdate()
             {
@@ -243,16 +247,24 @@ public class Enemy : MonoBehaviour, ISavable
                 {
                     base.OnStateEnter();
                     targetPos = origin.originPos + Utilities.RandomAngle(0, 360.0f) * UnityEngine.Random.Range(0, origin.wanderRange);
+                    counter = 0.0f;
                 }
+                float counter = 0.0f;
                 public override void OnStateUpdate()
                 {
                     base.OnStateUpdate();
+                    counter += Time.deltaTime;
+                    if(counter > origin.maxWanderMovingTime)
+                    {
+                        parentLayer.ChangeState("Waiting");
+                        return;
+                    }
                 }
                 public override void OnStateFixedUpdate()
                 {
                     base.OnStateFixedUpdate();
                     Vector2 rot = (targetPos - (Vector2)origin.transform.position).normalized;
-                    if(Physics2D.Raycast(origin.transform.position, rot, 1.0f, LayerMask.GetMask("Map", "MapEdge")) || Vector2.Distance(origin.transform.position, targetPos) < 0.1f)
+                    if(Vector2.Distance(origin.transform.position, targetPos) < 0.1f)
                     {
                         parentLayer.ChangeState("Waiting");
                         return;

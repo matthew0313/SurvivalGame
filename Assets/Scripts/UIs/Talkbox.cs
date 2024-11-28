@@ -4,26 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Talkbox : MonoBehaviour
+public class Talkbox : MonoBehaviour, ICutsceneTriggerReceiver
 {
     [SerializeField] Text m_text;
     [SerializeField] Sound talkSound;
     [SerializeField] GameObject talkSoundSourceParent;
     public Text text => m_text;
-    private void Awake()
-    {
-        TimelineCutsceneManager.onCutsceneEnter += StopAllCoroutines;
-    }
     IEnumerator dialoguing = null;
     Action onDialogueFinish = null;
-    void OnCutsceneEnter()
-    {
-        if(dialoguing != null)
-        {
-            StopCoroutine(dialoguing);
-            onDialogueFinish?.Invoke();
-        }
-    }
     List<AudioSource> talkSoundSources = new();
     public void TalkSound()
     {
@@ -59,4 +47,15 @@ public class Talkbox : MonoBehaviour
         onDialogueFinish?.Invoke();
         dialoguing = null;
     }
+
+    public void OnCutsceneEnter()
+    {
+        if (dialoguing != null)
+        {
+            StopCoroutine(dialoguing);
+            onDialogueFinish?.Invoke();
+        }
+    }
+
+    public void OnCutsceneExit() { }
 }

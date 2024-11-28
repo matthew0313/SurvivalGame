@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class EnemyWeapon : MonoBehaviour
+public class EnemyGun : MonoBehaviour
 {
+    [SerializeField] Animator anim;
     [SerializeField] HpChangeData damage;
     [SerializeField] protected float fireRate, bulletSpeed, m_range, spread;
     [SerializeField] protected int magSize;
     [SerializeField] protected float reloadTime;
     [SerializeField] Bullet bullet;
     [SerializeField] Transform firePos;
+    [SerializeField] Sound fireSound, reloadSound;
     public float range => m_range;
     /*
     public string weaponName;  // ���� �̸�
@@ -28,10 +30,11 @@ public class EnemyWeapon : MonoBehaviour
     */
     float counter = 0.0f;
     public int mag { get; private set; }
-    private void Awake()
+    public void ResetMag()
     {
         mag = magSize;
     }
+    readonly int fireID = Animator.StringToHash("Fire");
     public virtual void AttemptFire()
     {
         if (reloading) return;
@@ -39,6 +42,8 @@ public class EnemyWeapon : MonoBehaviour
         {
             counter = 0.0f;
             mag--;
+            AudioManager.Instance.PlaySound(fireSound, transform);
+            anim.SetTrigger(fireID);
             Fire();
         }
     }
@@ -52,6 +57,7 @@ public class EnemyWeapon : MonoBehaviour
     public void Reload()
     {
         if (reloading) return;
+        AudioManager.Instance.PlaySound(reloadSound, transform);
         reloadCounter = 0.0f;
         reloading = true;
     }

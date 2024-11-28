@@ -11,6 +11,7 @@ public class TitleUI : MonoBehaviour
     [SerializeField] Image introBack;
     [SerializeField] Text introText;
     [SerializeField] RectTransform newButton, loadButton, settingsButton;
+    [SerializeField] Slider volumeSlider, brightnessSlider;
     [SerializeField] AudioSource titleMusic;
     [SerializeField] SaveFilesTab saveFiles;
     static bool introWatched = false;
@@ -40,6 +41,10 @@ public class TitleUI : MonoBehaviour
         }
         saveFiles.InstantiateButtons();
         Settings.onMasterVolumeChange += OnMasterVolumeChange;
+        Settings.onBrightnessChange += OnBrightnessChange;
+        OnMasterVolumeChange(); OnBrightnessChange();
+        volumeSlider.onValueChanged.AddListener((float value) => Settings.masterVolume = value);
+        brightnessSlider.onValueChanged.AddListener((float value) => Settings.brightness = value);
     }
     void AfterIntro()
     {
@@ -50,13 +55,21 @@ public class TitleUI : MonoBehaviour
     void OnMasterVolumeChange()
     {
         titleMusic.volume = Settings.masterVolume;
+        volumeSlider.value = Settings.masterVolume;
+    }
+    void OnBrightnessChange()
+    {
+        brightnessSlider.value = Settings.brightness;
     }
     private void OnDestroy()
     {
         Settings.onMasterVolumeChange -= OnMasterVolumeChange;
+        Settings.onBrightnessChange -= OnBrightnessChange;  
     }
     public void NewGame()
     {
         GlobalManager.Instance.NewGame();
     }
+    public void SaveSettings() => GlobalManager.Instance.SaveSettings();
+    public void LoadSettings() => GlobalManager.Instance.LoadSettings();
 }
