@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
         this.speed = speed;
         this.range = range;
         this.pierce = pierce;
+        debuff = null;
         if (trail != null)
         {
             trail.Clear();
@@ -83,7 +84,7 @@ public class Bullet : MonoBehaviour
         {
             if ((tmp.alliance & alliance) != 0) return;
             tmp.GetDamage(damage);
-            if (debuff != null) tmp.AddDebuff(debuff);
+            if (debuff != null) debuff.InflictTo(tmp);
             if (--pierce <= 0) Despawn();
         }
         else Despawn();

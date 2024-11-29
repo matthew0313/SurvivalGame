@@ -124,8 +124,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4658901442221035371}
-  - component: {fileID: 2564787138479314635}
   - component: {fileID: 1003130724110743666}
+  - component: {fileID: 8568390112303644407}
   m_Layer: 0
   m_Name: AK-47
   m_TagString: Untagged
@@ -150,7 +150,28 @@ Transform:
   - {fileID: 4673336708907637394}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2564787138479314635
+--- !u!95 &1003130724110743666
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480468070615525310}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 668482180dcdcb84b9cdf4e59a96a1d8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8568390112303644407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6480468070615525310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f56c9950ba364e469d12c7528011e66, type: 3}
+  m_Script: {fileID: 11500000, guid: 506c3f836fa35aa44993513152cd7bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   auto: 1
@@ -185,24 +206,5 @@ MonoBehaviour:
   reloadSound:
     clip: {fileID: 8300000, guid: c68c586847c87544484ac05dd84ee699, type: 3}
     volume: 1
---- !u!95 &1003130724110743666
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6480468070615525310}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 668482180dcdcb84b9cdf4e59a96a1d8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  bleedDamage: 7
+  bleedDuration: 2.5

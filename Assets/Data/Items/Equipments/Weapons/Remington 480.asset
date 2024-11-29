@@ -16,4 +16,4 @@ MonoBehaviour:
   m_durability:
     m_mode: 0
     m_value: 24
-  m_prefab: {fileID: 7078331834055009361, guid: b6cdd0e828c682e4897d308e96f10fc2, type: 3}
+  m_prefab: {fileID: 8685334166773780509, guid: b6cdd0e828c682e4897d308e96f10fc2, type: 3}

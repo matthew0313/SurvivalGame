@@ -22,7 +22,11 @@ public class Bleeding : Debuff
     {
         get
         {
-            if(bleedingEffectPrefab == null) bleedingEffectPrefab = Resources.Load<DebuffEffectPrefab>("Debuffs/Effects/Bleeding");
+            if(bleedingEffectPrefab == null)
+            {
+                bleedingEffectPrefab = Resources.Load<DebuffEffectPrefab>("Debuffs/Effects/Bleeding");
+                Debug.Log("Loaded");
+            }
             return bleedingEffectPrefab;
         }
     }

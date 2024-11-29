@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4658901442221035371}
   - component: {fileID: 1003130724110743666}
-  - component: {fileID: 6699996943677179505}
+  - component: {fileID: -1358475190585672687}
   m_Layer: 0
   m_Name: EnemyRemington
   m_TagString: Untagged
@@ -171,7 +171,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6699996943677179505
+--- !u!114 &-1358475190585672687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6480468070615525310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b09c4befae5d24d4fa25f13616a68099, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d660b32b41def14d91860e75ce08721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1003130724110743666}
@@ -203,4 +203,6 @@ MonoBehaviour:
   reloadSound:
     clip: {fileID: 8300000, guid: 8a2928310aaeb1c43b37c1e28411ad88, type: 3}
     volume: 1
-  shotCount: 10
+  shotCount: 12
+  bleedDamage: 5
+  bleedDuration: 3.5

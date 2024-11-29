@@ -90,10 +90,12 @@ public class Gun : Weapon
         FireBullet();
         origin.DurabilityReduce(1.0f);
     }
+    protected virtual Debuff inflictedDebuff => null;
     protected virtual void FireBullet()
     {
         Bullet bul = bullet.SpawnBullet(firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-bulletSpread, bulletSpread)));
         bul.Set(damage, bulletSpeed, bulletRange);
+        bul.debuff = inflictedDebuff;
     }
     public override void OnUnwield()
     {

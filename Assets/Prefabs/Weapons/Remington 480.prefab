@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4658901442221035371}
   - component: {fileID: 1003130724110743666}
-  - component: {fileID: 7078331834055009361}
+  - component: {fileID: 8685334166773780509}
   m_Layer: 0
   m_Name: Remington 480
   m_TagString: Untagged
@@ -171,7 +171,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7078331834055009361
+--- !u!114 &8685334166773780509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6480468070615525310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaedb1437d11b24469a697b9d98a2ad0, type: 3}
+  m_Script: {fileID: 11500000, guid: 69dd67919ffab364a9b04e44a76df7d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   auto: 1
@@ -189,7 +189,7 @@ MonoBehaviour:
     effectColorType: 0
     effectColor: {r: 0, g: 0, b: 0, a: 0}
     knockback: {x: 0, y: 0}
-  fireRate: 0.75
+  fireRate: 1
   bulletSpeed: 40
   bulletRange: 7
   bulletSpread: 7
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_bulletItem: {fileID: 11400000, guid: 369be85447225124d9ed2f5b8a0772e8, type: 2}
   m_magSize: 6
   reloadTime: 4
-  gunWeight: 0
+  gunWeight: 1
   firePoint: {fileID: 4673336708907637394}
   anim: {fileID: 1003130724110743666}
   fireSound:
@@ -207,3 +207,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8a2928310aaeb1c43b37c1e28411ad88, type: 3}
     volume: 1
   fireCount: 12
+  bleedDamage: 5
+  bleedDuration: 3.5

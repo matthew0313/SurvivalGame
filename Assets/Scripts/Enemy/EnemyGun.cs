@@ -11,6 +11,7 @@ public class EnemyGun : MonoBehaviour
     [SerializeField] Transform firePos;
     [SerializeField] Sound fireSound, reloadSound;
     public float range => m_range;
+    protected virtual Debuff inflictedDebuff => null;
     /*
     public string weaponName;  // ���� �̸�
     public int attackPower;  // ���ݷ�
@@ -49,7 +50,9 @@ public class EnemyGun : MonoBehaviour
     }
     protected virtual void Fire()
     {
-        bullet.SpawnBullet(firePos.position, firePos.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-spread, spread))).Set(damage, bulletSpeed, range);
+        Bullet tmp = bullet.SpawnBullet(firePos.position, firePos.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-spread, spread)));
+        tmp.Set(damage, bulletSpeed, range);
+        tmp.debuff = inflictedDebuff;
     }
     public bool reloading { get; private set; } = false;
     float reloadCounter = 0.0f;

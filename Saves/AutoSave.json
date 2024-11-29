@@ -1,0 +1,672 @@
+{
+    "timePlayed": 39.7570915222168,
+    "lastSaved": 638684674530508877,
+    "player": {
+        "inventoryData": {
+            "slotSaves": [
+                {
+                    "item": {
+                        "instanceID": 26222
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": [
+                                {
+                                    "key": "Mag",
+                                    "value": 8
+                                }
+                            ]
+                        },
+                        "m_floats": {
+                            "content": [
+                                {
+                                    "key": "Durability",
+                                    "value": 100.0
+                                }
+                            ]
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 1
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                },
+                {
+                    "item": {
+                        "instanceID": 0
+                    },
+                    "data": {
+                        "m_integers": {
+                            "content": []
+                        },
+                        "m_floats": {
+                            "content": []
+                        },
+                        "m_bools": {
+                            "content": []
+                        },
+                        "m_strings": {
+                            "content": []
+                        }
+                    },
+                    "count": 0
+                }
+            ]
+        },
+        "hpData": {
+            "hp": 100.0,
+            "debuffs": []
+        },
+        "equipmentData": [
+            {
+                "item": {
+                    "instanceID": 0
+                },
+                "data": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": []
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                },
+                "count": 0
+            },
+            {
+                "item": {
+                    "instanceID": 0
+                },
+                "data": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": []
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                },
+                "count": 0
+            },
+            {
+                "item": {
+                    "instanceID": 0
+                },
+                "data": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": []
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                },
+                "count": 0
+            },
+            {
+                "item": {
+                    "instanceID": 0
+                },
+                "data": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": []
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                },
+                "count": 0
+            }
+        ],
+        "consumableCooldowns": {
+            "content": []
+        },
+        "position": {
+            "x": 0.35550493001937868,
+            "y": -0.5580015182495117
+        }
+    },
+    "droppedItems": [],
+    "mapObjects": {
+        "content": [
+            {
+                "key": "07cce548-bd64-444b-9c64-09da4a0cb2b9",
+                "value": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": [
+                            {
+                                "key": "cooldownLeft",
+                                "value": 35996400.0
+                            }
+                        ]
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                }
+            },
+            {
+                "key": "89360f14-07bf-47f6-973c-3a052cb761c8",
+                "value": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": [
+                            {
+                                "key": "cooldownLeft",
+                                "value": 0.0
+                            }
+                        ]
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                }
+            },
+            {
+                "key": "1d380027-8056-475b-8879-ce74c1d1c357",
+                "value": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": []
+                    },
+                    "m_bools": {
+                        "content": [
+                            {
+                                "key": "played",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "m_strings": {
+                        "content": []
+                    }
+                }
+            },
+            {
+                "key": "a8bb714b-e215-488b-8afc-bd2b8e2e9925",
+                "value": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": []
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": [
+                            {
+                                "key": "hp",
+                                "value": "{\"hp\":84.0,\"debuffs\":[{\"type\":1,\"data\":{\"m_integers\":{\"content\":[]},\"m_floats\":{\"content\":[{\"key\":\"duration\",\"value\":1.2288284301757813},{\"key\":\"damagePerSecond\",\"value\":2.0}]},\"m_bools\":{\"content\":[]},\"m_strings\":{\"content\":[]}}}]}"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "spawnPoints": {
+        "content": [
+            {
+                "key": "a7aa7fb1-617e-4cc8-95e2-4dce66f72750",
+                "value": {
+                    "enemies": [
+                        {
+                            "prefab": {
+                                "instanceID": 40694
+                            },
+                            "data": {
+                                "m_integers": {
+                                    "content": []
+                                },
+                                "m_floats": {
+                                    "content": [
+                                        {
+                                            "key": "posX",
+                                            "value": -32.79399490356445
+                                        },
+                                        {
+                                            "key": "posY",
+                                            "value": -30.441814422607423
+                                        }
+                                    ]
+                                },
+                                "m_bools": {
+                                    "content": []
+                                },
+                                "m_strings": {
+                                    "content": [
+                                        {
+                                            "key": "HpComp",
+                                            "value": "{\"hp\":100.0,\"debuffs\":[]}"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "prefab": {
+                                "instanceID": 40694
+                            },
+                            "data": {
+                                "m_integers": {
+                                    "content": []
+                                },
+                                "m_floats": {
+                                    "content": [
+                                        {
+                                            "key": "posX",
+                                            "value": -34.40325927734375
+                                        },
+                                        {
+                                            "key": "posY",
+                                            "value": -26.118928909301759
+                                        }
+                                    ]
+                                },
+                                "m_bools": {
+                                    "content": []
+                                },
+                                "m_strings": {
+                                    "content": [
+                                        {
+                                            "key": "HpComp",
+                                            "value": "{\"hp\":100.0,\"debuffs\":[]}"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "prefab": {
+                                "instanceID": 40694
+                            },
+                            "data": {
+                                "m_integers": {
+                                    "content": []
+                                },
+                                "m_floats": {
+                                    "content": [
+                                        {
+                                            "key": "posX",
+                                            "value": -33.48076629638672
+                                        },
+                                        {
+                                            "key": "posY",
+                                            "value": -28.51629066467285
+                                        }
+                                    ]
+                                },
+                                "m_bools": {
+                                    "content": []
+                                },
+                                "m_strings": {
+                                    "content": [
+                                        {
+                                            "key": "HpComp",
+                                            "value": "{\"hp\":100.0,\"debuffs\":[]}"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "counter": 0.0
+                }
+            }
+        ]
+    },
+    "fieldEnemies": {
+        "content": [
+            {
+                "key": "aba903b2-eadf-4176-a4d5-aae13c0eb739",
+                "value": {
+                    "m_integers": {
+                        "content": []
+                    },
+                    "m_floats": {
+                        "content": [
+                            {
+                                "key": "posX",
+                                "value": 9.562670707702637
+                            },
+                            {
+                                "key": "posY",
+                                "value": -15.194086074829102
+                            }
+                        ]
+                    },
+                    "m_bools": {
+                        "content": []
+                    },
+                    "m_strings": {
+                        "content": [
+                            {
+                                "key": "HpComp",
+                                "value": "{\"hp\":100.0,\"debuffs\":[]}"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
