@@ -262,7 +262,7 @@ MonoBehaviour:
   chaseBackstepSpeed: 2
   rotator: {fileID: 6788131139895951033}
   equipAnchor: {fileID: 6796641753978445551}
-  weapon: {fileID: 0}
+  weapon: {fileID: 6172888293639567991}
   anim: {fileID: 1142949831034586577}
   loot: {fileID: 11400000, guid: f1a2d9f676d002b4d9eae7914ce768c4, type: 2}
   id:
@@ -644,3 +644,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7858657812495472014, guid: fecf9b807a058564cb21285a88c5687e, type: 3}
   m_PrefabInstance: {fileID: 6586302711361558042}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6172888293639567991 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -8156654060478894995, guid: fecf9b807a058564cb21285a88c5687e, type: 3}
+  m_PrefabInstance: {fileID: 6586302711361558042}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed605d067cb7134a8545d3960a09ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

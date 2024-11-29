@@ -26,23 +26,26 @@ public class Talkbox : MonoBehaviour, ICutsceneTriggerReceiver
         tmp.volume = talkSound.volume;
         tmp.Play();
     }
-    public void Dialogue(string dialogue, float talkSpeed, float pauseTime, float endTime, Action onDialogueFinish)
+    public void Dialogue(string[] dialogues, float talkSpeed, float pauseTime, float endTime, Action onDialogueFinish)
     {
         gameObject.SetActive(true);
         this.onDialogueFinish = onDialogueFinish;
-        dialoguing = Dialoguing(dialogue, talkSpeed, pauseTime, endTime);
+        dialoguing = Dialoguing(dialogues, talkSpeed, pauseTime, endTime);
         StartCoroutine(dialoguing);
     }
-    IEnumerator Dialoguing(string dialogue, float talkSpeed, float pauseTime, float endTime)
+    IEnumerator Dialoguing(string[] dialogues, float talkSpeed, float pauseTime, float endTime)
     {
-        text.text = "";
-        for(int i = 0; i < dialogue.Length; i++)
+        for(int i = 0; i < dialogues.Length; i++)
         {
-            text.text += dialogue[i];
-            TalkSound();
-            yield return new WaitForSeconds((dialogue[i] == '.' || dialogue[i] == ',' || dialogue[i] == '!' || dialogue[i] == '?') ? pauseTime : talkSpeed);
+            text.text = "";
+            for (int k = 0; k < dialogues[i].Length; k++)
+            {
+                text.text += dialogues[i][k];
+                TalkSound();
+                yield return new WaitForSeconds((dialogues[i][k] == '.' || dialogues[i][k] == ',' || dialogues[i][k] == '!' || dialogues[i][k] == '?') ? pauseTime : talkSpeed);
+            }
+            yield return new WaitForSeconds(endTime);
         }
-        yield return new WaitForSeconds(endTime);
         gameObject.SetActive(false);
         onDialogueFinish?.Invoke();
         dialoguing = null;

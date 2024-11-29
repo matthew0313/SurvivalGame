@@ -86,7 +86,7 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     }
     private void Update()
     {
-        if (TimelineCutsceneManager.inCutscene || dead) return;
+        if (TimelineCutsceneManager.inCutscene || dead || GameManager.Instance.paused) return;
         RotateCheck();
         EquipUpdate();
         CooldownUpdate();
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     }
     private void FixedUpdate()
     {
-        if (TimelineCutsceneManager.inCutscene || dead) return;
+        if (TimelineCutsceneManager.inCutscene || dead || GameManager.Instance.paused) return;
         Move(moveInput.action.ReadValue<Vector2>());
     }
     Vector2 lastMovedDirection = Vector2.right;

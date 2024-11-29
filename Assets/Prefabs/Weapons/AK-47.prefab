@@ -198,7 +198,8 @@ MonoBehaviour:
   m_magSize: 30
   reloadTime: 4
   gunWeight: 0
-  firePoint: {fileID: 4673336708907637394}
+  firePoints:
+  - {fileID: 4673336708907637394}
   anim: {fileID: 1003130724110743666}
   fireSound:
     clip: {fileID: 8300000, guid: 5b12dbf61007e4b42a1362090b69d83e, type: 3}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Shotgun : Gun
+public abstract class Shotgun : Gun
 {
     [Header("Shotgun")]
     [SerializeField] protected int fireCount;

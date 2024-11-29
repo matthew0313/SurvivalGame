@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Gun : Weapon
+public abstract class Gun : Weapon
 {
     new GunItem origin => base.origin as GunItem;
     [Header("Gun")]
@@ -16,7 +16,7 @@ public class Gun : Weapon
     [SerializeField] protected int m_magSize;
     [SerializeField] protected float reloadTime;
     [SerializeField] protected float gunWeight = 0.0f;
-    [SerializeField] protected Transform firePoint;
+    [SerializeField] protected Transform[] firePoints;
     [SerializeField] protected Animator anim;
     [SerializeField] protected Sound fireSound;
     [SerializeField] protected Sound reloadSound;
@@ -93,9 +93,12 @@ public class Gun : Weapon
     protected virtual Debuff inflictedDebuff => null;
     protected virtual void FireBullet()
     {
-        Bullet bul = bullet.SpawnBullet(firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-bulletSpread, bulletSpread)));
-        bul.Set(damage, bulletSpeed, bulletRange);
-        bul.debuff = inflictedDebuff;
+        foreach(var i in firePoints)
+        {
+            Bullet bul = bullet.SpawnBullet(i.position, i.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-bulletSpread, bulletSpread)));
+            bul.Set(damage, bulletSpeed, bulletRange);
+            bul.debuff = inflictedDebuff;
+        }
     }
     public override void OnUnwield()
     {

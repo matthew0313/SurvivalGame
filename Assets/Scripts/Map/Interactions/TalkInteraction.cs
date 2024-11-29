@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class TalkInteraction : Interaction
 {
-    [SerializeField] string talkContent;
+    [SerializeField][TextArea] string[] talkContent;
     [SerializeField] float talkSpeed = 0.05f, pauseTime = 0.25f, endTime = 1.0f;
     [SerializeField] Talkbox talkBox;
     public override string interactText => "대화하기";
