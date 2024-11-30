@@ -9,7 +9,7 @@ public class TeleportInteraction : Interaction
 {
     [SerializeField] string m_interactText = "Enter";
     [SerializeField] Vector2 teleportDestination;
-    public UnityEvent onTeleport = new UnityEvent();
+    public UnityEvent onTeleport;
     Player player;
     public override string interactText => m_interactText;
     public override bool removeUponInteract => true;

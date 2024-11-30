@@ -10,6 +10,7 @@ public class TalkInteraction : Interaction
     [SerializeField][TextArea] string[] talkContent;
     [SerializeField] float talkSpeed = 0.05f, pauseTime = 0.25f, endTime = 1.0f;
     [SerializeField] Talkbox talkBox;
+    public Action onTalkStart, onTalkEnd;
     public override string interactText => "대화하기";
     public override bool canInteract => !talking;
     bool talking = false;

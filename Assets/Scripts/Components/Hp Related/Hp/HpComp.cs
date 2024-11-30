@@ -102,6 +102,11 @@ public class HpComp : MonoBehaviour
         onHeal?.Invoke(data);
         onHpChange?.Invoke();
     }
+    public void SetHp(float hp)
+    {
+        this.hp = hp;
+        onHpChange?.Invoke();
+    }
     public void Revive() => dead = false;
     public HpCompSaveData Save()
     {

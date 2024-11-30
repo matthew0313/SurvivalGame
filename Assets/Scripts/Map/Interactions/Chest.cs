@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class Chest : Interaction, ISavable
@@ -10,6 +11,7 @@ public class Chest : Interaction, ISavable
     [SerializeField] TimeVal cooldown;
     [SerializeField] Animator chestAnim;
     [SerializeField] SaveID id;
+    public UnityEvent onChestOpen;
     bool isOnCooldown = false;
     float cooldownLeft = 0.0f;
     public override bool canInteract => !isOnCooldown;

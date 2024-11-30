@@ -53,6 +53,7 @@ public class EnemyGun : MonoBehaviour
         Bullet tmp = bullet.SpawnBullet(firePos.position, firePos.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-spread, spread)));
         tmp.Set(damage, bulletSpeed, range);
         tmp.debuff = inflictedDebuff;
+        tmp.alliance = Alliance.Enemy;
     }
     public bool reloading { get; private set; } = false;
     float reloadCounter = 0.0f;

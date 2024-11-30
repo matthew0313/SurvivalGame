@@ -82,15 +82,15 @@ public class Bullet : MonoBehaviour
     {
         if (collision.TryGetComponent(out HpComp tmp))
         {
-            if ((tmp.alliance & alliance) != 0) return;
+            if ((tmp.alliance & alliance) != 0)
+            {
+                Debug.Log("AllyHit");
+                return;
+            }
             tmp.GetDamage(damage);
             if (debuff != null) debuff.InflictTo(tmp);
             if (--pierce <= 0) Despawn();
         }
         else Despawn();
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Despawn();
     }
 }

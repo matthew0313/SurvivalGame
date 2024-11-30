@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UXML/StyleSheet/Editors.uss?fileID=7433441132597879392&amp;guid=67b4bae07b20aa74698a1179857d9846&amp;type=3#Editors" />
+    <ui:VisualElement class="Area" style="flex-grow: 1; color: rgb(27, 27, 27);">
+        <ui:Label tabindex="-1" text="디버그 옵션" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 30px; color: rgb(255, 255, 255);" />
+        <ui:VisualElement class="Area" style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="아이템 주기" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px; color: rgb(255, 255, 255);" />
+            <uie:PropertyField binding-path="givingItem" label="줄 아이템" />
+            <uie:PropertyField binding-path="givingCount" label="아이템 개수" />
+            <ui:Button text="플레이어에게 아이템 주기" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GiveItemToPlayer" />
+        </ui:VisualElement>
+        <ui:VisualElement class="Area" style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="체력 변경" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px; color: rgb(255, 255, 255);" />
+            <uie:PropertyField binding-path="hpAmount" label="양" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                <ui:Button text=" 회복" parse-escape-sequences="true" display-tooltip-when-elided="true" name="HealPlayer" />
+                <ui:Button text="데미지" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DamagePlayer" />
+                <ui:Button text="변경" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SetPlayerHp" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
