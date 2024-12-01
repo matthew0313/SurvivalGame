@@ -1,29 +1,19 @@
 {
-    "timePlayed": 12.05330753326416,
-    "lastSaved": 638685887102997621,
+    "timePlayed": 8.385771751403809,
+    "lastSaved": 638686851636893267,
     "player": {
         "inventoryData": {
             "slotSaves": [
                 {
                     "item": {
-                        "instanceID": 27314
+                        "instanceID": 0
                     },
                     "data": {
                         "m_integers": {
-                            "content": [
-                                {
-                                    "key": "Mag",
-                                    "value": 12
-                                }
-                            ]
+                            "content": []
                         },
                         "m_floats": {
-                            "content": [
-                                {
-                                    "key": "Durability",
-                                    "value": 100.0
-                                }
-                            ]
+                            "content": []
                         },
                         "m_bools": {
                             "content": []
@@ -32,7 +22,7 @@
                             "content": []
                         }
                     },
-                    "count": 1
+                    "count": 0
                 },
                 {
                     "item": {
@@ -426,8 +416,8 @@
             "content": []
         },
         "position": {
-            "x": 4.987264156341553,
-            "y": 0.0023879706859588625
+            "x": -10.0,
+            "y": 23.0
         }
     },
     "droppedItems": [],
@@ -490,7 +480,7 @@
                         "content": [
                             {
                                 "key": "played",
-                                "value": true
+                                "value": false
                             }
                         ]
                     },
@@ -531,7 +521,7 @@
                     "enemies": [
                         {
                             "prefab": {
-                                "instanceID": 44958
+                                "instanceID": 46382
                             },
                             "data": {
                                 "m_integers": {
@@ -541,11 +531,11 @@
                                     "content": [
                                         {
                                             "key": "posX",
-                                            "value": -32.61114501953125
+                                            "value": -32.50053405761719
                                         },
                                         {
                                             "key": "posY",
-                                            "value": -30.441822052001954
+                                            "value": -28.303138732910158
                                         }
                                     ]
                                 },
@@ -564,7 +554,7 @@
                         },
                         {
                             "prefab": {
-                                "instanceID": 44960
+                                "instanceID": 46384
                             },
                             "data": {
                                 "m_integers": {
@@ -574,11 +564,11 @@
                                     "content": [
                                         {
                                             "key": "posX",
-                                            "value": -30.064144134521486
+                                            "value": -32.55440139770508
                                         },
                                         {
                                             "key": "posY",
-                                            "value": -25.882787704467775
+                                            "value": -24.764995574951173
                                         }
                                     ]
                                 },
@@ -597,7 +587,7 @@
                         },
                         {
                             "prefab": {
-                                "instanceID": 44960
+                                "instanceID": 46384
                             },
                             "data": {
                                 "m_integers": {
@@ -607,11 +597,11 @@
                                     "content": [
                                         {
                                             "key": "posX",
-                                            "value": -32.310035705566409
+                                            "value": -33.31145477294922
                                         },
                                         {
                                             "key": "posY",
-                                            "value": -26.44789695739746
+                                            "value": -26.123069763183595
                                         }
                                     ]
                                 },
@@ -646,11 +636,11 @@
                         "content": [
                             {
                                 "key": "posX",
-                                "value": 10.380718231201172
+                                "value": 10.334305763244629
                             },
                             {
                                 "key": "posY",
-                                "value": -16.421112060546876
+                                "value": -17.680259704589845
                             }
                         ]
                     },
