@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
     [Header("Cutscenes")]
     [SerializeField] GameObject defaultUI;
     [SerializeField] GameObject cutsceneUI;
-    [SerializeField] List<Cutscene> cutscenes = new();
+    [SerializeField] List<OldCutscene> cutscenes = new();
     [SerializeField] Image talkTalkerImage, talkTalkerBackImage;
     [SerializeField] Color talkTalkerBackDefaultColor;
     [SerializeField] Text talkTalker, talkContent;
@@ -68,7 +68,7 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
 
     [Header("Others")]
     [SerializeField] RectTransform blackBack;
-    Cutscene currentCutscene;
+    OldCutscene currentCutscene;
 
     Player player;
     TopLayer topLayer;
@@ -692,7 +692,7 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
     }
 }
 [System.Serializable]
-public class Cutscene
+public class OldCutscene
 {
     [SerializeField] List<CutsceneElement> m_elements;
     public List<CutsceneElement> elements => m_elements;
