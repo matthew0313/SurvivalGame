@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour
     List<(AudioSource, Transform)> tracedSources = new();
     [SerializeField] Sound currentMusic;
     [SerializeField] AudioSource musicPlayer;
+
+    public Sound customMusic;
     private void Awake()
     {
         Settings.onMasterVolumeChange += OnVolumeChange;
@@ -65,19 +67,30 @@ public class AudioManager : MonoBehaviour
     }
     public void ChangeMusic(Sound music)
     {
-        currentMusic = music;
-        musicPlayer.volume = currentMusic.volume * Settings.masterVolume;
-        musicPlayer.clip = currentMusic.clip;
-        musicPlayer.Play();
+        FadeMusic(1.0f, () =>
+        {
+            currentMusic = music;
+            musicPlayer.volume = currentMusic.volume * Settings.masterVolume;
+            musicPlayer.clip = currentMusic.clip;
+            musicPlayer.Play();
+        });
     }
-    public void FadeoutMusic(Action onFadeoutEnd)
+    IEnumerator fadingMusic = null;
+    Action onFadeEnd;
+    public void FadeMusic(float fadeTime, Action onFadeEnd)
     {
-        StartCoroutine(FadingoutMusic(onFadeoutEnd));
+        if (fadingMusic != null)
+        {
+            StopCoroutine(fadingMusic);
+            this.onFadeEnd?.Invoke();
+        }
+        this.onFadeEnd = onFadeEnd;
+        fadingMusic = FadingMusic(fadeTime);
+        StartCoroutine(fadingMusic);
     }
-    const float fadeTime = 2.0f;
-    IEnumerator FadingoutMusic(Action onFadeoutEnd)
+    IEnumerator FadingMusic(float fadeTime)
     {
-        float start = musicPlayer.volume;
+        float start = currentMusic.volume * Settings.masterVolume;
         float counter = 0.0f;
         while(counter < fadeTime)
         {
@@ -85,7 +98,8 @@ public class AudioManager : MonoBehaviour
             musicPlayer.volume = Mathf.Lerp(start, 0.0f, counter / fadeTime);
             yield return null;
         }
-        onFadeoutEnd?.Invoke();
+        fadingMusic = null;
+        onFadeEnd?.Invoke();
     }
     private void OnDestroy()
     {

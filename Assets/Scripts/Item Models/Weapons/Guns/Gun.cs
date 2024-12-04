@@ -98,6 +98,7 @@ public abstract class Gun : Weapon
             Bullet bul = bullet.SpawnBullet(i.position, i.rotation * Quaternion.Euler(0, 0, UnityEngine.Random.Range(-bulletSpread, bulletSpread)));
             bul.Set(damage, bulletSpeed, bulletRange);
             bul.debuff = inflictedDebuff;
+            bul.alliance = Alliance.Player;
         }
     }
     public override void OnUnwield()

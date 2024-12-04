@@ -8,23 +8,13 @@ public class Talkbox : MonoBehaviour, ICutsceneTriggerReceiver
 {
     [SerializeField] Text m_text;
     [SerializeField] Sound talkSound;
-    [SerializeField] GameObject talkSoundSourceParent;
     public Text text => m_text;
     IEnumerator dialoguing = null;
     Action onDialogueFinish = null;
     List<AudioSource> talkSoundSources = new();
     public void TalkSound()
     {
-        AudioSource tmp = talkSoundSources.Find((source) => source.isPlaying == false);
-        if (tmp == null)
-        {
-            if (talkSoundSourceParent == null) return;
-            tmp = talkSoundSourceParent.AddComponent<AudioSource>();
-            tmp.playOnAwake = false;
-        }
-        tmp.clip = talkSound.clip;
-        tmp.volume = talkSound.volume;
-        tmp.Play();
+        AudioManager.Instance.PlaySound(talkSound, transform);
     }
     public void Dialogue(string[] dialogues, float talkSpeed, float pauseTime, float endTime, Action onDialogueFinish)
     {

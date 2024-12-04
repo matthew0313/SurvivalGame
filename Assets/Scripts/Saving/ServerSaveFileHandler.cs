@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using System;
 using UnityEngine.Networking;
+using System.Reflection;
+using UnityEngine.EventSystems;
 
 public class ServerSaveFileHandler : SaveFileHandler
 {
@@ -15,11 +17,11 @@ public class ServerSaveFileHandler : SaveFileHandler
         this.baseUrl = baseUrl;
         this.coroutinePlayer = coroutinePlayer;
     }
-    public override void Load<T>(string fileName, Action<T> onLoad = null)
+    public override void Load<T>(string fileName, Action<T> onLoad = null) where T : class
     {
-        coroutinePlayer.StartCoroutine(LoadDataFromServer(fileName, (tmp) => onLoad?.Invoke(JsonUtility.FromJson<T>(tmp))));
+        coroutinePlayer.StartCoroutine(LoadDataFromServer(fileName, (tmp) => onLoad?.Invoke(tmp == null ? null : JsonUtility.FromJson<T>(tmp))));
     }
-    public override void Save<T>(T data, string fileName, Action<T> onSave = null)
+    public override void Save<T>(T data, string fileName, Action<T> onSave = null) where T : class
     {
         coroutinePlayer.StartCoroutine(SaveDataToServer(fileName, JsonUtility.ToJson(data), () => onSave?.Invoke(data)));
     }
@@ -27,30 +29,10 @@ public class ServerSaveFileHandler : SaveFileHandler
     {
         throw new NotImplementedException();
     }
+
     private IEnumerator LoadDataFromServer(string fileName, Action<string> onLoad)
     {
-        WWWForm form = new WWWForm();
-        form.AddField("uid", "test");
-
-
-        using (UnityWebRequest www = UnityWebRequest.Post($"{baseUrl}/LoadMap", form))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                string responseText = www.downloadHandler.text;
-                onLoad?.Invoke(responseText);
-            }
-            else
-            {
-                Debug.LogError($"Error fetching map data: {www.error}\nResponse: {www.downloadHandler.text}");
-            }
-        }
-    }
-    /*private IEnumerator LoadDataFromServer(string fileName, Action<string> onLoad)
-    {
-        var requestData = new { uid = "test" };
+        var requestData = new { uid = SystemInfo.deviceUniqueIdentifier + "/" + fileName };
 
         string jsonData = JsonUtility.ToJson(requestData);
 
@@ -64,20 +46,21 @@ public class ServerSaveFileHandler : SaveFileHandler
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            onLoad?.Invoke(request.downloadHandler.text);
+            string result = request.downloadHandler.text;
+            if (result[0] == '[') result = null;
+            Debug.Log(result);
+            onLoad?.Invoke(result);
         }
         else
         {
             Debug.LogError("Error fetching movies" + request.downloadHandler.text);
         }
-    }*/
-
-    // ����
+    }
     public IEnumerator SaveDataToServer(string fileName, string content, Action onSave)
     {
         var requestData = new { uid = SystemInfo.deviceUniqueIdentifier + "/" + fileName, mapData = content };
 
-        string jsonData = JsonUtility.ToJson(requestData); 
+        string jsonData = JsonUtility.ToJson(requestData, false); 
 
         UnityWebRequest request = new UnityWebRequest(baseUrl + "/GetMap", "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);

@@ -60,6 +60,15 @@ public static class Utilities
         seconds = seconds % 60;
         return $"{(hours < 10 ? '0' : null)}{hours}:{(minutes < 10 ? '0' : null)}{minutes}:{(seconds < 10 ? '0' : null)}{seconds}";
     }
+    public static void Wait(this MonoBehaviour target, float time, Action onWait)
+    {
+        target.StartCoroutine(Waiting(time, onWait));
+    }
+    static IEnumerator Waiting(float time, Action onWait)
+    {
+        yield return new WaitForSeconds(time);
+        onWait?.Invoke();
+    }
 }
 [System.Serializable]
 public struct Sound

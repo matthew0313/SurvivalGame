@@ -7,8 +7,9 @@ using UnityEngine.InputSystem;
 public abstract class Interaction : MonoBehaviour
 {
     [SerializeField] Sprite m_interactImage;
+    [SerializeField] string m_interactText;
     public Sprite interactImage => m_interactImage;
-    public abstract string interactText { get; }
+    public string interactText => m_interactText;
     public virtual bool canInteract => true;
     public virtual bool removeUponInteract => false;
     Player player;

@@ -17,20 +17,22 @@ public class SaveFileUI : MonoBehaviour
         fileDescText.text = "로딩중...";
         saveButton.gameObject.SetActive(false);
         loadButton.gameObject.SetActive(false);
-        GlobalManager.Instance.GetSaveData(fileName, (data) =>
+        GlobalManager.Instance.GetSaveData(fileName, SetDisplay);
+    }
+    void SetDisplay(SaveData data)
+    {
+        if (!GameManager.isInGame) saveButton.gameObject.SetActive(false);
+        else saveButton.gameObject.SetActive(true);
+        if (data == null)
         {
-            if (!GameManager.isInGame) saveButton.gameObject.SetActive(false);
-            if (data == null)
-            {
-                fileDescText.text = "저장 데이터 없음";
-                loadButton.gameObject.SetActive(false);
-            }
-            else
-            {
-                fileDescText.text = $"플레이 타임: {Utilities.TimeCode(Mathf.RoundToInt(data.timePlayed))}\n마지막 저장: {LastSaveDesc(data.lastSaved)}";
-                loadButton.gameObject.SetActive(true);
-            }
-        });
+            fileDescText.text = "저장 데이터 없음";
+            loadButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            fileDescText.text = $"플레이 타임: {Utilities.TimeCode(Mathf.RoundToInt(data.timePlayed))}\n마지막 저장: {LastSaveDesc(data.lastSaved)}";
+            loadButton.gameObject.SetActive(true);
+        }
     }
     public void Load()
     {
@@ -38,8 +40,7 @@ public class SaveFileUI : MonoBehaviour
     }
     public void Save()
     {
-        GlobalManager.Instance.Save(fileName);
-        Set(fileName);
+        GlobalManager.Instance.Save(fileName, SetDisplay);
     }
     string LastSaveDesc(long lastSaveTick)
     {

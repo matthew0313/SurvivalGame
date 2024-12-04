@@ -1897,9 +1897,11 @@ MonoBehaviour:
   sceneLoadBlack: {fileID: 689660486}
   sceneLoadingText: {fileID: 312228280}
   brightnessImage: {fileID: 445938881}
-  saveFileName: Saves
-  fileExtension: .json
   m_fileCount: 10
+  saveMode: 0
+  fileExtension: .json
+  saveFileName: Saves
+  baseURL: survivalgameserver.azurewebsites.net/SurvivalGame
 --- !u!4 &1092724820
 Transform:
   m_ObjectHideFlags: 0

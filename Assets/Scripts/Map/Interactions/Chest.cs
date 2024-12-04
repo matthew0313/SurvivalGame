@@ -9,27 +9,39 @@ public class Chest : Interaction, ISavable
 {
     [SerializeField] LootTable loot;
     [SerializeField] TimeVal cooldown;
+    [SerializeField] bool direct = false;
     [SerializeField] Animator chestAnim;
     [SerializeField] SaveID id;
     public UnityEvent onChestOpen;
     bool isOnCooldown = false;
     float cooldownLeft = 0.0f;
     public override bool canInteract => !isOnCooldown;
-    public override string interactText => "Open Chest";
     readonly int openID = Animator.StringToHash("Open");
     public override void OnInteract()
     {
         base.OnInteract();
         if (isOnCooldown) return;
-        foreach(var i in loot.GenerateLoot())
+        if (direct)
         {
-            DroppedItem item = DroppedItem.Create(transform.position);
-            item.Set(i.item, i.count);
-            item.SetVelocity(Utilities.RandomAngle(180, 360) * 5.0f);
+            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            foreach (var i in loot.GenerateLoot())
+            {
+                player.AddItem_DropRest(i.item, i.count);
+            }
+        }
+        else
+        {
+            foreach (var i in loot.GenerateLoot())
+            {
+                DroppedItem item = DroppedItem.Create(transform.position);
+                item.Set(i.item, i.count);
+                item.SetVelocity(Utilities.RandomAngle(180, 360) * 5.0f);
+            }
         }
         isOnCooldown = true;
         chestAnim.SetBool(openID, true);
         cooldownLeft = cooldown.time;
+        onChestOpen?.Invoke();
     }
     private void Update()
     {

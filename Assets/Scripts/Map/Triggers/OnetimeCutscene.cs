@@ -10,7 +10,12 @@ public class OnetimeCutscene : MonoBehaviour, ISavable
 {
     [SerializeField] TimelineAsset cutscene;
     [SerializeField] SaveID id;
+    [SerializeField] bool playOnStart = false;
     bool played = false;
+    void Start()
+    {
+        if (playOnStart) PlayCutscene();
+    }
     public void PlayCutscene()
     {
         if (played) return;

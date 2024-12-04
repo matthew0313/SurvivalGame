@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using System.Linq;
 
-public class TimelineCutsceneManager : MonoBehaviour
+public class TimelineCutsceneManager : MonoBehaviour, ISavable
 {
     public static TimelineCutsceneManager Instance { get; private set; }
     public TimelineCutsceneManager()
@@ -36,6 +36,25 @@ public class TimelineCutsceneManager : MonoBehaviour
         if (Instance == null) return;
         Instance.director.playableAsset = cutscene;
         Instance.director.Play();
+    }
+
+    public void Save(SaveData data)
+    {
+        if (m_inCutscene)
+        {
+            data.cutscene = director.playableAsset;
+            data.cutsceneProgress = (float)director.time;
+        }
+    }
+
+    public void Load(SaveData data)
+    {
+        if(data.cutscene != null)
+        {
+            director.playableAsset = data.cutscene;
+            director.time = data.cutsceneProgress;
+            director.Play();
+        }
     }
 }
 public interface ICutsceneTriggerReceiver

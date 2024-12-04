@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
         }
     }
     public Debuff debuff;
-    public Alliance alliance;
+    public Alliance alliance = 0;
     public Bullet SpawnBullet(Vector3 position, Quaternion rotation)
     {
         if (isInstance) return null;
@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
         bul.isInstance = true;
         bul.pool = pool;
         bul.despawned = false;
+        bul.alliance = 0;
         return bul;
     }
     void OnTakeout(Bullet self)

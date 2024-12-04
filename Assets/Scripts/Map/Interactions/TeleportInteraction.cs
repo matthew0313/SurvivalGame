@@ -7,11 +7,9 @@ using UnityEngine.InputSystem;
 
 public class TeleportInteraction : Interaction
 {
-    [SerializeField] string m_interactText = "Enter";
     [SerializeField] Vector2 teleportDestination;
     public UnityEvent onTeleport;
     Player player;
-    public override string interactText => m_interactText;
     public override bool removeUponInteract => true;
     protected override void Awake()
     {

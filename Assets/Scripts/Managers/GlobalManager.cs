@@ -69,32 +69,19 @@ public class GlobalManager : MonoBehaviour
             Settings.Load(data);
         });
     }
-    public void Save(string fileName)
+    public void Save(string fileName, Action<SaveData> onSave = null)
     {
         if (GameManager.isInGame == false) return;
         SaveData data = new();
         foreach (var i in GetSavables()) i.Save(data);
-        handler.Save(data, fileName);
+        handler.Save(data, fileName, onSave);
     }
     string loadingFile = "";
     bool newGame = false;
-    public void Load(string fileName)
-    {
-        handler.Load<SaveData>(fileName, (data) =>
-        {
-            if (data != null)
-            {
-                foreach (var i in GetSavables()) i.Load(data);
-            }
-        });
-    }
     public void GetSaveData(string fileName, Action<SaveData> onLoad) => handler.Load(fileName, onLoad);
-
-    bool loadingScene = false;
     public void LoadScene(string sceneName)
     {
-        if (loadingScene) return;
-        loadingScene = true;
+        sceneLoadBlack.DOPause();
         sceneLoadBlack.pivot = new Vector2(1.0f, 0.5f);
         sceneLoadBlack.DOScaleX(1.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc).OnComplete(() =>
         {
@@ -104,7 +91,6 @@ public class GlobalManager : MonoBehaviour
                 sceneLoadingText.gameObject.SetActive(false);
                 sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
                 sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc);
-                loadingScene = false;
             };
             onLoad += (a, b) => SceneManager.sceneLoaded -= onLoad;
             SceneManager.sceneLoaded += onLoad;
@@ -113,8 +99,7 @@ public class GlobalManager : MonoBehaviour
     }
     public void LoadGame(string loadingFileName)
     {
-        if (loadingScene) return;
-        loadingScene = true;
+        sceneLoadBlack.DOPause();
         sceneLoadBlack.pivot = new Vector2(1.0f, 0.5f);
         sceneLoadBlack.DOScaleX(1.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc).OnComplete(() =>
         {
@@ -132,7 +117,6 @@ public class GlobalManager : MonoBehaviour
                         sceneLoadingText.gameObject.SetActive(false);
                         sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
                         sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc);
-                        loadingScene = false;
                     });
                 }
                 else
@@ -140,7 +124,6 @@ public class GlobalManager : MonoBehaviour
                     sceneLoadingText.gameObject.SetActive(false);
                     sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
                     sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc);
-                    loadingScene = false;
                 }
             };
             onLoad += (a, b) => SceneManager.sceneLoaded -= onLoad;

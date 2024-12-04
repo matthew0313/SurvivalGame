@@ -18,7 +18,7 @@ public class LocalSaveFileHandler : SaveFileHandler
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            string dataToStore = JsonUtility.ToJson(data, true);
+            string dataToStore = JsonUtility.ToJson(data, false);
             using (FileStream stream = new FileStream(path, FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(stream))

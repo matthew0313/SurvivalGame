@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
         dead = true;
         anim.SetBool("Dead", true);
         onDeath?.Invoke();
-        AudioManager.Instance.FadeoutMusic(() => { GameManager.Instance.GameOver(); });
+        AudioManager.Instance.FadeMusic(2.0f, () => { GameManager.Instance.GameOver(); });
     }
     public void OnCutsceneEnter()
     {
