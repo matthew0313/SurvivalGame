@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 [RequireComponent(typeof(HpComp), typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver

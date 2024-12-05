@@ -41,7 +41,7 @@ public class GlobalManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        localHandler = new LocalSaveFileHandler(Path.Combine(".", saveFileName), fileExtension);
+        localHandler = new LocalSaveFileHandler(Application.persistentDataPath, fileExtension);
         serverHandler = new ServerSaveFileHandler(baseURL, this);
         SwitchHandler(saveMode);
         Settings.onBrightnessChange += () => brightnessImage.color = new Color(0, 0, 0, (1.0f - Settings.brightness) / 2.0f);
