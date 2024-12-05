@@ -27,7 +27,7 @@
                     "name": "Reload",
                     "type": "Button",
                     "id": "e43dbd2e-8fa4-4d94-a3a9-f3b7ecd0299f",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -105,7 +105,7 @@
                     "id": "ec01e1b9-58f1-4fdc-a899-6f738e77121d",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "NormalizeVector2,StickDeadzone(min=0.2,max=1)",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "MobileAim",
                     "isComposite": false,
