@@ -49,7 +49,8 @@ public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
 
     Vector2 originPos;
     Player player;
-    HpComp hp;
+    HpComp m_hp = null;
+    HpComp hp { get { if (m_hp == null) m_hp = GetComponent<HpComp>(); return m_hp; } }
 
     bool rotate = false;
     TopLayer topLayer;
@@ -59,7 +60,6 @@ public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        hp = GetComponent<HpComp>();
         hp.onDeath += OnDeath;
         if (!instantiated) originPos = transform.position;
         weapon.ResetMag();
@@ -77,7 +77,7 @@ public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     }
     bool ScanPlayer()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.transform.position - transform.position).normalized, Vector2.Distance(transform.position, player.transform.position), LayerMask.GetMask("Map"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.transform.position - transform.position).normalized, Vector2.Distance(transform.position, player.transform.position), LayerMask.GetMask("Map", "MapEdge"));
         if (!hit)
         {
             return true;
@@ -175,12 +175,13 @@ public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     public void Load(DataUnit data)
     {
         transform.position = new Vector2(data.floats["posX"], data.floats["posY"]);
-        hp.Load(JsonUtility.FromJson<HpCompSaveData>(data.strings["HpComp"]));
+        if(data.strings.TryGetValue("HpComp", out string tmp)) hp.Load(JsonUtility.FromJson<HpCompSaveData>(tmp));
         if (hp.dead) SetDeadState();
     }
     public void Save(SaveData data)
     {
         if (instantiated) return;
+        if (gameObject.activeSelf == false) return;
         data.fieldEnemies[id.value] = Save();
     }
     public void Load(SaveData data)

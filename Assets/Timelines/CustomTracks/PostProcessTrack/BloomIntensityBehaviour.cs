@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class BloomIntensityBehaviour : PlayableBehaviour
 {
     [SerializeField] float intensity, changeTime;
+    [SerializeField] bool instant = true;
     bool played = false;
     Bloom bloom;
     float startIntensity;
@@ -26,7 +27,14 @@ public class BloomIntensityBehaviour : PlayableBehaviour
                 played = true;
                 startIntensity = bloom.intensity.value;
             }
-            bloom.intensity.value = Mathf.Lerp(startIntensity, intensity, Mathf.Min(1.0f, (float)playable.GetTime() / changeTime));
+            if (instant)
+            {
+                bloom.intensity.value = intensity;
+            }
+            else
+            {
+                bloom.intensity.value = Mathf.Lerp(startIntensity, intensity, Mathf.Min(1.0f, (float)playable.GetTime() / changeTime));
+            }
         }
     }
     public override void OnBehaviourPause(Playable playable, FrameData info)

@@ -563,7 +563,7 @@ MonoBehaviour:
   m_Name: MoveToClip
   m_EditorClassIdentifier: 
   template:
-    targetPos: {x: 8.5, y: -17}
+    targetPos: {x: 6, y: -17}
     z: -10
     moveCurve:
       serializedVersion: 2

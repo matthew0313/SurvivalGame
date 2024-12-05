@@ -48,7 +48,7 @@ public class TimelineCutsceneManager : MonoBehaviour, ISavable
         else
         {
             fastPlaying = true;
-            director.playableGraph.GetRootPlayable(0).SetSpeed(3.0f);
+            director.playableGraph.GetRootPlayable(0).SetSpeed(5.0f);
         }
     }
 

@@ -9,6 +9,8 @@ using UnityEngine.UI;
 [TrackColor(1f, 0f, 0f)]
 [TrackBindingType(typeof(Volume))]
 [TrackClipType(typeof(BloomIntensityClip))]
+[TrackClipType(typeof(WhiteBalanceClip))]
+[TrackClipType(typeof(ColorAdjustmentsClip))]
 public class PostProcessTrack : TrackAsset
 {
 

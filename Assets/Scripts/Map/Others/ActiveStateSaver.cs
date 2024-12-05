@@ -9,18 +9,11 @@ using UnityEngine.Timeline;
 public class ActiveStateSaver : MonoBehaviour, ISavable
 {
     [SerializeField] SaveID id;
-    [SerializeField] bool defaultActiveState = false;
-    bool loaded = false;
-    void Start()
-    {
-        if(!loaded) gameObject.SetActive(defaultActiveState);
-    }
     public void Load(SaveData data)
     {
         if (data.mapObjects.TryGetValue(id.value, out DataUnit tmp))
         {
             gameObject.SetActive(tmp.bools["active"]);
-            loaded = true;
         }
     }
 

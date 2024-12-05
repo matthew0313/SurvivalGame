@@ -47,7 +47,6 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
 
     public readonly List<Interaction> interactions = new();
     public bool canInteract = true;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
