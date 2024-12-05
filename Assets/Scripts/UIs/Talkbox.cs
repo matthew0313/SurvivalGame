@@ -3,27 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Talkbox : MonoBehaviour, ICutsceneTriggerReceiver
 {
-    [SerializeField] Text m_text;
+    [SerializeField] TMP_Text m_text;
     [SerializeField] Sound talkSound;
-    public Text text => m_text;
+    public TMP_Text text => m_text;
     IEnumerator dialoguing = null;
-    Action onDialogueFinish = null;
     List<AudioSource> talkSoundSources = new();
     public void TalkSound()
     {
-        AudioManager.Instance.PlaySound(talkSound, transform);
+        AudioManager.Instance.PlaySound(talkSound);
     }
     public void Dialogue(string[] dialogues, float talkSpeed, float pauseTime, float endTime, Action onDialogueFinish)
     {
         gameObject.SetActive(true);
-        this.onDialogueFinish = onDialogueFinish;
-        dialoguing = Dialoguing(dialogues, talkSpeed, pauseTime, endTime);
+        dialoguing = Dialoguing(dialogues, talkSpeed, pauseTime, endTime, onDialogueFinish);
         StartCoroutine(dialoguing);
     }
-    IEnumerator Dialoguing(string[] dialogues, float talkSpeed, float pauseTime, float endTime)
+    IEnumerator Dialoguing(string[] dialogues, float talkSpeed, float pauseTime, float endTime, Action onDialogueFinish)
     {
         for(int i = 0; i < dialogues.Length; i++)
         {
@@ -43,11 +42,7 @@ public class Talkbox : MonoBehaviour, ICutsceneTriggerReceiver
 
     public void OnCutsceneEnter()
     {
-        if (dialoguing != null)
-        {
-            StopCoroutine(dialoguing);
-            onDialogueFinish?.Invoke();
-        }
+        if (dialoguing != null) StopCoroutine(dialoguing);
     }
 
     public void OnCutsceneExit() { }

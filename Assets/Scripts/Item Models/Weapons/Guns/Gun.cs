@@ -67,7 +67,7 @@ public abstract class Gun : Weapon
             else if ((InputManager.ReloadButtonDown() || DeviceManager.IsMobile() && origin.mag <= 0) && origin.mag < magSize && (bulletItem == null ||  wielder.inventory.Search(bulletItem) > 0))
             {
                 if (anim != null) anim.SetTrigger("Reload");
-                if (reloadSound.clip != null) AudioManager.Instance.PlaySound(reloadSound, transform);
+                if (reloadSound.clip != null) AudioManager.Instance.PlaySound(reloadSound);
                 reloading = true;
                 reloadCounter = 0.0f;
             }
@@ -86,7 +86,7 @@ public abstract class Gun : Weapon
     void Fire()
     {
         if(anim != null) anim.SetTrigger("Fire");
-        if (fireSound.clip != null) AudioManager.Instance.PlaySound(fireSound, transform);
+        if (fireSound.clip != null) AudioManager.Instance.PlaySound(fireSound);
         FireBullet();
         origin.DurabilityReduce(1.0f);
     }

@@ -15,5 +15,5 @@ MonoBehaviour:
   m_image: {fileID: 21300000, guid: 0ec4ed90efa3bd24badbe8b97ed2a98a, type: 3}
   m_stats:
     m_traits: 1
-    m_extraHealth: 1000
+    m_extraHealth: 100
     m_extraSpeed: 0

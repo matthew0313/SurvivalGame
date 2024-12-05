@@ -12,44 +12,41 @@ public class LocalSaveFileHandler : SaveFileHandler
         this.savePath = savePath;
         this.fileExtension = fileExtension;
     }
-    public override void Save<T>(T data, string fileName, Action<T> onSave = null) where T : class
+    public override void Save(string data, string fileName, Action onSave = null)
     {
         string path = Path.Combine(savePath, fileName + fileExtension);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            string dataToStore = JsonUtility.ToJson(data, false);
             using (FileStream stream = new FileStream(path, FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    writer.Write(dataToStore);
+                    writer.Write(data);
                 }
             }
-            onSave?.Invoke(data);
+            onSave?.Invoke();
         }
         catch (Exception e)
         {
             Debug.LogError("Save Path:" + path + "\n" + e);
         }
     }
-    public override void Load<T>(string fileName, Action<T> onLoad = null) where T : class
+    public override void Load(string fileName, Action<string> onLoad = null)
     {
         string path = Path.Combine(savePath, fileName + fileExtension);
-        T loadedData = null;
+        string loadedData = null;
         if (File.Exists(path))
         {
             try
             {
-                string dataToLoad;
                 using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        dataToLoad = reader.ReadToEnd();
+                        loadedData = reader.ReadToEnd();
                     }
                 }
-                loadedData = JsonUtility.FromJson<T>(dataToLoad);
             }
             catch (Exception e)
             {

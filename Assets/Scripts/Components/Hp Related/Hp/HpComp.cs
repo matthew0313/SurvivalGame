@@ -40,13 +40,11 @@ public class HpComp : MonoBehaviour
     public Action onHpChange, onDeath;
     public List<Func<HpChangeData, HpChangeData>> damageModificators { get; } = new();
     public List<Func<HpChangeData, HpChangeData>> healModificators { get; } = new();
-
+    public bool dead { get; private set; } = false;
     private void Awake()
     {
         hp = maxHp;
     }
-    public bool dead { get; private set; } = false;
-    
     public void GetDamage(float damage)
     {
         GetDamage(new HpChangeData() { amount = damage });

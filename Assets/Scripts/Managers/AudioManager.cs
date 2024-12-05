@@ -12,20 +12,23 @@ public class AudioManager : MonoBehaviour
     public AudioManager() => Instance = this;
     List<(AudioSource, Sound)> sources = new();
     List<(AudioSource, Transform)> tracedSources = new();
-    [SerializeField] Sound currentMusic;
+    [SerializeField] Sound defaultMusic;
     [SerializeField] AudioSource musicPlayer;
-
-    public Sound customMusic;
+    List<MusicPriorityPair> musicPriorityList = new();
+    MusicPriorityPair currentMusic;
     private void Awake()
     {
         Settings.onMasterVolumeChange += OnVolumeChange;
-        musicPlayer.volume = currentMusic.volume * Settings.masterVolume;
-        musicPlayer.clip = currentMusic.clip;
+        currentMusic = new MusicPriorityPair() { music = defaultMusic, priority = 0 };
+        musicPriorityList.Add(currentMusic);
+        musicPlayer.clip = currentMusic.music.clip;
+        musicPlayer.volume = currentMusic.music.volume * Settings.masterVolume;
         musicPlayer.Play();
+        RefreshMusic();
     }
     void OnVolumeChange()
     {
-        musicPlayer.volume = currentMusic.volume * Settings.masterVolume;
+        musicPlayer.volume = currentMusic.music.volume * Settings.masterVolume;
         foreach (var i in sources) i.Item1.volume = i.Item2.volume * Settings.masterVolume;
     }
     List<(AudioSource, Transform)> removeQueue = new();
@@ -38,64 +41,72 @@ public class AudioManager : MonoBehaviour
         }
         foreach (var i in removeQueue) tracedSources.Remove(i);
     }
-    public void PlaySound(Sound sound, Vector2 position)
+    public void PlaySound(Sound sound)
     {
+        if (!Application.isPlaying) return;
         AudioSource source = sources.Find((tmp) => tmp.Item1.isPlaying == false).Item1;
         if(source == null)
         {
-            source = new GameObject().AddComponent<AudioSource>();
+            source = gameObject.AddComponent<AudioSource>();
             sources.Add((source, sound));
         }
         source.volume = sound.volume * Settings.masterVolume;
         source.clip = sound.clip;
-        source.transform.position = position;
         source.Play();
     }
-    public void PlaySound(Sound sound, Transform positioner)
+    public Action<AudioClip> onMusicChange;
+    public void RefreshMusic()
     {
-        AudioSource source = sources.Find((tmp) => tmp.Item1.isPlaying == false).Item1;
-        if (source == null)
+        musicPriorityList.Sort((a, b) => b.priority.CompareTo(a.priority));
+        AudioClip prev = currentMusic.music.clip;
+        currentMusic = musicPriorityList[0];
+        if (currentMusic.music.clip != prev)
         {
-            source = new GameObject().AddComponent<AudioSource>();
-            sources.Add((source, sound));
+            FadeMusic(1.0f, () =>
+            {
+                musicPlayer.clip = currentMusic.music.clip;
+                musicPlayer.volume = currentMusic.music.volume * Settings.masterVolume;
+                if(musicPlayer.clip != null) musicPlayer.Play();
+                onMusicChange?.Invoke(musicPlayer.clip);
+            });
         }
-        source.volume = sound.volume * Settings.masterVolume;
-        source.clip = sound.clip;
-        source.transform.position = positioner.position;
-        tracedSources.Add((source, positioner));
-        source.Play();
+        else musicPlayer.volume = currentMusic.music.volume * Settings.masterVolume;
     }
-    public void ChangeMusic(Sound music)
+    public void AddMusic(MusicPriorityPair music)
     {
-        FadeMusic(1.0f, () =>
+        if (!musicPriorityList.Contains(music))
         {
-            currentMusic = music;
-            musicPlayer.volume = currentMusic.volume * Settings.masterVolume;
-            musicPlayer.clip = currentMusic.clip;
-            musicPlayer.Play();
-        });
+            musicPriorityList.Add(music);
+        }
+        RefreshMusic();
     }
+    public void RemoveMusic(MusicPriorityPair music)
+    {
+        if(musicPriorityList.Contains(music))
+        {
+            musicPriorityList.Remove(music);
+        }
+        RefreshMusic();
+    }
+    public bool ContainsMusic(MusicPriorityPair music) => musicPriorityList.Contains(music);
     IEnumerator fadingMusic = null;
-    Action onFadeEnd;
     public void FadeMusic(float fadeTime, Action onFadeEnd)
     {
         if (fadingMusic != null)
         {
             StopCoroutine(fadingMusic);
-            this.onFadeEnd?.Invoke();
         }
-        this.onFadeEnd = onFadeEnd;
-        fadingMusic = FadingMusic(fadeTime);
+        fadingMusic = FadingMusic(fadeTime, onFadeEnd);
         StartCoroutine(fadingMusic);
     }
-    IEnumerator FadingMusic(float fadeTime)
+    IEnumerator FadingMusic(float fadeTime, Action onFadeEnd)
     {
-        float start = currentMusic.volume * Settings.masterVolume;
+        float start = musicPlayer.volume;
         float counter = 0.0f;
         while(counter < fadeTime)
         {
-            counter = Mathf.Min(fadeTime, counter + Time.deltaTime);
-            musicPlayer.volume = Mathf.Lerp(start, 0.0f, counter / fadeTime);
+            counter += Time.deltaTime;
+            musicPlayer.volume = start * (1.0f - Mathf.Max(0.0f, counter / fadeTime));
             yield return null;
         }
         fadingMusic = null;
@@ -105,4 +116,10 @@ public class AudioManager : MonoBehaviour
     {
         Settings.onMasterVolumeChange -= OnVolumeChange;
     }
+}
+[System.Serializable]
+public class MusicPriorityPair
+{
+    public Sound music;
+    public int priority;
 }

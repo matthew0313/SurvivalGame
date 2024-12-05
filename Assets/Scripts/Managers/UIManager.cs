@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
     [Header("Tabs")]
     [SerializeField] PlayerInventoryUI inventoryUI;
 
-    [Header("Cutscenes")]
+    [Header("Old Cutscenes(Deprecated)")]
     [SerializeField] GameObject defaultUI;
     [SerializeField] GameObject cutsceneUI;
     [SerializeField] List<OldCutscene> cutscenes = new();
@@ -56,11 +56,19 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
     [SerializeField] Text talkTalker, talkContent;
     [SerializeField] float talkRate, talkPauseTime;
 
+    [Header("Cutscenes")]
+    [SerializeField] Button cutscenePlayrateButton;
+    [SerializeField] Image cutscenePlayrateButtonIcon;
+    [SerializeField] Sprite cutsceneFastPlaying, cutsceneNotFastPlaying;
+
     [Header("Pause")]
     [SerializeField] RectTransform pauseMenu;
     [SerializeField] Image pauseImage;
     [SerializeField] Sprite pausedSprite, notPausedSprite;
     [SerializeField] SaveFilesTab saveFiles;
+
+    [Header("Music")]
+    [SerializeField] Text currentMusicText;
 
     [Header("Settings")]
     [SerializeField] Slider volumeSlider;
@@ -128,6 +136,7 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
         OnVolumeChange(); OnBrightnessChange();
         volumeSlider.onValueChanged.AddListener((float value) => { Settings.masterVolume = value; });
         brightnessSlider.onValueChanged.AddListener((float value) => { Settings.brightness = value; });
+        AudioManager.Instance.onMusicChange += OnMusicChange;
         saveFiles.InstantiateButtons();
     }
     private void Start()
@@ -141,6 +150,16 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
         Settings.onBrightnessChange -= OnBrightnessChange;
     }
     Item equipDisplaying = null;
+    void OnMusicChange(AudioClip newClip)
+    {
+        if (newClip == null) return;
+        currentMusicText.DOKill();
+        currentMusicText.text = "Now Playing: " + newClip.name;
+        currentMusicText.DOColor(new Color(1, 1, 1, 1), 0.25f).OnComplete(() =>
+        {
+            currentMusicText.DOColor(new Color(1, 1, 1, 0), 0.25f).SetDelay(1.0f);
+        });
+    }
     void OnVolumeChange()
     {
         volumeSlider.value = Settings.masterVolume;
@@ -151,16 +170,21 @@ public class UIManager : MonoBehaviour, ICutsceneTriggerReceiver
     }
     public void OnCutsceneEnter()
     {
-        Debug.Log(gameObject);
-        Debug.Log(defaultUI);
-        Debug.Log(cutsceneUI);
         defaultUI.gameObject.SetActive(false);
         cutsceneUI.gameObject.SetActive(true);
+        cutscenePlayrateButtonIcon.sprite = cutsceneNotFastPlaying;
+        cutscenePlayrateButton.gameObject.SetActive(true);
     }
     public void OnCutsceneExit()
     {
         defaultUI.gameObject.SetActive(true);
         cutsceneUI.gameObject.SetActive(false);
+        cutscenePlayrateButton.gameObject.SetActive(false);
+    }
+    public void ToggleCutsceneFastPlay()
+    {
+        TimelineCutsceneManager.Instance.ToggleFastPlay();
+        cutscenePlayrateButtonIcon.sprite = TimelineCutsceneManager.Instance.fastPlaying ? cutsceneFastPlaying : cutsceneNotFastPlaying;
     }
     void EquippedItemChange()
     {

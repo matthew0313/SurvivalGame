@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(HpComp), typeof(Rigidbody2D))]
-public class Enemy : MonoBehaviour, ISavable
+public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
 {
     [Header("AI")]
     [SerializeField] float wanderRange;
@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour, ISavable
     [SerializeField] float minDist = 2.0f, maxDist = 5.0f, reloadingMinDist = 5.0f, reloadingMaxDist = 10.0f;
     [SerializeField] float reloadStartingTime = 2.0f;
     [SerializeField] float maxWanderMovingTime = 3.0f;
+    [SerializeField] bool alwaysDetect = false;
 
     [Header("Speed")]
     [SerializeField] float wanderSpeed;
@@ -35,13 +36,16 @@ public class Enemy : MonoBehaviour, ISavable
     [Header("Field Enemy")]
     [SerializeField] SaveID id;
 
+    [Header("Events")]
+    [SerializeField] UnityEvent onEnemyDeath;
+
     [Header("Debug")]
     [SerializeField] float m_detection = 0;
     [SerializeField] string FSMPath;
-    public Action onDeath;
 
     public Enemy prefabOrigin { get; private set; }
     bool instantiated = false;
+    public Action onDeath;
 
     Vector2 originPos;
     Player player;
@@ -90,6 +94,7 @@ public class Enemy : MonoBehaviour, ISavable
             tmp.Set(i.item, i.count);
             tmp.SetVelocity(Utilities.RandomAngle(0, 360.0f) * 3.0f);
         }
+        onEnemyDeath?.Invoke();
         onDeath?.Invoke();
         if (instantiated)
         {
@@ -119,6 +124,11 @@ public class Enemy : MonoBehaviour, ISavable
     }
     void ChangeDetection()
     {
+        if (alwaysDetect)
+        {
+            detection = detectionRequired;
+            return;
+        }
         if (ScanPlayer() && PlayerDist() <= detectRange)
         {
             detection = Mathf.Min(maxDetection, detection + Mathf.Lerp(detectionRateMin, detectionRateMax, 1.0f - Vector2.Distance(transform.position, player.transform.position) / detectRange) * Time.deltaTime);
@@ -176,8 +186,19 @@ public class Enemy : MonoBehaviour, ISavable
     public void Load(SaveData data)
     {
         if (instantiated) return;
-        Load(data.fieldEnemies[id.value]);
+        if (data.fieldEnemies.TryGetValue(id.value, out DataUnit tmp)) Load(tmp);
     }
+
+    public void OnCutsceneEnter()
+    {
+        enabled = false;
+    }
+
+    public void OnCutsceneExit()
+    {
+        enabled = true;
+    }
+
     protected class EnemyFSMVals : FSMVals
     {
 
