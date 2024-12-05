@@ -19,4 +19,5 @@ public class SaveData
 
     public PlayableAsset cutscene;
     public float cutsceneProgress = 0.0f;
+    public Vector2 cameraPos;
 }

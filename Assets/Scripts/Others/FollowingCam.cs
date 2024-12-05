@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class FollowingCam : MonoBehaviour, ICutsceneTriggerReceiver
+public class FollowingCam : MonoBehaviour, ICutsceneTriggerReceiver, ISavable
 {
     [SerializeField] float lerpRate = 0.5f;
     [SerializeField] BoxCollider2D collider;
@@ -52,5 +53,16 @@ public class FollowingCam : MonoBehaviour, ICutsceneTriggerReceiver
     public void OnCutsceneExit()
     {
         enabled = true;
+    }
+
+    public void Save(SaveData data)
+    {
+        data.cameraPos = transform.position;
+    }
+
+    public void Load(SaveData data)
+    {
+        transform.position = data.cameraPos;
+        transform.position += new Vector3(0, 0, -10.0f);
     }
 }

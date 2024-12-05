@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 [RequireComponent(typeof(HpComp), typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
@@ -175,7 +176,7 @@ public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     public void Load(DataUnit data)
     {
         transform.position = new Vector2(data.floats["posX"], data.floats["posY"]);
-        if(data.strings.TryGetValue("HpComp", out string tmp)) hp.Load(JsonUtility.FromJson<HpCompSaveData>(tmp));
+        hp.Load(JsonUtility.FromJson<HpCompSaveData>(data.strings["HpComp"]));
         if (hp.dead) SetDeadState();
     }
     public void Save(SaveData data)

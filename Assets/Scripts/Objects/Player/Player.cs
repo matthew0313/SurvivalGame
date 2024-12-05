@@ -116,6 +116,7 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     }
     Vector2 lastMovedDirection = Vector2.right;
     readonly int rotXID = Animator.StringToHash("rotX"), rotYID = Animator.StringToHash("rotY");
+    readonly int movingID = Animator.StringToHash("Moving");
     void Move(Vector2 move)
     {
         if (!canMove) return;
@@ -123,10 +124,15 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
         if (move != Vector2.zero)
         {
             lastMovedDirection = move.normalized;
+            anim.SetBool(movingID, true);
             if (!rotate)
             {
                 anim.SetFloat(rotXID, move.x); anim.SetFloat(rotYID, move.y);
             }
+        }
+        else
+        {
+            anim.SetBool(movingID, false);
         }
     }
     void RotateCheck()
