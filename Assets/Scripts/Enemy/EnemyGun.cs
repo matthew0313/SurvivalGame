@@ -43,7 +43,7 @@ public class EnemyGun : MonoBehaviour
         {
             counter = 0.0f;
             mag--;
-            AudioManager.Instance.PlaySound(fireSound, transform);
+            AudioManager.Instance.PlaySound(fireSound);
             anim.SetTrigger(fireID);
             Fire();
         }
@@ -61,7 +61,7 @@ public class EnemyGun : MonoBehaviour
     public void Reload()
     {
         if (reloading) return;
-        AudioManager.Instance.PlaySound(reloadSound, transform);
+        AudioManager.Instance.PlaySound(reloadSound);
         reloadCounter = 0.0f;
         reloading = true;
     }

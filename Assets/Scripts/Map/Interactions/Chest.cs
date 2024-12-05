@@ -65,12 +65,14 @@ public class Chest : Interaction, ISavable
 
     public void Load(SaveData data)
     {
-        DataUnit tmp = data.mapObjects[id.value];
-        cooldownLeft = tmp.floats["cooldownLeft"];
-        if (cooldownLeft > 0)
+        if(data.mapObjects.TryGetValue(id.value, out DataUnit tmp))
         {
-            isOnCooldown = true;
-            chestAnim.SetBool(openID, true);
+            cooldownLeft = tmp.floats["cooldownLeft"];
+            if (cooldownLeft > 0)
+            {
+                isOnCooldown = true;
+                chestAnim.SetBool(openID, true);
+            }
         }
     }
 }

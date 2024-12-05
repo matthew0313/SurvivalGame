@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Inventory), typeof(HpComp))]
@@ -67,7 +69,23 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
         dead = true;
         anim.SetBool("Dead", true);
         onDeath?.Invoke();
-        AudioManager.Instance.FadeMusic(2.0f, () => { GameManager.Instance.GameOver(); });
+        AudioManager.Instance.FadeMusic(2.0f, null);
+        StartCoroutine(DeathAnim());
+    }
+    IEnumerator DeathAnim()
+    {
+        float counter = 0.0f;
+        if (GameObject.FindGameObjectWithTag("GlobalVolume").GetComponent<Volume>().profile.TryGet(out Bloom bloom))
+        {
+            float startVal = bloom.intensity.value;
+            while (counter < 3.0f)
+            {
+                counter += Time.deltaTime;
+                bloom.intensity.value = startVal + 800.0f * counter / 3.0f;
+                yield return null;
+            }
+        }
+        GameManager.Instance.GameOver();
     }
     public void OnCutsceneEnter()
     {
@@ -236,7 +254,7 @@ public class Player : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     {
         if (!canInteract || currentInteraction == null) return;
         currentInteraction.OnInteract();
-        if (currentInteraction.removeUponInteract) RemoveInteraction(currentInteraction);
+        if (currentInteraction != null && currentInteraction.removeUponInteract) RemoveInteraction(currentInteraction);
     }
     [SerializeField] Interaction m_currentInteraction = null;
     public Interaction currentInteraction

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpDisplayBar : MonoBehaviour
+public class HpDisplayBar : MonoBehaviour, ICutsceneTriggerReceiver
 {
     [SerializeField] HpComp origin;
     [SerializeField] Image scaler, backScaler;
@@ -65,5 +65,15 @@ public class HpDisplayBar : MonoBehaviour
                 backScaler.transform.localScale = new Vector2(currentScale, 1.0f);
             }
         }
+    }
+
+    public void OnCutsceneEnter()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void OnCutsceneExit()
+    {
+        gameObject.SetActive(true);
     }
 }

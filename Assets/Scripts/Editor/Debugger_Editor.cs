@@ -16,6 +16,8 @@ public class Debugger_Editor : Editor
         element.Q<Button>("HealPlayer").clicked += (target as Debugger).HealPlayer;
         element.Q<Button>("DamagePlayer").clicked += (target as Debugger).DamagePlayer;
         element.Q<Button>("SetPlayerHp").clicked += (target as Debugger).SetPlayerHp;
+        element.Q<Button>("ForceChangeMusic").clicked += (target as Debugger).ForceChangeMusic;
+        element.Q<Button>("PlayCutscene").clicked += (target as Debugger).PlayCutscene;
         return element;
     }
 }

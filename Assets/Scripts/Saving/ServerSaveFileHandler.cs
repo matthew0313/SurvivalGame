@@ -17,13 +17,13 @@ public class ServerSaveFileHandler : SaveFileHandler
         this.baseUrl = baseUrl;
         this.coroutinePlayer = coroutinePlayer;
     }
-    public override void Load<T>(string fileName, Action<T> onLoad = null) where T : class
+    public override void Load(string fileName, Action<string> onLoad = null)
     {
-        coroutinePlayer.StartCoroutine(LoadDataFromServer(fileName, (tmp) => onLoad?.Invoke(tmp == null ? null : JsonUtility.FromJson<T>(tmp))));
+        coroutinePlayer.StartCoroutine(LoadDataFromServer(fileName, (data) => onLoad?.Invoke(data)));
     }
-    public override void Save<T>(T data, string fileName, Action<T> onSave = null) where T : class
+    public override void Save(string data, string fileName, Action onSave = null)
     {
-        coroutinePlayer.StartCoroutine(SaveDataToServer(fileName, JsonUtility.ToJson(data), () => onSave?.Invoke(data)));
+        coroutinePlayer.StartCoroutine(SaveDataToServer(fileName, data, () => onSave?.Invoke()));
     }
     public override void Delete(string fileName, Action onDelete = null)
     {

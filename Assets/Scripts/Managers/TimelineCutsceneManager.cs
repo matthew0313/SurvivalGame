@@ -23,19 +23,33 @@ public class TimelineCutsceneManager : MonoBehaviour, ISavable
         director.played += (tmp) =>
         {
             m_inCutscene = true;
-            foreach (var i in FindObjectsOfType<MonoBehaviour>().OfType<ICutsceneTriggerReceiver>()) i.OnCutsceneEnter();
+            foreach (var i in FindObjectsOfType<MonoBehaviour>(true).OfType<ICutsceneTriggerReceiver>()) i.OnCutsceneEnter();
         };
         director.stopped += (tmp) =>
         {
             m_inCutscene = false;
-            foreach (var i in FindObjectsOfType<MonoBehaviour>().OfType<ICutsceneTriggerReceiver>()) i.OnCutsceneExit();
+            foreach (var i in FindObjectsOfType<MonoBehaviour>(true).OfType<ICutsceneTriggerReceiver>()) i.OnCutsceneExit();
         };
     }
-    public static void PlayCutscene(TimelineAsset cutscene)
+    public void PlayCutscene(TimelineAsset cutscene)
     {
-        if (Instance == null) return;
+        fastPlaying = false;
         Instance.director.playableAsset = cutscene;
         Instance.director.Play();
+    }
+    public bool fastPlaying { get; private set; } = false;
+    public void ToggleFastPlay()
+    {
+        if (fastPlaying)
+        {
+            fastPlaying = false;
+            director.playableGraph.GetRootPlayable(0).SetSpeed(1.0f);
+        }
+        else
+        {
+            fastPlaying = true;
+            director.playableGraph.GetRootPlayable(0).SetSpeed(3.0f);
+        }
     }
 
     public void Save(SaveData data)

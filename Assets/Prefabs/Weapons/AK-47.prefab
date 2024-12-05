@@ -197,7 +197,7 @@ MonoBehaviour:
   m_bulletItem: {fileID: 11400000, guid: 592c3ed3f88964746a9b3016b70d6701, type: 2}
   m_magSize: 30
   reloadTime: 4
-  gunWeight: 0
+  gunWeight: 1
   firePoints:
   - {fileID: 4673336708907637394}
   anim: {fileID: 1003130724110743666}

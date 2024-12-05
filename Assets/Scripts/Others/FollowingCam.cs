@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class FollowingCam : MonoBehaviour
+public class FollowingCam : MonoBehaviour, ICutsceneTriggerReceiver
 {
     [SerializeField] float lerpRate = 0.5f;
     [SerializeField] BoxCollider2D collider;
@@ -42,5 +42,15 @@ public class FollowingCam : MonoBehaviour
     {
         transform.position = position;
         transform.position += new Vector3(0, 0, -10.0f);
+    }
+
+    public void OnCutsceneEnter()
+    {
+        enabled = false;
+    }
+
+    public void OnCutsceneExit()
+    {
+        enabled = true;
     }
 }

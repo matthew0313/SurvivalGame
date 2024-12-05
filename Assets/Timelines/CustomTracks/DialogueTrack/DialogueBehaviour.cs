@@ -52,8 +52,8 @@ public class DialogueBehaviour : PlayableBehaviour
             for (int i = 0; i < dialogue.Length; i++)
             {
                 tot += timePerUnit * ((dialogue[i] == '.' || dialogue[i] == ',' || dialogue[i] == '!' || dialogue[i] == '?') ? pauseUnit : 1);
-                if (time < tot) break;
                 box.text.text += dialogue[i];
+                if (time < tot) break;
             }
         }
         if (box.text.text.Length != displayed)

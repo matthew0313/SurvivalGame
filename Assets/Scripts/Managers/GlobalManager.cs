@@ -20,6 +20,7 @@ public class GlobalManager : MonoBehaviour
     [SerializeField] Image brightnessImage;
 
     [Header("Saving")]
+    [SerializeField] bool prettyPrint = false;
     [SerializeField] int m_fileCount = 10;
     [SerializeField] SaveHandlerMode saveMode = SaveHandlerMode.Local;
 
@@ -59,14 +60,16 @@ public class GlobalManager : MonoBehaviour
     }
     public void SaveSettings()
     {
-        localHandler.Save(Settings.Save(), "Settings");
+        localHandler.Save(JsonUtility.ToJson(Settings.Save(), true), "Settings");
     }
     public void LoadSettings()
     {
-        localHandler.Load<SettingsSaveData>("Settings", (data) =>
+        localHandler.Load("Settings", (data) =>
         {
-            if (data == null) data = new();
-            Settings.Load(data);
+            SettingsSaveData tmp;
+            if (data == null) tmp = new();
+            else tmp = JsonUtility.FromJson<SettingsSaveData>(data);
+            Settings.Load(tmp);
         });
     }
     public void Save(string fileName, Action<SaveData> onSave = null)
@@ -74,11 +77,11 @@ public class GlobalManager : MonoBehaviour
         if (GameManager.isInGame == false) return;
         SaveData data = new();
         foreach (var i in GetSavables()) i.Save(data);
-        handler.Save(data, fileName, onSave);
+        handler.Save(JsonUtility.ToJson(data, prettyPrint), fileName, () => onSave?.Invoke(data));
     }
     string loadingFile = "";
     bool newGame = false;
-    public void GetSaveData(string fileName, Action<SaveData> onLoad) => handler.Load(fileName, onLoad);
+    public void GetSaveData(string fileName, Action<SaveData> onLoad) => handler.Load(fileName, (data) => onLoad?.Invoke(JsonUtility.FromJson<SaveData>(data)));
     public void LoadScene(string sceneName)
     {
         sceneLoadBlack.DOPause();
@@ -108,11 +111,12 @@ public class GlobalManager : MonoBehaviour
             {
                 if (loadingFileName != null)
                 {
-                    handler.Load<SaveData>(loadingFileName, (data) =>
+                    handler.Load(loadingFileName, (data) =>
                     {
                         if (data != null)
                         {
-                            foreach (var i in GetSavables()) i.Load(data);
+                            SaveData tmp = JsonUtility.FromJson<SaveData>(data);
+                            foreach (var i in GetSavables()) i.Load(tmp);
                         }
                         sceneLoadingText.gameObject.SetActive(false);
                         sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
@@ -139,7 +143,7 @@ public class GlobalManager : MonoBehaviour
     {
         if(GameManager.isInGame && GameManager.Instance.CanSave()) Save("AutoSave");
     }
-    IEnumerable<ISavable> GetSavables() => FindObjectsOfType<MonoBehaviour>().OfType<ISavable>();
+    IEnumerable<ISavable> GetSavables() => FindObjectsOfType<MonoBehaviour>(true).OfType<ISavable>();
 }
 [System.Serializable]
 public enum SaveHandlerMode
