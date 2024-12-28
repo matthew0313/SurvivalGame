@@ -51,7 +51,6 @@ public class ConsumableItem : StackableItem
             }
             if (InputManager.UseButtonDown() && !isOnCooldown)
             {
-                Debug.Log("EAEEAEEA");
                 wielder.consumableCooldowns.Add(data, data.prefab.cooldown);
                 onDescUpdate?.Invoke();
                 instance.OnUse();

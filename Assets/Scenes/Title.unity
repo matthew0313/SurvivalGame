@@ -1942,7 +1942,7 @@ MonoBehaviour:
   sceneLoadBlack: {fileID: 689660486}
   sceneLoadingText: {fileID: 312228280}
   brightnessImage: {fileID: 445938881}
-  prettyPrint: 0
+  prettyPrint: 1
   m_fileCount: 99
   saveMode: 0
   fileExtension: .json

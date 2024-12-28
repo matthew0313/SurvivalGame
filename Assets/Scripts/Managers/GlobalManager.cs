@@ -111,17 +111,27 @@ public class GlobalManager : MonoBehaviour
             {
                 if (loadingFileName != null)
                 {
-                    handler.Load(loadingFileName, (data) =>
+                    try
                     {
-                        if (data != null)
+                        handler.Load(loadingFileName, (data) =>
                         {
-                            SaveData tmp = JsonUtility.FromJson<SaveData>(data);
-                            foreach (var i in GetSavables()) i.Load(tmp);
-                        }
+                            if (data != null)
+                            {
+                                SaveData tmp = JsonUtility.FromJson<SaveData>(data);
+                                foreach (var i in GetSavables()) i.Load(tmp);
+                            }
+                            sceneLoadingText.gameObject.SetActive(false);
+                            sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
+                            sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc);
+                        });
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.LogError(e);
                         sceneLoadingText.gameObject.SetActive(false);
                         sceneLoadBlack.pivot = new Vector2(0.0f, 0.5f);
                         sceneLoadBlack.DOScaleX(0.0f, 0.5f).SetUpdate(true).SetEase(Ease.InCirc);
-                    });
+                    }
                 }
                 else
                 {

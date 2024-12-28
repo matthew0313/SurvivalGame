@@ -7,16 +7,19 @@ using UnityEngine.InputSystem;
 
 public class TalkInteraction : Interaction
 {
-    [SerializeField][TextArea] string[] talkContent;
-    [SerializeField] float talkSpeed = 0.05f, pauseTime = 0.25f, endTime = 1.0f;
-    [SerializeField] Talkbox talkBox;
-    public Action onTalkStart, onTalkEnd;
+    [SerializeField] Conversation conversation;
     public override bool canInteract => !talking;
     bool talking = false;
+    protected override void Awake()
+    {
+        base.Awake();
+        conversation.onConversationEnd.AddListener(EndConversation);
+    }
     public override void OnInteract()
     {
         base.OnInteract();
         talking = true;
-        talkBox.Dialogue(talkContent, talkSpeed, pauseTime, endTime, () => talking = false);
+        conversation.Start();
     }
+    void EndConversation() => talking = false;
 }

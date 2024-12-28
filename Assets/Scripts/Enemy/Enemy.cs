@@ -108,11 +108,14 @@ public class Enemy : MonoBehaviour, ISavable, ICutsceneTriggerReceiver
     void SetDeadState()
     {
         dead = true;
+        Debug.Log(anim.runtimeAnimatorController.name);
         anim.SetBool("Dead", true);
         equipAnchor.gameObject.SetActive(false);
     }
+    readonly int deadID = Animator.StringToHash("Dead");
     private void Update()
     {
+        anim.SetBool(deadID, dead);
         if (TimelineCutsceneManager.inCutscene || dead) return;
         ChangeDetection();
         topLayer.OnStateUpdate();

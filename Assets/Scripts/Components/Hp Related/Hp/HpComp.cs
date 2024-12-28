@@ -22,7 +22,8 @@ public class HpComp : MonoBehaviour
 
     float m_bonusHp = 0;
     public Alliance alliance => m_alliance;
-    public float hp { get; private set; }
+    [SerializeField] float m_hp;
+    public float hp { get => m_hp; private set => m_hp = value; }
     public float bonusHp
     {
         get { return m_bonusHp; }
@@ -43,6 +44,7 @@ public class HpComp : MonoBehaviour
     public bool dead { get; private set; } = false;
     private void Awake()
     {
+        if (loaded) return;
         hp = maxHp;
     }
     public void GetDamage(float damage)
@@ -116,8 +118,10 @@ public class HpComp : MonoBehaviour
         }
         return data;
     }
+    bool loaded = false;
     public void Load(HpCompSaveData data)
     {
+        loaded = true;
         hp = data.hp;
         foreach(var i in data.debuffs)
         {
@@ -129,7 +133,11 @@ public class HpComp : MonoBehaviour
             }
         }
         onHpChange?.Invoke();
-        if (hp == 0) dead = true;
+        if (hp <= 0)
+        {
+            dead = true;
+            Debug.Log("Dead");
+        }
     }
 }
 [System.Serializable]
